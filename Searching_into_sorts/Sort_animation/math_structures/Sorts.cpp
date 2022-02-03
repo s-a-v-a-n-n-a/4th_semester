@@ -1,16 +1,5 @@
 #include "Sorts.hpp"
 
-standartised_sort standartised_sorts[] = 
-{
-    bubble_sort,
-    selection_sort,
-    std_sort,
-    std_stable_sort,
-    std_qsort,
-    wrapped_merge_sort
-};
-const int sorts_amount = 6;
-
 int compare(const void *a, const void *b)
 {
     if (cmp(*(Intercepted_int*)a, *(Intercepted_int*)b))
@@ -89,11 +78,6 @@ void std_stable_sort(void *array, size_t size, size_t block_size, int (*cmp)(con
     }
     
     std::stable_sort(vec.begin(), vec.end());
-}
-
-void std_qsort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
-{
-    qsort(array, size, block_size, cmp);
 }
 
 void merging_length(Intercepted_int *arr, long long sz_arr_1, long long sz_arr, long long index_to_begin)

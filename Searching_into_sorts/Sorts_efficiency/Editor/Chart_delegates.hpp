@@ -13,9 +13,10 @@ private:
     Color color;
 
     void (*sort)(void *, size_t, size_t, int (*cmp)(const void *, const void *));
+	Research type;
 
 public:
-	Generate_chart(Chart_window *arg_field, const Color &arg_color, void (*arg_sort)(void *, size_t, size_t, int (*cmp)(const void *, const void *)));
+	Generate_chart(Chart_window *arg_field, const Color &arg_color, Research arg_type, void (*arg_sort)(void *, size_t, size_t, int (*cmp)(const void *, const void *)));
 
 	bool on_mouse_click(const size_t par_x, const size_t par_y) override;
 	bool on_mouse_release() override;

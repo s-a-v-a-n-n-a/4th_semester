@@ -1,6 +1,6 @@
 #include "Sorts_research.hpp"
 
-void count_sort_operations(std::vector<Vector_ll> &vec, int start_array_length, size_t operations_amount, int step, Research type, void (*sort)(void *, size_t, size_t, int (*cmp)(const void *, const void *)))
+void count_sort_operations(std::vector<Vector_ll> &vec, int start_array_length, size_t operations_amount, int step, void (*sort)(void *, size_t, size_t, int (*cmp)(const void *, const void *)))
 {
     // std::vector<Vector_ll> result(operations_amount, Vector_ll(0, 0));
 
@@ -31,20 +31,10 @@ void count_sort_operations(std::vector<Vector_ll> &vec, int start_array_length, 
 
         sort(array, current_size, sizeof(Intercepted_int), compare);
 
-        vec[i].set_x(current_size);
         for (int j = 0; j < current_size; ++j)
         {
-            switch (type)
-            {
-            case Research::ASSIGNMENT:
-                vec[i].set_y(vec[i].get_y() + array[j].get_assignment_cnt());
-                break;
-            case Research::COMPARISON:
-                vec[i].set_y(vec[i].get_y() + array[j].get_comparison_cnt());
-                break;
-            default:
-                break;
-            }
+            vec[i].set_x(vec[i].get_x() + array[j].get_assignment_cnt());
+            vec[i].set_y(vec[i].get_y() + array[j].get_comparison_cnt());
         }
 
         delete [] array;

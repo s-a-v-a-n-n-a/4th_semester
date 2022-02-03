@@ -1,56 +1,6 @@
 #include "Main_page.hpp"
-#include "Chart_delegates.hpp"
+// #include "Chart_delegates.hpp"
 #include "Application.hpp"
-
-#ifdef WITH_SPLINE
-const size_t DEFAULT_CANVAS_SIZE = 300;
-#else
-const size_t DEFAULT_CANVAS_SIZE = 1100;
-#endif
-
-const size_t DEFAULT_TEXT_OFFSET = 20;
-
-const size_t START_X_COORD = 100;
-const size_t START_Y_COORD = 100;
-const size_t CHART_SIZE = 400;
-const size_t CHART_OFFSET = 50;
-
-const size_t BUTTON_X_COORD = 1000;
-const size_t BUTTON_SIZE = 200;
-
-const char *BUTTON_CHART_TEXTS[] = 
-{
-	" BUBBLE SORT ",
-	" SELECTION SORT ",
-	" STD SORT ",
-	" STABLE SORT ",
-	" QUICK SORT ",
-	" MERGE SORT "
-};
-
-const char *CHARTS_TEXTS[] =
-{
-	"Assignments -> amount",
-	"Comparisons -> amount"
-};
-
-const Color BUTTON_COLORS[] = 
-{
-	RED,
-	BLUE,
-	GREEN,
-	PURPLE,
-	FUCHSIA,
-	GENTLE_ORANGE
-};
-
-const char BUBBLE_TEXT[] = " BUBBLE SORT ";
-const char SELECTION_TEXT[] = " SELECTION SORT ";
-const char STD_SORT_TEXT[] = " STD SORT ";
-const char STABLE_SORT_TEXT[] = " STABLE SORT ";
-const char QUICK_SORT_TEXT[] = " QUICK SORT ";
-const char MERGE_SORT_TEXT[] = " MERGE SORT ";
-const char CLEAR_TEXT[] = " CLEAR ";
 
 Main_page::Main_page(const Visual_object::Config &par_base)
 : Visual_object(par_base)

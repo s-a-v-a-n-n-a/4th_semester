@@ -1,7 +1,7 @@
 #include "Chart_delegates.hpp"
 
-Generate_chart::Generate_chart(Chart_window *arg_field, const Color &arg_color, void (*arg_sort)(void *, size_t, size_t, int (*cmp)(const void *, const void *)))
-: Button_delegate(), field(arg_field), color(arg_color), sort(arg_sort)
+Generate_chart::Generate_chart(Chart_window *arg_field, const Color &arg_color, Research arg_type, void (*arg_sort)(void *, size_t, size_t, int (*cmp)(const void *, const void *)))
+: Button_delegate(), field(arg_field), color(arg_color), sort(arg_sort), type(arg_type)
 {}
 
 bool Generate_chart::on_mouse_click(const size_t par_x, const size_t par_y)
@@ -12,7 +12,7 @@ bool Generate_chart::on_mouse_click(const size_t par_x, const size_t par_y)
 bool Generate_chart::on_mouse_release()
 {
     std::vector<Vector_ll> result;
-    count_sort_operations(result, 5, 10, 5, sort); // start array length, amount, step
+    count_sort_operations(result, 5, 10, 5, type, sort); // start array length, amount, step
     for (int i = 0; i < 10; i++)
     {
        printf("%lld:%lld ", result[i].get_x(), result[i].get_y());

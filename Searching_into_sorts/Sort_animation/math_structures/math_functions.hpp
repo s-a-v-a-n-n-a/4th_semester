@@ -1,8 +1,6 @@
 #ifndef MATH_FUNCTIONS
 #define MATH_FUNCTIONS
 
-#include "Radius_vector.hpp"
-
 const double EPSILON = 0.000001;
 
 inline double cosine_scalar(double scalar, double length_1, double length_2)
