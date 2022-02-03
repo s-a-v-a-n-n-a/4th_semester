@@ -189,7 +189,6 @@ void Full_texture::set_size(const Vector_ll par_size)
 	texture.clear();
 	texture.draw(sprite);
 	texture.display();
-	texture.getTexture().copyToImage().saveToFile("b.png");
 
 	Texture::set_size(par_size);
 }
@@ -250,7 +249,6 @@ void Full_texture::add_picture(Color *other_array, const size_t width, const siz
 	// texture.clear(sf::Color(255, 255, 255, 0));
 	texture.draw(sprite, mode);
 	texture.display();
-	// texture.getTexture().copyToImage().saveToFile("b.png");
 }
 
 void Full_texture::add_texture(Full_texture *other_texture, const sf::BlendMode &mode)
@@ -262,7 +260,6 @@ void Full_texture::add_texture(Full_texture *other_texture, const sf::BlendMode 
 	
 	texture.draw(sprite, mode);
 	texture.display();
-	// texture.getTexture().copyToImage().saveToFile("b.png");
 }
 
 void Full_texture::clear()

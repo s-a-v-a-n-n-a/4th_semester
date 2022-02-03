@@ -26,6 +26,7 @@ public:
     { 
         num = other.get_num();
         assignment_cnt++;
+        comparison_cnt += other.get_comparison_cnt();
         return *this; 
     } 
 
@@ -43,6 +44,8 @@ public:
     }
 	const Intercepted_int& operator-=(const Intercepted_int &other) 
     { 
+        // comparison_cnt++;
+        
         num -= other.get_num();
         return *this; 
     } 
@@ -70,6 +73,8 @@ public:
     } 
 	const Intercepted_int operator-(const Intercepted_int &other) const 
     { 
+        // comparison_cnt++;
+        
         return { num - other.get_num() }; 
     }
 	const Intercepted_int operator*(const Intercepted_int &other) const 

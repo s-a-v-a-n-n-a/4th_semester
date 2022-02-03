@@ -21,8 +21,9 @@ public:
 
 	bool on_key_pressed(const bool pressed_state, const unsigned key_state) override;
 
-	Chart_window *create_chart_window(const Vector_ll &position, const Vector_ll &size, const Color &color);
+	Chart_window *create_chart_window(const Vector_ll &position, const Vector_ll &size, const Color &color, const char *name);
 	Button *create_control_button(Chart_window *chart, const char *text, const Vector_ll &position, const Vector_ll &size, const Color &color, void (*sort)(void *, size_t, size_t, int(*cmp)(const void *, const void *)));
+	Button *create_clear_button(Chart_window *chart, const char *text, const Vector_ll &position, const Vector_ll &size, const Color &color);
 
 	void add_visual_object(Visual_object *par_object) override;
 };

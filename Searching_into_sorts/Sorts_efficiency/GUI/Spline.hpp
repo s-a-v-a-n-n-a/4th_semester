@@ -4,8 +4,6 @@
 #include "../GUI/Visual_object_base.hpp"
 #include "../GUI/Button.hpp"
 
-#include "../Editor/Graphical_delegates.hpp"
-
 #include "../simple_list/simple_list.hpp"
 
 #include "../math_structures/Interpolator.hpp"

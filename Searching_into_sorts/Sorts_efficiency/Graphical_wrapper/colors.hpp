@@ -108,7 +108,8 @@ const Color MEDIUM_PURPLE = { 147, 112, 219, 255 };
 const Color DARK_GREY = { 32, 32, 32, 255 };
 const Color MEDIUM_GREY = { 100, 100, 100, 255 };
 const Color GREY = { 182, 182, 182, 255 };
-const Color TRANSPARENT = {0, 0, 0, 0};
+const Color TRANSPARENT = { 0, 0, 0, 0 };
+const Color GENTLE_ORANGE = { 255, 161, 74, 255 };
 
 
 HSV get_hsv(const Color &rgb);

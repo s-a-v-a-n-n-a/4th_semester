@@ -33,7 +33,6 @@ FILES   	= $(OBJ)main.o \
 			$(OBJ)GUI/Animations.o \
 			$(OBJ)GUI/Chart.o \
 			$(OBJ)Editor/Application.o \
-			$(OBJ)Editor/Editor_delegates.o \
 			$(OBJ)Editor/Graphical_delegates.o \
 			$(OBJ)Editor/Window.o \
 			$(OBJ)Editor/Window_control_panel.o \

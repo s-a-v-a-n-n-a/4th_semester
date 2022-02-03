@@ -10,10 +10,10 @@ void Chart_window::clear()
 {
     size_t charts_amount = charts.size();
 
-    for (size_t i = charts_amount - 1; i >= 0; --i)
+    for (long long i = charts_amount - 1; i >= 0; --i)
     {
-	    very_slow_extract_visual_object(charts[i]);
-        delete charts[i];
+        very_slow_delete_visual_object(charts[i]);
+        // delete charts[i];
         charts.pop_back();
     }
 }

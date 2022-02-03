@@ -2,15 +2,18 @@
 
 int compare(const void *a, const void *b)
 {
-    return (*(Intercepted_int*)a - *(Intercepted_int*)b).get_num();
+    if (cmp(*(Intercepted_int*)a, *(Intercepted_int*)b))
+        return -1;
+    
+    if (*((Intercepted_int*)a) == *((Intercepted_int*)b))
+        return 0;
+
+    return 1;
 }
 
 bool cmp(const Intercepted_int &a, const Intercepted_int &b)
 {
-    if (compare(&a, &b) < 0)
-        return true;
-
-    return false;
+    return a < b;
 }
 
 void bubble_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
@@ -30,10 +33,10 @@ void bubble_sort(void *array, size_t size, size_t block_size, int (*cmp)(const v
 
 void selection_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
 {
-    for (int i = 0; i < size - 1; i++)
+    for (int i = 0; i < size - 1; ++i)
     {
         int min_idx = i;
-        for (int j = i + 1; j < size; j++)
+        for (int j = i + 1; j < size; ++j)
         if (((Intercepted_int*)array)[j] < ((Intercepted_int*)array)[min_idx])
             min_idx = j;
  
@@ -43,12 +46,107 @@ void selection_sort(void *array, size_t size, size_t block_size, int (*cmp)(cons
     }
 }
 
-// void std_sort(Intercepted_int *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
-// {
-//     std::sort(array, (void*)(array + size));
-// }
+void std_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
+{
+    std::vector<Intercepted_int> vec;
+    for (int i = 0; i < size; ++i)
+    {
+        vec.push_back(((Intercepted_int*)array)[i]);
+    }
+    
+    // for (int i = 0; i < size; ++i)
+    // {
+    //     printf("%d ", vec[i].get_num());
+    // }
+    // printf("\n");
+    
+    std::sort(vec.begin(), vec.end());
 
-// void std_stable_sort(Intercepted_int *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
-// {
-//     std::stable_sort(array, (void*)(array + size));
-// }
+    // for (int i = 0; i < size; ++i)
+    // {
+    //     printf("%d ", vec[i].get_num());
+    // }
+    // printf("\n");
+}
+
+void std_stable_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
+{
+    std::vector<Intercepted_int> vec;
+    for (int i = 0; i < size; ++i)
+    {
+        vec.push_back(((Intercepted_int*)array)[i]);
+    }
+    
+    std::stable_sort(vec.begin(), vec.end());
+}
+
+void merging_length(Intercepted_int *arr, long long sz_arr_1, long long sz_arr, long long index_to_begin)
+{
+    long long i = 0;
+    long long j = 0;
+ 
+    long long amount = 0;
+ 
+    Intercepted_int* arr_tmp_1 = new Intercepted_int[sz_arr_1];
+    Intercepted_int* arr_tmp_2 = new Intercepted_int[sz_arr - sz_arr_1];
+ 
+    for (i = 0; i < sz_arr_1; i++)
+    {
+        arr_tmp_1[i]  = arr[index_to_begin + i];
+    }
+ 
+    for (j = 0; i < sz_arr; i++, j++)
+    {
+        arr_tmp_2[j] = arr[index_to_begin + i];
+    }
+ 
+    i = 0;
+    j = 0;
+ 
+    while (i < sz_arr_1 && j < sz_arr - sz_arr_1)
+    {
+        if (arr_tmp_1[i] < arr_tmp_2[j])
+        {
+            arr[index_to_begin] = arr_tmp_1[i++];
+        }
+        else
+        {
+            arr[index_to_begin]  = arr_tmp_2[j++];
+        }
+        index_to_begin++;
+    }
+ 
+    while (i < sz_arr_1)
+    {
+        arr[index_to_begin] = arr_tmp_1[i++];
+ 		index_to_begin++;
+    }
+ 
+    while (j < sz_arr - sz_arr_1)
+    {
+        arr[index_to_begin] = arr_tmp_2[j++];	 
+        index_to_begin++;
+    }
+ 
+    delete [] arr_tmp_1;
+    delete [] arr_tmp_2;
+}
+ 
+void merge_sort(Intercepted_int *arr, long long sz_arr, long long index_to_begin, void merging(Intercepted_int *arr, long long sz_arr_1, long long sz_arr, long long index_to_begin))
+{
+    if (sz_arr <= 1)
+        return;
+ 
+    long long sz_part = sz_arr/2;
+ 
+    merge_sort(arr, sz_part, index_to_begin, merging);
+    merge_sort(arr, sz_arr - sz_part, index_to_begin + sz_part, merging);
+ 
+    merging(arr, sz_part, sz_arr, index_to_begin);
+}
+
+void wrapped_merge_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
+{
+    merge_sort((Intercepted_int*)array, size, 0, merging_length);
+}
+

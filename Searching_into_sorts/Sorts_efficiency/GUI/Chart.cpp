@@ -1,6 +1,6 @@
 #include "Chart.hpp"
 
-const size_t DECREASED_DOT_SIZE = 4;
+const size_t DECREASED_DOT_SIZE = 10;
 const size_t DEFAULT_DOT_SIZE = 20;
 
 Chart::Chart(const Visual_object::Config &par_base)
@@ -37,7 +37,7 @@ void Chart::create_dot(const Vector_ll &point)
 	x_coef = (double)get_width() / (double)max_x;
 	y_coef = (double)(get_height() - DEFAULT_BUTTON_HEIGHT) / (double)max_y;
 
-	printf("%lu %lu\n", point.get_x() + get_position().get_x(), get_position().get_y() + get_height() - point.get_y());
+	// printf("%lld %lld\n", point.get_x() + get_position().get_x(), get_position().get_y() + get_height() - point.get_y());
 }
 
 void Chart::draw(Screen_information *screen)
@@ -56,12 +56,12 @@ void Chart::draw(Screen_information *screen)
 		size_t x2 = (double)((size_t)points[i + 1].get_x()) * x_coef + cur_pos.get_x();
 		size_t y2 = cur_pos.get_y() + cur_height - ((double)(size_t)points[i + 1].get_y()) * y_coef; // + DEFAULT_BUTTON_HEIGHT
 
-		screen->draw_circle(Vector_ll(x1 - DECREASED_DOT_SIZE/2, y1 - DECREASED_DOT_SIZE/2), DECREASED_DOT_SIZE, cur_color, cur_color);
+		screen->draw_circle(Vector_ll(x1 - DECREASED_DOT_SIZE, y1 - DECREASED_DOT_SIZE), DECREASED_DOT_SIZE, cur_color, cur_color);
 		screen->draw_line(Vector_ll(x1, y1), Vector_ll(x2, y2), cur_color);
 	}
 
 	size_t x = (double)((size_t)points[points_amount - 1].get_x()) * x_coef + cur_pos.get_x();
 	size_t y = cur_pos.get_y() + cur_height - ((double)(size_t)points[points_amount - 1].get_y()) * y_coef; // + DEFAULT_BUTTON_HEIGHT	
 	
-	screen->draw_circle(Vector_ll(x - DECREASED_DOT_SIZE/2, y - DECREASED_DOT_SIZE/2), DECREASED_DOT_SIZE, cur_color, cur_color);
+	screen->draw_circle(Vector_ll(x - DECREASED_DOT_SIZE, y - DECREASED_DOT_SIZE), DECREASED_DOT_SIZE, cur_color, cur_color);
 }
