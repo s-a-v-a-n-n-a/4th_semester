@@ -51,6 +51,7 @@ const char STABLE_SORT_TEXT[] = " STABLE SORT ";
 const char QUICK_SORT_TEXT[] = " QUICK SORT ";
 const char MERGE_SORT_TEXT[] = " MERGE SORT ";
 const char CLEAR_TEXT[] = " CLEAR ";
+const char DATA_TEXT[] = " RESET DATA ";
 
 Main_page::Main_page(const Visual_object::Config &par_base)
 : Visual_object(par_base)
@@ -79,6 +80,7 @@ Main_page::Main_page(const Visual_object::Config &par_base)
 	}
 
 	Button *clear = create_clear_button(charts, CLEAR_TEXT, Vector_ll(BUTTON_X_COORD, 900), Vector_ll(BUTTON_SIZE, INCREASED_BUTTON_HEIGHT), MEDIUM_PURPLE);
+	Button *regenerate = create_regeneration_button(DATA_TEXT, Vector_ll(BUTTON_X_COORD, 900 + INCREASED_BUTTON_HEIGHT), Vector_ll(BUTTON_SIZE, INCREASED_BUTTON_HEIGHT), MEDIUM_PURPLE);
 	// Button *clear2 = create_clear_button(charts, CLEAR_TEXT, Vector_ll(700, 1200), Vector_ll(400, 80), MEDIUM_PURPLE);
 }
 
@@ -144,6 +146,27 @@ Button *Main_page::create_clear_button(std::vector<Chart_window*> charts, const 
 		delegate = new Clear_field(charts[i]);
 		new_button->set_delegate(delegate);
 	}
+
+	add_visual_object(new_button);
+
+	return new_button;
+}
+
+Button *Main_page::create_regeneration_button(const char *text, const Vector_ll &position, const Vector_ll &size, const Color &color)
+{
+	Visual_object::Config button_base = { this, 
+											(size_t)Vidget_type::BUTTON,
+    										position, 
+    										nullptr,
+    										color, 
+								  			(size_t)size.get_x(), 
+								  			(size_t)size.get_y() };
+
+	Regenerate_data *delegate = new Regenerate_data();
+	Button *new_button = new Button(button_base,
+										delegate, 
+										text,
+										true);
 
 	add_visual_object(new_button);
 

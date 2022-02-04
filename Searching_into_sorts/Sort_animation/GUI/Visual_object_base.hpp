@@ -10,7 +10,7 @@
 #include "../Graphical_wrapper/Texture.hpp"
 #include "../math_structures/Radius_vector.hpp"
 
-// #include "../Editor/Vidget_types.hpp"
+#include "../Application/Vidget_types.hpp"
 
 #include "Resource_manager.hpp"
 

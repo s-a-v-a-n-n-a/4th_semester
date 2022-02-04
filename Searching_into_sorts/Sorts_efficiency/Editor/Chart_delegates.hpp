@@ -34,4 +34,13 @@ public:
 	bool on_mouse_release() override;
 };
 
+class Regenerate_data : virtual public Button_delegate
+{
+public:
+	Regenerate_data();
+
+    bool on_mouse_click(const size_t par_x, const size_t par_y) override;
+	bool on_mouse_release() override;
+};
+
 #endif // CHART_DELEGATES_HPP

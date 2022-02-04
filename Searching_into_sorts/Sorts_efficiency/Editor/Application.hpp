@@ -9,6 +9,7 @@
 #include "Main_page.hpp"
 
 #include "../GUI/Animations.hpp"
+#include "../Controller/Controller.hpp"
 
 extern const size_t DEFAULT_SIZE;
 
@@ -33,6 +34,8 @@ private:
 
 	Renderer *renderer;
 	Resources *resources;
+
+	DataCharts_control *controller;
 
 	// Animation_manager *animations;
 	// Plugin_manager *plugins;
@@ -61,6 +64,8 @@ public:
 	// Effect_manager *get_effects();
 	// Toolbar *get_tools();
 	Resources *get_rescrs();
+
+	DataCharts_control *get_controller();
 
 	// size_t get_time();
 	

@@ -19,7 +19,8 @@ EXE     	= main
  
 FILES   	= $(OBJ)main.o \
 			$(OBJ)math_structures/Sorts.o \
-			$(OBJ)math_structures/Sorts_research.o \
+			$(OBJ)math_structures/Intercepted_int.o \
+			$(OBJ)math_structures/Int_container.o \
 			$(OBJ)Graphical_wrapper/Renderer.o \
 			$(OBJ)Graphical_wrapper/screen_functions.o \
 			$(OBJ)Graphical_wrapper/colors.o \
@@ -28,17 +29,14 @@ FILES   	= $(OBJ)main.o \
 			$(OBJ)Graphical_wrapper/Texture.o \
 			$(OBJ)GUI/Visual_object_base.o \
 			$(OBJ)GUI/Button.o \
-			$(OBJ)GUI/Button_manager.o \
 			$(OBJ)GUI/Resource_manager.o \
 			$(OBJ)GUI/Animations.o \
-			$(OBJ)GUI/Chart.o \
-			$(OBJ)Editor/Application.o \
-			$(OBJ)Editor/Graphical_delegates.o \
-			$(OBJ)Editor/Window.o \
-			$(OBJ)Editor/Window_control_panel.o \
-			$(OBJ)Editor/Main_page.o \
-			$(OBJ)Editor/Chart_window.o \
-			$(OBJ)Editor/Chart_delegates.o \
+			$(OBJ)Application/Application.o \
+			$(OBJ)Application/Main_page.o \
+			$(OBJ)Application/Bar_graph.o \
+			$(OBJ)Application/Int_array_delegates.o \
+			$(OBJ)Shape_base/Shape.o \
+			$(OBJ)Shapes/Rectangle.o \
 
           # остальные файлы по правилу a.cpp -> $(OBJ)a.o (a может содержать путь)
  

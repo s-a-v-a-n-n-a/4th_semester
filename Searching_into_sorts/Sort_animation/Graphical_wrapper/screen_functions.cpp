@@ -1,5 +1,5 @@
 #include "screen_functions.hpp"
-#include "../Editor/Application.hpp"
+#include "../Application/Application.hpp"
 
 const char *screen_state_text[]
 {

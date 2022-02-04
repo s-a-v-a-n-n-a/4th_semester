@@ -16,6 +16,8 @@ Application::Application()
     // animations = new Animation_manager();
     resources = new Resources();
 
+    controller = new DataCharts_control(5, 10, 10);
+
     Main_page *editor = new Main_page({nullptr, (size_t)Vidget_type::EDITOR, Vector_ll(0, 0), nullptr, DARK_GREY, DEFAULT_SIZE, DEFAULT_SIZE});
     default_main = editor;
     current_main = default_main;
@@ -32,6 +34,8 @@ Application::~Application()
 
     delete graphics_wrapper;
     delete renderer;
+
+    delete controller;
 
 	delete default_main;
 }
@@ -75,6 +79,11 @@ Renderer *Application::get_renderer()
 Resources *Application::get_rescrs()
 {
     return resources;
+}
+
+DataCharts_control *Application::get_controller()
+{
+    return controller;
 }
 
 // Animation_manager *Application::get_animations()

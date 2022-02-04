@@ -32,7 +32,7 @@ private:
 	static Application_destroyer destroyer;
 
 	Renderer *renderer;
-	// Resources *resources;
+	Resources *resources;
 
 	// Animation_manager *animations;
 	// Plugin_manager *plugins;
@@ -60,7 +60,7 @@ public:
 	// Plugin_manager *get_plugins();
 	// Effect_manager *get_effects();
 	// Toolbar *get_tools();
-	// Resources *get_rescrs();
+	Resources *get_rescrs();
 
 	// size_t get_time();
 	

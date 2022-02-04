@@ -14,7 +14,7 @@ Application::Application()
     graphics_wrapper = new Screen_information(DEFAULT_SIZE, DEFAULT_SIZE);
 
     // animations = new Animation_manager();
-    // resources = new Resources();
+    resources = new Resources();
 
     Main_page *editor = new Main_page({nullptr, (size_t)Vidget_type::EDITOR, Vector_ll(0, 0), nullptr, DARK_GREY, DEFAULT_SIZE, DEFAULT_SIZE});
     default_main = editor;
@@ -72,10 +72,10 @@ Renderer *Application::get_renderer()
     return renderer;
 }
 
-// Resources *Application::get_rescrs()
-// {
-//     return resources;
-// }
+Resources *Application::get_rescrs()
+{
+    return resources;
+}
 
 // Animation_manager *Application::get_animations()
 // {

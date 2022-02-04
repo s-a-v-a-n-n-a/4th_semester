@@ -18,6 +18,7 @@ OBJ     	= obj/
 EXE     	= main
  
 FILES   	= $(OBJ)main.o \
+			$(OBJ)math_structures/Intercepted_int.o \
 			$(OBJ)math_structures/Sorts.o \
 			$(OBJ)math_structures/Sorts_research.o \
 			$(OBJ)Graphical_wrapper/Renderer.o \
@@ -39,6 +40,7 @@ FILES   	= $(OBJ)main.o \
 			$(OBJ)Editor/Main_page.o \
 			$(OBJ)Editor/Chart_window.o \
 			$(OBJ)Editor/Chart_delegates.o \
+			$(OBJ)Controller/Controller.o \
 
           # остальные файлы по правилу a.cpp -> $(OBJ)a.o (a может содержать путь)
  

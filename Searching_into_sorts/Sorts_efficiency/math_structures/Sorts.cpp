@@ -16,8 +16,8 @@ int compare(const void *a, const void *b)
     if (cmp(*(Intercepted_int*)a, *(Intercepted_int*)b))
         return -1;
     
-    if (*((Intercepted_int*)a) == *((Intercepted_int*)b))
-        return 0;
+    // if (*((Intercepted_int*)a) == *((Intercepted_int*)b))
+    //     return 0;
 
     return 1;
 }

@@ -1,5 +1,5 @@
 #include "Visual_object_base.hpp"
-#include "../Editor/Application.hpp"
+#include "../Application/Application.hpp"
 
 // const size_t VIDGETS_AMOUNT = 9;
 

@@ -1,5 +1,5 @@
 #include "Slider.hpp"
-#include "../Editor/Application.hpp"
+#include "../Application/Application.hpp"
 
 const size_t COSMETIC_OFFSET = 10;
 const size_t SLIDER_SIZE = 20;
