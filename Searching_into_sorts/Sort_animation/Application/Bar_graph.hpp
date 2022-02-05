@@ -10,6 +10,7 @@ class Bar_graph : public Visual_object, public Int_signal_receiver
 {
 private:
     std::vector<Rectangle*> elements;
+    std::vector<size_t> match_indices;
     Int_container *reference;
 
 public:
@@ -19,6 +20,7 @@ public:
     void signal(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other) override;
 
     void draw(Screen_information *screen) override;
+    
     void change_places(size_t index1, size_t index2);
     void redraw();
 };

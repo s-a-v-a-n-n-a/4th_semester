@@ -1,11 +1,19 @@
 #include "Intercepted_int.hpp"
 #include "Int_signal_receiver.hpp"
 
+size_t Intercepted_int::max_id = 0;
+
 Intercepted_int::Intercepted_int()
-: num(0), assignment_cnt(0), comparison_cnt(0), address(this), parent(nullptr) {}
+: num(0), assignment_cnt(0), comparison_cnt(0), address(this), parent(nullptr) 
+{
+    id = max_id++;
+}
 
 Intercepted_int::Intercepted_int(int arg_num)
-: num(arg_num), assignment_cnt(1), comparison_cnt(0), address(this), parent(nullptr) {}
+: num(arg_num), assignment_cnt(1), comparison_cnt(0), address(this), parent(nullptr) 
+{
+    id = max_id++;
+}
 
 const Intercepted_int& Intercepted_int::operator=(const Intercepted_int& other) 
 { 
@@ -135,7 +143,9 @@ bool Intercepted_int::operator!=(const Intercepted_int &other) const
 
 bool Intercepted_int::operator<(const Intercepted_int &other) const
 {
+    printf("    Counting comparisons amount %p\n", this);
     comparison_cnt++;
+    printf("    Counting comparisons amount SUCCESS\n");
     
     if (address != this)
         parent->signal(Int_signal::LESS, *this, other);

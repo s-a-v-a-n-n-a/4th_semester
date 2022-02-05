@@ -39,6 +39,7 @@ Bar_graph::Bar_graph(const Visual_object::Config &par_base, Int_container *par_r
         Vector_ll position = get_position() + Vector_ll(graph_width * i, height - bar_height);
         Rectangle *rect = new Rectangle(graph_width, bar_height, 1, position, FUCHSIA);
 
+        match_indices.push_back(i);
         elements.push_back(rect);
     }
     printf("\n");
@@ -59,8 +60,12 @@ void Bar_graph::signal(Int_signal signal_type, const Intercepted_int &sender, co
 {
     if (signal_type == Int_signal::ASSIGN)
     {
-        printf("%lld\n", (&sender - (const Intercepted_int*)reference) / sizeof(const Intercepted_int));
-        change_places((&sender - (const Intercepted_int*)reference) / sizeof(const Intercepted_int), (&other - (const Intercepted_int*)reference) / sizeof(const Intercepted_int));
+        Intercepted_int const *sender_addrss = &sender;
+        Intercepted_int const *other_addrss = &other;
+        
+        printf("sender address: %p, difference: %zu, reference: %p\n", sender_addrss, (sender_addrss - reference->get_array()), reference->get_array());
+        // size_t num_index = (sender_addrss - reference->get_array()) / sizeof(Intercepted_int);
+        change_places(sender.get_id(), other.get_id()); // (other_addrss - reference->get_array()) / sizeof(Intercepted_int)
     }
 }
 
@@ -68,15 +73,20 @@ void Bar_graph::change_places(size_t index1, size_t index2)
 {    
     printf("bars amount %zu, %lld:%lld\n", elements.size(), index1, index2);
 
-    Vector_ll left_pos = elements[index1]->get_centre_position();
-    Vector_ll right_pos = elements[index2]->get_centre_position();
+    // Vector_ll left_pos = elements[index1]->get_centre_position();
+    // Vector_ll right_pos = elements[index2]->get_centre_position();
+    // Vector_ll size2 = Vector_ll(elements[index2]->get_width(), elements[index2]->get_height());
     
-    Rectangle *tmp = elements[index1];
-    elements[index1] = elements[index2];
-    elements[index2] = tmp;
+    // Rectangle *tmp = elements[index1];
+    // elements[index1] = elements[index2];
+    // elements[index2] = tmp;
 
-    elements[index1]->set_centre_position(left_pos);
-    elements[index2]->set_centre_position(right_pos);
+    size_t x_pos = get_position().get_x() + index2 * (get_width() / reference->get_length());
+    size_t y_pos = elements[index1]->get_centre_position().get_y();
+    elements[index1]->set_centre_position(Vector_ll(x_pos, y_pos));
+    // elements[index1]->set_width(size2.get_x());
+    // elements[index1]->set_height(size2.get_y());
+    // elements[index2]->set_centre_position(right_pos);
 
     redraw();
 }

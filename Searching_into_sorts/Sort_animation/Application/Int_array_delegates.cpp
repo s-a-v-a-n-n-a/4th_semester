@@ -11,9 +11,8 @@ bool Sort_delegate::on_mouse_click(const size_t par_x, const size_t par_y)
 bool Sort_delegate::on_mouse_release()
 {
     printf("Sorting\n");
+    printf("Address %p, array: %p, length: %lld\n", array_container, array_container->get_array(), array_container->get_length());
     sort(array_container->get_array(), array_container->get_length(), sizeof(Int_container), compare);
 
     return true;
 }
-
-

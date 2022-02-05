@@ -11,6 +11,7 @@ Main_page::Main_page(const Visual_object::Config &par_base)
 	size_t par_width = get_width();
 
 	Int_container *container = new Int_container(10);
+	printf("CONTAINER ARRAY ADDRESS %p\n", container->get_array());
 	container->random_fill();
 	Bar_graph *graph = create_bar_graph(Vector_ll(50, 50), Vector_ll(1000, 500), WHITE, container);
 

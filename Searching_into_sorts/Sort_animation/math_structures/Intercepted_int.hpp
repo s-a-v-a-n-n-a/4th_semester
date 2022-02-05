@@ -16,11 +16,15 @@ private:
     Int_signal_receiver *parent;
     Intercepted_int *address;
 
+    static size_t max_id;
+    size_t id;
+
 public:
     Intercepted_int();
-    
     Intercepted_int(int arg_num);
 
+    size_t get_id() const { return id; }
+    
     int get_num() const { return num; }
     size_t get_assignment_cnt() const { return assignment_cnt; }
     size_t get_comparison_cnt() const { return comparison_cnt; }
@@ -28,7 +32,7 @@ public:
     void set_parent(Int_signal_receiver *arg_contact) { parent = arg_contact; }
     
     const Intercepted_int& operator=(const Intercepted_int& other);
-    const Intercepted_int& operator=(const int& other);
+    const Intercepted_int& operator=(const int &other);
     const Intercepted_int& operator+=(const Intercepted_int &other);
     const Intercepted_int& operator-=(const Intercepted_int &other);
 	const Intercepted_int& operator*=(const Intercepted_int &other);

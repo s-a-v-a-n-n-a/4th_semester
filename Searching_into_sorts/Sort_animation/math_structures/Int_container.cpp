@@ -44,11 +44,11 @@ void Int_container::resize()
 }
 
 void Int_container::signal(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other)
-{
-    printf("Got a signal\n");
-    
+{    
     Intercepted_int const *sender_addrss = &sender;
     Intercepted_int const *other_addrss = &other;
+    
+    printf("Got a signal: %zu, %zu, array+length: %zu, array: %zu\n", sender_addrss, other_addrss, array + length, array);
 
     if (signal_type == Int_signal::ASSIGN && sender_addrss >= array && sender_addrss < array + length)
     {

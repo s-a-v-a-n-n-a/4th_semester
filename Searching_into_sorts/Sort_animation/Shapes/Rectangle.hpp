@@ -3,6 +3,7 @@
 
 #include "../Graphical_wrapper/screen_functions.hpp" 
 #include "../math_structures/Radius_vector.hpp"
+#include "../math_structures/Intercepted_int.hpp"
 #include "../Shape_base/Shape.hpp"
 
 class Rectangle : public Graphical_shape 
