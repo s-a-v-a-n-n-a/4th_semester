@@ -1,12 +1,23 @@
 #include "Sorts.hpp"
 
+standartised_sort standartised_sorts[] = 
+{
+    bubble_sort,
+    selection_sort,
+    insertion_sort,
+    std_sort,
+    // std_stable_sort,
+    wrapped_merge_sort
+};
+const int sorts_amount = 5;
+
 int compare(const void *a, const void *b)
 {
     if (cmp(*(Intercepted_int*)a, *(Intercepted_int*)b))
         return -1;
     
-    if (*((Intercepted_int*)a) == *((Intercepted_int*)b))
-        return 0;
+    // if (*((Intercepted_int*)a) == *((Intercepted_int*)b))
+    //     return 0;
 
     return 1;
 }
@@ -46,6 +57,19 @@ void selection_sort(void *array, size_t size, size_t block_size, int (*cmp)(cons
     }
 }
 
+void insertion_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
+{
+	for(int i = 1; i < size; ++i)
+    {
+		for(int j = i; j > 0 && ((Intercepted_int*)array)[j - 1] > ((Intercepted_int*)array)[j]; --j)
+        {
+			Intercepted_int tmp = ((Intercepted_int*)array)[j - 1];
+			((Intercepted_int*)array)[j - 1] = ((Intercepted_int*)array)[j];
+			((Intercepted_int*)array)[j]=tmp;
+		}
+	}
+}
+
 void std_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
 {
     std::vector<Intercepted_int> vec;
@@ -80,15 +104,22 @@ void std_stable_sort(void *array, size_t size, size_t block_size, int (*cmp)(con
     std::stable_sort(vec.begin(), vec.end());
 }
 
+void std_qsort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
+{
+    qsort(array, size, block_size, cmp);
+}
+
 void merging_length(Intercepted_int *arr, long long sz_arr_1, long long sz_arr, long long index_to_begin)
 {
     long long i = 0;
     long long j = 0;
  
     long long amount = 0;
+
+    long long sz_arr_2 = sz_arr - sz_arr_1;
  
     Intercepted_int* arr_tmp_1 = new Intercepted_int[sz_arr_1];
-    Intercepted_int* arr_tmp_2 = new Intercepted_int[sz_arr - sz_arr_1];
+    Intercepted_int* arr_tmp_2 = new Intercepted_int[sz_arr_2];
  
     for (i = 0; i < sz_arr_1; i++)
     {
@@ -103,7 +134,7 @@ void merging_length(Intercepted_int *arr, long long sz_arr_1, long long sz_arr, 
     i = 0;
     j = 0;
  
-    while (i < sz_arr_1 && j < sz_arr - sz_arr_1)
+    while (i < sz_arr_1 && j < sz_arr_2)
     {
         if (arr_tmp_1[i] < arr_tmp_2[j])
         {
@@ -122,7 +153,7 @@ void merging_length(Intercepted_int *arr, long long sz_arr_1, long long sz_arr, 
  		index_to_begin++;
     }
  
-    while (j < sz_arr - sz_arr_1)
+    while (j < sz_arr_2)
     {
         arr[index_to_begin] = arr_tmp_2[j++];	 
         index_to_begin++;

@@ -1,9 +1,10 @@
 #include "Int_container.hpp"
 
 Int_container::Int_container(size_t amount)
-: Int_signal_receiver(), to_contact(nullptr)
+: Int_signal_receiver(), to_contact(nullptr), lowest_id(0)
 {
     array = new Intercepted_int[amount];
+    lowest_id = array[0].get_id();
 
     if (array)
     {
@@ -19,28 +20,18 @@ Int_container::~Int_container()
 
 void Int_container::random_fill()
 {
-    for (size_t i = length; i < capacity; ++i)
+    size_t id = lowest_id;
+    for (size_t i = 0; i < capacity; ++i)
     {
         int num = rand() % 1000 - 500;
 
         array[i] = num;
         array[i].set_parent(this);
+
+        array[i].set_id(id++);
     }
 
     length = capacity;
-}
-
-void Int_container::resize()
-{
-    size_t new_capacity = capacity * 2;
-    
-    Intercepted_int *other_array = new Intercepted_int[new_capacity];
-    for (size_t i = 0; i < length; ++i)
-        other_array[i] = array[i];
-    delete [] array;
-
-    array = other_array;
-    capacity = new_capacity;
 }
 
 void Int_container::signal(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other)
@@ -48,11 +39,12 @@ void Int_container::signal(Int_signal signal_type, const Intercepted_int &sender
     Intercepted_int const *sender_addrss = &sender;
     Intercepted_int const *other_addrss = &other;
     
-    printf("Got a signal: %zu, %zu, array+length: %zu, array: %zu\n", sender_addrss, other_addrss, array + length, array);
-
-    if (signal_type == Int_signal::ASSIGN && sender_addrss >= array && sender_addrss < array + length)
+    // Checking if sender's and other's ids belong to array that is sorted by us
+    if (signal_type == Int_signal::ASSIGN && 
+        sender.get_id() >= lowest_id && sender.get_id() < lowest_id + length &&
+        other.get_id() >= lowest_id && other.get_id() < lowest_id + length)
     {
-        // отправить запрос на перерисовку
+        // Just sending a signal about operation
         if (to_contact)
             to_contact->signal(signal_type, sender, other);
     }

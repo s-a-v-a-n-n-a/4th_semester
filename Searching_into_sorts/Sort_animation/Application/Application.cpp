@@ -1,6 +1,7 @@
 #include "Application.hpp"
 
 const size_t DEFAULT_SIZE = 1300;
+const size_t DEFAULT_HEIGHT = 800;
 
 Application *Application::app = nullptr;
 Application_destroyer Application::destroyer;
@@ -11,12 +12,11 @@ Application::Application()
     app = this;
 
     renderer = new Renderer();
-    graphics_wrapper = new Screen_information(DEFAULT_SIZE, DEFAULT_SIZE);
+    graphics_wrapper = new Screen_information(DEFAULT_SIZE, DEFAULT_HEIGHT);
 
-    // animations = new Animation_manager();
     resources = new Resources();
 
-    Main_page *editor = new Main_page({nullptr, (size_t)Vidget_type::EDITOR, Vector_ll(0, 0), nullptr, DARK_GREY, DEFAULT_SIZE, DEFAULT_SIZE});
+    Main_page *editor = new Main_page({nullptr, (size_t)Vidget_type::EDITOR, Vector_ll(0, 0), nullptr, DARK_GREY, DEFAULT_SIZE, DEFAULT_HEIGHT});
     default_main = editor;
     current_main = default_main;
 
@@ -25,11 +25,6 @@ Application::Application()
 
 Application::~Application()
 {
-    // delete tools;
-    // delete effects;
-    // delete plugins;
-    // delete animations;
-
     delete graphics_wrapper;
     delete renderer;
 

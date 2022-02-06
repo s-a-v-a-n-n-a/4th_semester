@@ -10,9 +10,24 @@ bool Sort_delegate::on_mouse_click(const size_t par_x, const size_t par_y)
 
 bool Sort_delegate::on_mouse_release()
 {
-    printf("Sorting\n");
-    printf("Address %p, array: %p, length: %lld\n", array_container, array_container->get_array(), array_container->get_length());
     sort(array_container->get_array(), array_container->get_length(), sizeof(Int_container), compare);
 
     return true;
 }
+
+Refill_delegate::Refill_delegate(Int_container *arg_container, Bar_graph *arg_bar_graph)
+: Button_delegate(), array_container(arg_container), bar_graph(arg_bar_graph) {}
+
+bool Refill_delegate::on_mouse_click(const size_t par_x, const size_t par_y)
+{
+    return true;
+}
+
+bool Refill_delegate::on_mouse_release()
+{
+    array_container->random_fill();
+    bar_graph->synchronize();
+
+    return true;
+}
+

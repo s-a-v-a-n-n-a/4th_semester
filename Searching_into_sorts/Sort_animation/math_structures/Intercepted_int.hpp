@@ -24,6 +24,7 @@ public:
     Intercepted_int(int arg_num);
 
     size_t get_id() const { return id; }
+    void set_id(size_t arg_id) { id = arg_id; }
     
     int get_num() const { return num; }
     size_t get_assignment_cnt() const { return assignment_cnt; }
@@ -33,21 +34,22 @@ public:
     
     const Intercepted_int& operator=(const Intercepted_int& other);
     const Intercepted_int& operator=(const int &other);
-    const Intercepted_int& operator+=(const Intercepted_int &other);
-    const Intercepted_int& operator-=(const Intercepted_int &other);
-	const Intercepted_int& operator*=(const Intercepted_int &other);
-	const Intercepted_int& operator/=(const Intercepted_int &other);
-	const Intercepted_int operator+(const Intercepted_int &other) const;
-	const Intercepted_int operator-(const Intercepted_int &other) const;
-	const Intercepted_int operator*(const Intercepted_int &other) const;
-    const Intercepted_int operator/(const Intercepted_int &other) const;
 
-	bool operator==(const Intercepted_int &other) const;
-    bool operator!=(const Intercepted_int &other) const;
+    // const Intercepted_int& operator+=(const Intercepted_int &other);
+    // const Intercepted_int& operator-=(const Intercepted_int &other);
+	// const Intercepted_int& operator*=(const Intercepted_int &other);
+	// const Intercepted_int& operator/=(const Intercepted_int &other);
+	// const Intercepted_int operator+(const Intercepted_int &other) const;
+	// const Intercepted_int operator-(const Intercepted_int &other) const;
+	// const Intercepted_int operator*(const Intercepted_int &other) const;
+    // const Intercepted_int operator/(const Intercepted_int &other) const;
+
+	// bool operator==(const Intercepted_int &other) const;
+    // bool operator!=(const Intercepted_int &other) const;
 	bool operator<(const Intercepted_int &other) const;
     bool operator>(const Intercepted_int &other) const;
-    bool operator<=(const Intercepted_int &other) const;
-    bool operator>=(const Intercepted_int &other) const;
+    // bool operator<=(const Intercepted_int &other) const;
+    // bool operator>=(const Intercepted_int &other) const;
 };
 
 #endif // INTERCEPTED_INT

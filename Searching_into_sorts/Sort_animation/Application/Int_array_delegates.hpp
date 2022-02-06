@@ -5,6 +5,9 @@
 
 #include "../math_structures/Sorts.hpp"
 #include "../math_structures/Int_container.hpp"
+
+#include "Bar_graph.hpp"
+
 class Sort_delegate : public Button_delegate
 {
 private:
@@ -13,6 +16,19 @@ private:
 	
 public:
     Sort_delegate(Int_container *arg_container, void (*arg_sort)(void *, size_t, size_t, int (*cmp)(const void *, const void *)));
+
+    bool on_mouse_click(const size_t par_x, const size_t par_y) override;
+	bool on_mouse_release() override;
+};
+
+class Refill_delegate : public Button_delegate
+{
+private:
+    Int_container *array_container;
+    Bar_graph *bar_graph;
+	
+public:
+    Refill_delegate(Int_container *arg_container, Bar_graph *arg_bar_graph);
 
     bool on_mouse_click(const size_t par_x, const size_t par_y) override;
 	bool on_mouse_release() override;

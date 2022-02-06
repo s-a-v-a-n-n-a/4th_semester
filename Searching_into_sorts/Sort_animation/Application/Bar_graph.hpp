@@ -10,7 +10,10 @@ class Bar_graph : public Visual_object, public Int_signal_receiver
 {
 private:
     std::vector<Rectangle*> elements;
-    std::vector<size_t> match_indices;
+    
+    std::vector<size_t> match_prototypes_indices;
+    std::vector<size_t> old_prototypes_indices;
+
     Int_container *reference;
 
 public:
@@ -21,8 +24,10 @@ public:
 
     void draw(Screen_information *screen) override;
     
-    void change_places(size_t index1, size_t index2);
+    void change_places(size_t whom, size_t where);
     void redraw();
+
+    void synchronize();
 };
 
 #endif // BAR_GRAPH_HPP

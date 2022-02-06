@@ -15,8 +15,9 @@ private:
     size_t length;
     size_t capacity;
 
-    // bool positions_changed;
     Int_signal_receiver *to_contact;
+
+    size_t lowest_id;
 
 public:
     Int_container(size_t amount);
@@ -25,13 +26,13 @@ public:
     void random_fill();
 
     Intercepted_int *get_array() { return array; }
+    size_t get_length() const { return length; }
 
-    void resize();
+    size_t get_lowest_id() const { return lowest_id; }
 
     void signal(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other) override;
     void set_contact(Int_signal_receiver *contact) { to_contact = contact; }
 
-    size_t get_length() const { return length; }
 };
 
 #endif // INT_CONTAINER_HPP
