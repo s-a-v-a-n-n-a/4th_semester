@@ -67,12 +67,6 @@ Main_page::Main_page(const Visual_object::Config &par_base)
 		charts.push_back(chart);
 	}
 	
-	// Button *selection = create_control_button(charts[0], charts[1], SELECTION_TEXT, Vector_ll(700, 600), Vector_ll(400, 80), BLUE, selection_sort);
-	// Button *sort = create_control_button(charts[0], charts[1], STD_SORT_TEXT, Vector_ll(700, 680), Vector_ll(400, 80), RED, std_sort);
-	// Button *stablesort = create_control_button(charts[0], charts[1], STABLE_SORT_TEXT, Vector_ll(700, 760), Vector_ll(400, 80), PURPLE, std_stable_sort);
-	// Button *std_qsort = create_control_button(charts[0], charts[1], QUICK_SORT_TEXT, Vector_ll(700, 840), Vector_ll(400, 80), FUCHSIA, qsort);
-	// Button *merge_sort = create_control_button(charts[0], charts[1], MERGE_SORT_TEXT, Vector_ll(700, 920), Vector_ll(400, 80), GENTLE_ORANGE, wrapped_merge_sort);
-	// Button *bubble = create_control_button(charts[0], charts[1], BUBBLE_TEXT, Vector_ll(200, 600), Vector_ll(400, 80), GREEN, bubble_sort);
 	Button *button = nullptr;
 	for (int i = 0; i < sorts_amount; ++i)
 	{
@@ -81,7 +75,6 @@ Main_page::Main_page(const Visual_object::Config &par_base)
 
 	Button *clear = create_clear_button(charts, CLEAR_TEXT, Vector_ll(BUTTON_X_COORD, 900), Vector_ll(BUTTON_SIZE, INCREASED_BUTTON_HEIGHT), MEDIUM_PURPLE);
 	Button *regenerate = create_regeneration_button(DATA_TEXT, Vector_ll(BUTTON_X_COORD, 900 + INCREASED_BUTTON_HEIGHT), Vector_ll(BUTTON_SIZE, INCREASED_BUTTON_HEIGHT), MEDIUM_PURPLE);
-	// Button *clear2 = create_clear_button(charts, CLEAR_TEXT, Vector_ll(700, 1200), Vector_ll(400, 80), MEDIUM_PURPLE);
 }
 
 Chart_window *Main_page::create_chart_window(const Vector_ll &position, const Vector_ll &size, const Color &color, const char *name)

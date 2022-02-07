@@ -47,6 +47,9 @@ void Chart::draw(Screen_information *screen)
 
 	long long cur_height = get_height();
 
+	// x_coef = 1;
+	// y_coef = 1;
+	
 	size_t points_amount = points.size();
 	for (size_t i = 0; i < points_amount - 1; ++i)
 	{

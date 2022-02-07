@@ -2,6 +2,33 @@
 
 void Chart_window::add_chart(Chart *chart)
 {
+    double new_x_coef = chart->get_x_coef();
+    double new_y_coef = chart->get_y_coef();
+    
+    size_t charts_amount = charts.size();
+    for (size_t i = 0; i < charts_amount; ++i)
+    {
+        if (new_x_coef < charts[i]->get_x_coef())
+        {
+            charts[i]->set_x_coef(new_x_coef);
+        }
+        else
+        {
+            chart->set_x_coef(charts[i]->get_x_coef());
+            new_x_coef = chart->get_x_coef();;
+        }
+
+        if (new_y_coef < charts[i]->get_y_coef())
+        {
+            charts[i]->set_y_coef(new_y_coef);
+        }
+        else
+        {
+            chart->set_y_coef(charts[i]->get_y_coef());
+            new_y_coef = chart->get_y_coef();
+        }
+    }
+
     charts.push_back(chart);
     add_visual_object(chart);
 }

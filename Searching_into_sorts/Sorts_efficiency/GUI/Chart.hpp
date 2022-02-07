@@ -31,6 +31,12 @@ public:
 	Chart(const Visual_object::Config &par_base, std::vector<Vector_ll> dots);
 	~Chart() {};
 
+	double get_x_coef() const { return x_coef; }
+	double get_y_coef() const { return y_coef; }
+
+	void set_x_coef(const double arg_x_coef) { x_coef = arg_x_coef; }
+	void set_y_coef(const double arg_y_coef) { y_coef = arg_y_coef; }
+
 	void create_dot(const Vector_ll &point);
     
     void draw(Screen_information *screen) override;
