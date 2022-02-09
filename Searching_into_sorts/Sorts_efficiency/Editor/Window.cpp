@@ -4,7 +4,7 @@
 Window::Window(const Visual_object::Config &par_base, const char *name)
 : Visual_object(par_base)
 {
-	Window_control_panel *control = create_control_panel(this, get_position(), get_width(), DEFAULT_BUTTON_HEIGHT, name);
+	create_control_panel(this, get_position(), get_width(), DEFAULT_BUTTON_HEIGHT, name);
 }
 
 Window_control_panel *Window::create_control_panel(Visual_object *parent, const Vector_ll &position, const size_t width, const size_t height, const char *name)
@@ -26,7 +26,7 @@ Window_control_panel *Window::create_control_panel(Visual_object *parent, const 
 Closing_window::Closing_window(const Visual_object::Config &par_base, const char *name)
 : Visual_object(par_base)
 {
-	Closing_window_control_panel *control = create_control_panel(this, get_position(), get_width(), DEFAULT_BUTTON_HEIGHT, name);
+	create_control_panel(this, get_position(), get_width(), DEFAULT_BUTTON_HEIGHT, name);
 }
 
 Closing_window_control_panel *Closing_window::create_control_panel(Visual_object *parent, const Vector_ll &position, const size_t width, const size_t height, const char *name)

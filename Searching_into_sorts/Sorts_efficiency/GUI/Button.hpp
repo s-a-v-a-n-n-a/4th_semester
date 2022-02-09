@@ -23,8 +23,6 @@ public:
 	Button() = delete;
 	Button(const Visual_object::Config &base, Button_delegate *par_click);
 	Button(const Visual_object::Config &base, Button_delegate *par_click, const char *par_text, const bool centered = true);
-	// Button(const size_t par_type, const Vector_ll &par_position, const Color &par_color, const size_t par_width, const size_t par_height, Button_delegate *par_click, const char *par_text);
-	// Button(const size_t par_type, const Vector_ll &par_position, Texture *par_texture, const size_t par_width, const size_t par_height, Button_delegate *par_click, const char *par_text);
 	~Button();
 
 	void set_delegate(Button_delegate *par_click) { if (par_click) clicks.push_back(par_click); }
@@ -44,7 +42,7 @@ private:
 	Visual_object *parent;
 	Vector_ll last_parent_position;
 
-	Button_delegate *delegate;
+	// Button_delegate *delegate;
 
 	Vector_ll left_bound;
 	Vector_ll right_bound;
@@ -59,7 +57,7 @@ private:
 public:
 	Magnetic() = delete;
 	Magnetic(const Visual_object::Config &par_base, Visual_object *par_parent, const Vector_ll &par_left_bound, const Vector_ll &par_right_bound, const size_t par_radius = 0, Button_delegate *par_delegate = NULL);
-	~Magnetic();
+	// ~Magnetic();
 
 	void set_position(const Vector_ll &par_position) override;
 

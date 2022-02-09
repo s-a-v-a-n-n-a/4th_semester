@@ -6,14 +6,14 @@ Application *Application::app = nullptr;
 Application_destroyer Application::destroyer;
 
 Application::Application()
-: graphics_wrapper(nullptr), default_main(nullptr), current_main(nullptr)
+: current_main(nullptr), default_main(nullptr), graphics_wrapper(nullptr) 
 {
     app = this;
 
     renderer = new Renderer();
     graphics_wrapper = new Screen_information(DEFAULT_SIZE, DEFAULT_SIZE);
 
-    // animations = new Animation_manager();
+    animations = new Animation_manager();
     resources = new Resources();
 
     controller = new DataCharts_control(5, 10, 10);
@@ -30,7 +30,7 @@ Application::~Application()
     // delete tools;
     // delete effects;
     // delete plugins;
-    // delete animations;
+    delete animations;
 
     delete graphics_wrapper;
     delete renderer;
@@ -86,10 +86,10 @@ DataCharts_control *Application::get_controller()
     return controller;
 }
 
-// Animation_manager *Application::get_animations()
-// {
-//     return animations;
-// }
+Animation_manager *Application::get_animations()
+{
+    return animations;
+}
 
 void Application::add_visual_object(Visual_object *object)
 {
@@ -109,7 +109,7 @@ void Application::draw()
 
 void Application::tick()
 {
-    // animations->tick(0.005);
+    animations->tick(0.005);
 	
 	default_main->tick(0.05); // graphics_wrapper, 0.05
 

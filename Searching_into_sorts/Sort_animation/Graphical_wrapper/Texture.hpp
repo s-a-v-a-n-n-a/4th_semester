@@ -24,7 +24,7 @@ public:
 	Texture(const size_t width, const size_t height);
 	Texture(const char *par_texture_name);
 
-	~Texture();
+	virtual ~Texture();
 
 	long long get_width() const { return size.get_x(); }
 	long long get_height() const { return size.get_y(); }
@@ -51,7 +51,7 @@ public:
 
 	void set_size(const Vector_ll par_size) override;
 
-	~Full_texture() = default;
+	virtual ~Full_texture() {}
 
 	Color *get_pixels();
 

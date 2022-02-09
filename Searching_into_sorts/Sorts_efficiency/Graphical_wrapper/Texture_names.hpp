@@ -1,8 +1,6 @@
 #ifndef TEXTURE_NAMES_H
 #define TEXTURE_NAMES_H
 
-// const char CHART_BACKGROUND[] = "graphical_attributes/Textures/Chart_background.png";
-
 // test
 const char TEST_WINDOW[] = "graphical_attributes/Textures/Test_window.png";
 
@@ -65,7 +63,12 @@ const char LANDSCAPE_TEXTURE[] = "graphical_attributes/Textures/Landscape.jpg";
 const char WOW_TEXTURE[] = "graphical_attributes/Textures/Wow.png";
 const char WINTER_TEXTURE[] = "graphical_attributes/Textures/Beautiful.jpg";
 
+const char WHITE_BUTTON[] = "graphical_attributes/Textures/White_button.png";
+const char GREEN_BUTTON[] = "graphical_attributes/Textures/Green_button.png";
+const char GREEN_BUTTON_MOVE[] = "graphical_attributes/Textures/Green_button_move.png";
+
 extern const char *COLORED_BUTTONS[];
+extern const char *COLORED_BUTTONS_MOVE[];
 extern const char *TOOLS_BUTTONS[];
 extern const char *ACTIVE_TOOLS_BUTTONS[];
 

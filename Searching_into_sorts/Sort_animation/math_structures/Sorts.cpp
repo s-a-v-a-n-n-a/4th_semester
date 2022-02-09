@@ -6,7 +6,6 @@ standartised_sort standartised_sorts[] =
     selection_sort,
     insertion_sort,
     std_sort,
-    // std_stable_sort,
     wrapped_merge_sort
 };
 const int sorts_amount = 5;
@@ -16,10 +15,13 @@ int compare(const void *a, const void *b)
     if (cmp(*(Intercepted_int*)a, *(Intercepted_int*)b))
         return -1;
     
-    // if (*((Intercepted_int*)a) == *((Intercepted_int*)b))
-    //     return 0;
+    if (*((Intercepted_int*)a) > *((Intercepted_int*)b))
+    {
+        ((Intercepted_int*)a)->set_comparison_cnt(((Intercepted_int*)a)->get_comparison_cnt() - 1);
+        return 1;
+    }
 
-    return 1;
+    return 0;
 }
 
 bool cmp(const Intercepted_int &a, const Intercepted_int &b)
@@ -78,30 +80,7 @@ void std_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void
         vec.push_back(((Intercepted_int*)array)[i]);
     }
     
-    // for (int i = 0; i < size; ++i)
-    // {
-    //     printf("%d ", vec[i].get_num());
-    // }
-    // printf("\n");
-    
     std::sort(vec.begin(), vec.end());
-
-    // for (int i = 0; i < size; ++i)
-    // {
-    //     printf("%d ", vec[i].get_num());
-    // }
-    // printf("\n");
-}
-
-void std_stable_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
-{
-    std::vector<Intercepted_int> vec;
-    for (int i = 0; i < size; ++i)
-    {
-        vec.push_back(((Intercepted_int*)array)[i]);
-    }
-    
-    std::stable_sort(vec.begin(), vec.end());
 }
 
 void std_qsort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
@@ -114,8 +93,6 @@ void merging_length(Intercepted_int *arr, long long sz_arr_1, long long sz_arr, 
     long long i = 0;
     long long j = 0;
  
-    long long amount = 0;
-
     long long sz_arr_2 = sz_arr - sz_arr_1;
  
     Intercepted_int* arr_tmp_1 = new Intercepted_int[sz_arr_1];

@@ -2,19 +2,12 @@
 
 HSV get_hsv(const Color &rgb)
 {
-	double red = (double)rgb.get_r() / 255.0;
-	double green = (double)rgb.get_g() / 255.0;
-	double blue = (double)rgb.get_b() / 255.0;
-
 	HSV hsv = { 0, 0, 0 };
     unsigned char rgbMin = 0;
     unsigned char rgbMax = 0;
 
     rgbMin = rgb.get_r() < rgb.get_g() ? (rgb.get_r() < rgb.get_b() ? rgb.get_r() : rgb.get_b()) : (rgb.get_g() < rgb.get_b() ? rgb.get_g() : rgb.get_b());
     rgbMax = rgb.get_r() > rgb.get_g() ? (rgb.get_r() > rgb.get_b() ? rgb.get_r() : rgb.get_b()) : (rgb.get_g() > rgb.get_b() ? rgb.get_g() : rgb.get_b());
-
-    double MIN = red < green ? (red < blue ? red : blue) : (green < blue ? green : blue);
-    double MAX = red > green ? (red > blue ? red : blue) : (green > blue ? green : blue); 
 
     hsv.set_v(rgbMax);
    

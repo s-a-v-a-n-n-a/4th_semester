@@ -12,7 +12,8 @@ INC     	=
 SFML    	= -lsfml-graphics -lsfml-window -lsfml-system
 OPT     	= -O3
 DEF     	= -DNDEBUG
-CFLAGS  	= $(OPT) $(DEF) $(ASAN) -g $(INC) 
+WARNINGS	= -Wall
+CFLAGS  	= $(WARNINGS) $(OPT) $(DEF) $(ASAN) -g $(INC) 
 DLL			= -ldl -lm -lpthread -pthread
 OBJ     	= obj/
 EXE     	= main
@@ -35,6 +36,7 @@ FILES   	= $(OBJ)main.o \
 			$(OBJ)Application/Main_page.o \
 			$(OBJ)Application/Bar_graph.o \
 			$(OBJ)Application/Int_array_delegates.o \
+			$(OBJ)Application/Graphical_delegates.o \
 			$(OBJ)Shape_base/Shape.o \
 			$(OBJ)Shapes/Rectangle.o \
 

@@ -4,13 +4,13 @@
 size_t Intercepted_int::max_id = 0;
 
 Intercepted_int::Intercepted_int()
-: num(0), assignment_cnt(0), comparison_cnt(0), address(this), parent(nullptr) 
+: num(0), assignment_cnt(0), comparison_cnt(0), parent(nullptr), address(this)
 {
     id = max_id++;
 }
 
 Intercepted_int::Intercepted_int(int arg_num)
-: num(arg_num), assignment_cnt(1), comparison_cnt(0), address(this), parent(nullptr) 
+: num(arg_num), assignment_cnt(1), comparison_cnt(0), parent(nullptr), address(this) 
 {
     id = max_id++;
 }

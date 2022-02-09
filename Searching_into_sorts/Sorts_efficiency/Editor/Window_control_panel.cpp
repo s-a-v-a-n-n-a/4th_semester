@@ -21,7 +21,7 @@ Window_control_panel::Window_control_panel(const Visual_object::Config &par_base
 
 	// Roll_up_delegate *rolling_up = new Roll_up_delegate(whose);
 	Button *roll = panel->add_button(nullptr, "", close_texture, TRANSPARENT, get_height(), get_height());
-	Roll_up_delegate *rolling_up = new Roll_up_delegate(roll);
+	Animating_roll_up_delegate *rolling_up = new Animating_roll_up_delegate(whose, roll);
 	if (roll)
 		roll->set_delegate(rolling_up);
 	else

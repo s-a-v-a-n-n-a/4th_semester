@@ -30,6 +30,9 @@ public:
     size_t get_assignment_cnt() const { return assignment_cnt; }
     size_t get_comparison_cnt() const { return comparison_cnt; }
 
+    void set_comparison_cnt(const size_t arg_comparison_cnt) { comparison_cnt = arg_comparison_cnt; }
+    void set_assignment_cnt(const size_t arg_assignment_cnt) { assignment_cnt = arg_assignment_cnt; }
+
     void set_parent(Int_signal_receiver *arg_contact) { parent = arg_contact; }
     
     const Intercepted_int& operator=(const Intercepted_int& other);

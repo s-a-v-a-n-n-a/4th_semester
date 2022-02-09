@@ -7,13 +7,14 @@ Application *Application::app = nullptr;
 Application_destroyer Application::destroyer;
 
 Application::Application()
-: graphics_wrapper(nullptr), default_main(nullptr), current_main(nullptr)
+: current_main(nullptr), default_main(nullptr), graphics_wrapper(nullptr)
 {
     app = this;
 
     renderer = new Renderer();
     graphics_wrapper = new Screen_information(DEFAULT_SIZE, DEFAULT_HEIGHT);
 
+    animations = new Animation_manager();
     resources = new Resources();
 
     Main_page *editor = new Main_page({nullptr, (size_t)Vidget_type::EDITOR, Vector_ll(0, 0), nullptr, DARK_GREY, DEFAULT_SIZE, DEFAULT_HEIGHT});
@@ -25,6 +26,7 @@ Application::Application()
 
 Application::~Application()
 {
+    delete animations;
     delete graphics_wrapper;
     delete renderer;
 
@@ -72,10 +74,10 @@ Resources *Application::get_rescrs()
     return resources;
 }
 
-// Animation_manager *Application::get_animations()
-// {
-//     return animations;
-// }
+Animation_manager *Application::get_animations()
+{
+    return animations;
+}
 
 void Application::add_visual_object(Visual_object *object)
 {
@@ -95,7 +97,7 @@ void Application::draw()
 
 void Application::tick()
 {
-    // animations->tick(0.005);
+    animations->tick(0.005);
 	
 	default_main->tick(0.05); // graphics_wrapper, 0.05
 

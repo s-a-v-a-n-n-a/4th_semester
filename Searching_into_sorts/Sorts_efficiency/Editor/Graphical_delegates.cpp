@@ -35,104 +35,87 @@
 
 // // ---------------------------------------------------------------------------------------------------------
 
-// // Animating
-// // ---------------------------------------------------------------------------------------------------------
+// Animating
+// ---------------------------------------------------------------------------------------------------------
 
-// Animating::Animating(Visual_object *par_to_animate) 
-// : to_animate(nullptr), move_in(nullptr), move_out(nullptr), move_in_index(-1), move_out_index(-1)
-// {
-// 	to_animate = par_to_animate;
-// }
+Animating::Animating(Visual_object *par_to_animate) 
+: to_animate(nullptr), move_in(nullptr), move_in_index(-1), move_out(nullptr), move_out_index(-1)
+{
+	to_animate = par_to_animate;
+}
 
-// void Animating::reset()
-// {
-// 	Full_texture *default_texture = ((Animating_texture*)(to_animate->get_texture()))->get_default_texture();
-// 	((Animating_texture*)(to_animate->get_texture()))->set_current_texture(default_texture);
+void Animating::reset()
+{
+	Full_texture *default_texture = ((Animating_texture*)(to_animate->get_texture()))->get_default_texture();
+	((Animating_texture*)(to_animate->get_texture()))->set_current_texture(default_texture);
 	
-// 	if (move_in)
-// 	{
-// 		// Animation_manager::get_instance()->slow_delete_animation(move_in);
-// 		Application::get_app()->get_animations()->slow_delete_animation(move_in);
-// 		move_in = nullptr;
-// 		move_in_index = -1;
-// 	}
+	if (move_in)
+	{
+		// Animation_manager::get_instance()->slow_delete_animation(move_in);
+		Application::get_app()->get_animations()->slow_delete_animation(move_in);
+		move_in = nullptr;
+		move_in_index = -1;
+	}
 
-// 	if (move_out)
-// 	{
-// 		// Animation_manager::get_instance()->slow_delete_animation(move_out);
-// 		Application::get_app()->get_animations()->slow_delete_animation(move_out);
-// 		move_out = nullptr;
-// 		move_out_index = -1;
-// 	}
-// }
+	if (move_out)
+	{
+		// Animation_manager::get_instance()->slow_delete_animation(move_out);
+		Application::get_app()->get_animations()->slow_delete_animation(move_out);
+		move_out = nullptr;
+		move_out_index = -1;
+	}
+}
 
-// bool Animating::on_mouse_click(const size_t par_x, const size_t par_y)
-// {
-// 	// Full_texture *default_texture = ((Animating_texture*)(to_animate->get_texture()))->get_default_texture();
-// 	// ((Animating_texture*)(to_animate->get_texture()))->set_current_texture(default_texture);
-	
-// 	// if (move_in)
-// 	// {
-// 	// 	Animation_manager::get_instance()->slow_delete_animation(move_in);
-// 	// 	move_in = nullptr;
-// 	// 	move_in_index = -1;
-// 	// }
+bool Animating::on_mouse_click(const size_t par_x, const size_t par_y)
+{
+	return true;
+}
 
-// 	// if (move_out)
-// 	// {
-// 	// 	Animation_manager::get_instance()->slow_delete_animation(move_out);
-// 	// 	move_out = nullptr;
-// 	// 	move_out_index = -1;
-// 	// }
+bool Animating::on_mouse_move(const Vector_ll from, const Vector_ll to)
+{
+	if (to_animate->point_inside(to.get_x(), to.get_y()) && !to_animate->point_inside(from.get_x(), from.get_y()))
+	{
+		if (!move_in)
+		{
+			if (move_out)
+			{
+				// Animation_manager::get_instance()->slow_delete_animation(move_out);
+				Application::get_app()->get_animations()->slow_delete_animation(move_out);
+				move_out = nullptr;
+				move_out_index = -1;
+			}
 
-// 	return true;
-// }
-
-// bool Animating::on_mouse_move(const Vector_ll from, const Vector_ll to)
-// {
-// 	if (to_animate->point_inside(to.get_x(), to.get_y()) && !to_animate->point_inside(from.get_x(), from.get_y()))
-// 	{
-// 		if (!move_in)
-// 		{
-// 			if (move_out)
-// 			{
-// 				// Animation_manager::get_instance()->slow_delete_animation(move_out);
-// 				Application::get_app()->get_animations()->slow_delete_animation(move_out);
-// 				move_out = nullptr;
-// 				move_out_index = -1;
-// 			}
-
-// 			move_in = new Animation((Animating_texture*)to_animate->get_texture(), to_animate, ((Animating_texture*)(to_animate->get_texture()))->get_default_texture(), ((Animating_texture*)(to_animate->get_texture()))->get_move_texture(), 0.05);
-// 			// move_in_index = Animation_manager::get_instance()->add_animation(move_in);
-// 			move_in_index = Application::get_app()->get_animations()->add_animation(move_in);
-// 		}
-// 	}
-// 	else if(!to_animate->point_inside(to.get_x(), to.get_y()) && to_animate->point_inside(from.get_x(), from.get_y()))
-// 	{
-// 		if (!move_out)
-// 		{
-// 			if (move_in)
-// 			{
-// 				// Animation_manager::get_instance()->slow_delete_animation(move_in);
-// 				Application::get_app()->get_animations()->slow_delete_animation(move_in);
-// 				move_in = nullptr;
-// 				move_in_index = -1;
-// 			}
+			move_in = new Animation((Animating_texture*)to_animate->get_texture(), to_animate, ((Animating_texture*)(to_animate->get_texture()))->get_default_texture(), ((Animating_texture*)(to_animate->get_texture()))->get_move_texture(), 0.01);
+			// move_in_index = Animation_manager::get_instance()->add_animation(move_in);
+			move_in_index = Application::get_app()->get_animations()->add_animation(move_in);
+		}
+	}
+	else if(!to_animate->point_inside(to.get_x(), to.get_y()) && to_animate->point_inside(from.get_x(), from.get_y()))
+	{
+		if (!move_out)
+		{
+			if (move_in)
+			{
+				// Animation_manager::get_instance()->slow_delete_animation(move_in);
+				Application::get_app()->get_animations()->slow_delete_animation(move_in);
+				move_in = nullptr;
+				move_in_index = -1;
+			}
 			
-// 			move_out = new Animation((Animating_texture*)to_animate->get_texture(), to_animate, ((Animating_texture*)(to_animate->get_texture()))->get_move_texture(), ((Animating_texture*)(to_animate->get_texture()))->get_default_texture(), 0.05);
-// 			// move_out_index = Animation_manager::get_instance()->add_animation(move_out);
-// 			move_out_index = Application::get_app()->get_animations()->add_animation(move_out);
-// 		}
-// 	}
+			move_out = new Animation((Animating_texture*)to_animate->get_texture(), to_animate, ((Animating_texture*)(to_animate->get_texture()))->get_move_texture(), ((Animating_texture*)(to_animate->get_texture()))->get_default_texture(), 0.01);
+			// move_out_index = Animation_manager::get_instance()->add_animation(move_out);
+			move_out_index = Application::get_app()->get_animations()->add_animation(move_out);
+		}
+	}
 
-// 	return true;
-// }
+	return true;
+}
 
-// void Animating::set_animating(Visual_object *par_to_animate)
-// {
-// 	to_animate = par_to_animate;
-// }
-// // ---------------------------------------------------------------------------------------------------------
+void Animating::set_animating(Visual_object *par_to_animate)
+{
+	to_animate = par_to_animate;
+}
+// ---------------------------------------------------------------------------------------------------------
 
 // // Magnetic
 // // ---------------------------------------------------------------------------------------------------------
@@ -336,31 +319,31 @@ bool Roll_up_delegate::on_mouse_release()
 Visual_object *Roll_up_delegate::get_roll_up() { return to_roll_up; }
 // ---------------------------------------------------------------------------------------------------------
 
-// // Animating_roll_up_delegate
-// // ---------------------------------------------------------------------------------------------------------
-// Animating_roll_up_delegate::Animating_roll_up_delegate(Visual_object *par_to_roll_up, Visual_object *par_to_interact)
-// : Roll_up_delegate(par_to_roll_up), Animating(par_to_interact)
-// {
-// 	;
-// }
+// Animating_roll_up_delegate
+// ---------------------------------------------------------------------------------------------------------
+Animating_roll_up_delegate::Animating_roll_up_delegate(Visual_object *par_to_roll_up, Visual_object *par_to_interact)
+: Roll_up_delegate(par_to_roll_up), Animating(par_to_interact)
+{
+	;
+}
 
-// bool Animating_roll_up_delegate::on_mouse_click(const size_t par_x, const size_t par_y)
-// {
-// 	Roll_up_delegate::on_mouse_click(par_x, par_y);
-// 	return Animating::on_mouse_click(par_x, par_y);
-// }
+bool Animating_roll_up_delegate::on_mouse_click(const size_t par_x, const size_t par_y)
+{
+	Roll_up_delegate::on_mouse_click(par_x, par_y);
+	return Animating::on_mouse_click(par_x, par_y);
+}
 
-// bool Animating_roll_up_delegate::on_mouse_release()
-// {
-// 	Animating::reset();
-// 	return Roll_up_delegate::on_mouse_release();
-// }
+bool Animating_roll_up_delegate::on_mouse_release()
+{
+	Animating::reset();
+	return Roll_up_delegate::on_mouse_release();
+}
 
-// bool Animating_roll_up_delegate::on_mouse_move(const Vector_ll from, const Vector_ll to)
-// {
-// 	return Animating::on_mouse_move(from, to);
-// }
-// // ---------------------------------------------------------------------------------------------------------
+bool Animating_roll_up_delegate::on_mouse_move(const Vector_ll from, const Vector_ll to)
+{
+	return Animating::on_mouse_move(from, to);
+}
+// ---------------------------------------------------------------------------------------------------------
 
 // Close_delegate
 // ---------------------------------------------------------------------------------------------------------

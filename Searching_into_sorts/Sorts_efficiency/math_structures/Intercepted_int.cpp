@@ -2,10 +2,10 @@
 // #include "Int_signal_receiver.hpp"
 
 Intercepted_int::Intercepted_int()
-: num(0), assignment_cnt(0), comparison_cnt(0), address(this), parent(nullptr) {}
+: num(0), assignment_cnt(0), comparison_cnt(0), parent(nullptr) {}
 
 Intercepted_int::Intercepted_int(int arg_num)
-: num(arg_num), assignment_cnt(1), comparison_cnt(0), address(this), parent(nullptr) {}
+: num(arg_num), assignment_cnt(1), comparison_cnt(0), parent(nullptr) {}
 
 const Intercepted_int& Intercepted_int::operator=(const Intercepted_int& other) 
 { 

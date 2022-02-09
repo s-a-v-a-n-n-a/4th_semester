@@ -19,6 +19,7 @@ public:
 	Graphical_shape() = delete;
 	Graphical_shape(const char par_type);
 	Graphical_shape(const char par_type, const Vector_ll &par_centre_position, const Color &par_color = WHITE);
+	~Graphical_shape() {}
 
 	char get_type() const { return type; }
 	Vector_ll get_centre_position() const { return centre_position; }

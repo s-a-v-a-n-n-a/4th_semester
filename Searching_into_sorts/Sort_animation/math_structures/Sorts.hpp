@@ -20,7 +20,6 @@ void selection_sort(void *array, size_t size, size_t block_size, int (*cmp)(cons
 void insertion_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *));
 
 void std_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *));
-void std_stable_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *));
 void std_qsort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *));
 
 void wrapped_merge_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *));

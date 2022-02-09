@@ -101,8 +101,6 @@ void merging_length(Intercepted_int *arr, long long sz_arr_1, long long sz_arr, 
     long long i = 0;
     long long j = 0;
  
-    long long amount = 0;
- 
     Intercepted_int* arr_tmp_1 = new Intercepted_int[sz_arr_1];
     Intercepted_int* arr_tmp_2 = new Intercepted_int[sz_arr - sz_arr_1];
  

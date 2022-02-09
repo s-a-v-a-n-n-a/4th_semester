@@ -4,13 +4,13 @@ const size_t DECREASED_DOT_SIZE = 10;
 const size_t DEFAULT_DOT_SIZE = 20;
 
 Chart::Chart(const Visual_object::Config &par_base)
-: Visual_object(par_base), points(get_width(), 0), min_x(INT_MAX), max_x(0), min_y(INT_MAX), max_y(0), x_coef(1.0), y_coef(1.0) 
+: Visual_object(par_base), points(get_width(), 0), max_x(0), min_x(INT_MAX), max_y(0), min_y(INT_MAX), x_coef(1.0), y_coef(1.0) 
 {
 	;
 }
 
 Chart::Chart(const Visual_object::Config &par_base, std::vector<Vector_ll> dots)
-: Visual_object(par_base), points(get_width(), 0), min_x(INT_MAX), max_x(0), min_y(INT_MAX), max_y(0), x_coef(1.0), y_coef(1.0)
+: Visual_object(par_base), points(get_width(), 0), max_x(0), min_x(INT_MAX), max_y(0), min_y(INT_MAX), x_coef(1.0), y_coef(1.0)
 {
 	size_t dots_amount = dots.size();
 

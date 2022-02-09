@@ -50,7 +50,7 @@ private:
 public:
 	Visual_object() = delete;
 	Visual_object(const Visual_object::Config &par_base);
-	~Visual_object() {};
+	virtual ~Visual_object() {};
 	
 	virtual void add_visual_object(Visual_object *par_object);
 	virtual void slow_delete_visual_object(size_t index);

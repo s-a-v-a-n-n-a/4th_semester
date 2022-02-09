@@ -1,15 +1,20 @@
 #include "Controller.hpp"
 
+const int MAX_VALUE = 500;
+const int MIN_VALUE = -500;
+
 DataCharts_control::DataCharts_control(size_t arg_start_size, size_t arg_step, size_t arg_ops_amount)
 : start_size(arg_start_size), step(arg_step), operations_amount(arg_ops_amount) 
 {
+    int min = (MIN_VALUE < 0 ? -1 * MIN_VALUE : MIN_VALUE);
+    
     size_t cur_size = start_size;
     for (size_t i = 0; i < operations_amount; ++i, cur_size += step)
     {
         data.push_back(new Intercepted_int[cur_size]);
         for (size_t j = 0; j < cur_size; ++j)
         {
-            data[i][j] = rand() % 1000 - 500;
+            data[i][j] = rand() % (MAX_VALUE + min) - MAX_VALUE;
         }
     }
 }

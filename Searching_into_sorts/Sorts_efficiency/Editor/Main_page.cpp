@@ -2,13 +2,7 @@
 #include "Chart_delegates.hpp"
 #include "Application.hpp"
 
-#ifdef WITH_SPLINE
-const size_t DEFAULT_CANVAS_SIZE = 300;
-#else
-const size_t DEFAULT_CANVAS_SIZE = 1100;
-#endif
-
-const size_t DEFAULT_TEXT_OFFSET = 20;
+const size_t DEFAULT_BUTTON_OFFSET = 20;
 
 const size_t START_X_COORD = 100;
 const size_t START_Y_COORD = 100;
@@ -37,29 +31,19 @@ const char *CHARTS_TEXTS[] =
 const Color BUTTON_COLORS[] = 
 {
 	RED,
-	BLUE,
-	GREEN,
-	PURPLE,
 	FUCHSIA,
+	BLUE,
+	CYAN,
+	PURPLE,
 	GENTLE_ORANGE
 };
 
-const char BUBBLE_TEXT[] = " BUBBLE SORT ";
-const char SELECTION_TEXT[] = " SELECTION SORT ";
-const char STD_SORT_TEXT[] = " STD SORT ";
-const char STABLE_SORT_TEXT[] = " STABLE SORT ";
-const char QUICK_SORT_TEXT[] = " QUICK SORT ";
-const char MERGE_SORT_TEXT[] = " MERGE SORT ";
 const char CLEAR_TEXT[] = " CLEAR ";
 const char DATA_TEXT[] = " RESET DATA ";
 
 Main_page::Main_page(const Visual_object::Config &par_base)
 : Visual_object(par_base)
 {
-	Vector_ll par_position = get_position();
-	size_t par_width = get_width();
-
-	// Full_texture *chart_background = Application::get_app()->get_rescrs()->create_texture(CHART_BACKGROUND, 500, 500);
 	std::vector<Chart_window*> charts;
 	for (int i = 0; i < 2; ++i)
 	{
@@ -70,11 +54,11 @@ Main_page::Main_page(const Visual_object::Config &par_base)
 	Button *button = nullptr;
 	for (int i = 0; i < sorts_amount; ++i)
 	{
-		button = create_control_button(charts[0], charts[1], BUTTON_CHART_TEXTS[i], Vector_ll(BUTTON_X_COORD, START_Y_COORD + i * INCREASED_BUTTON_HEIGHT), Vector_ll(BUTTON_SIZE, INCREASED_BUTTON_HEIGHT), BUTTON_COLORS[i], standartised_sorts[i]);
+		button = create_control_button(charts[0], charts[1], BUTTON_CHART_TEXTS[i], Vector_ll(BUTTON_X_COORD, START_Y_COORD + i * (INCREASED_BUTTON_HEIGHT + DEFAULT_BUTTON_OFFSET)), Vector_ll(BUTTON_SIZE, INCREASED_BUTTON_HEIGHT), BUTTON_COLORS[i], i, standartised_sorts[i]);
 	}
 
-	Button *clear = create_clear_button(charts, CLEAR_TEXT, Vector_ll(BUTTON_X_COORD, 900), Vector_ll(BUTTON_SIZE, INCREASED_BUTTON_HEIGHT), MEDIUM_PURPLE);
-	Button *regenerate = create_regeneration_button(DATA_TEXT, Vector_ll(BUTTON_X_COORD, 900 + INCREASED_BUTTON_HEIGHT), Vector_ll(BUTTON_SIZE, INCREASED_BUTTON_HEIGHT), MEDIUM_PURPLE);
+	create_clear_button(charts, CLEAR_TEXT, Vector_ll(BUTTON_X_COORD, START_Y_COORD + (sorts_amount + 1) * (INCREASED_BUTTON_HEIGHT + DEFAULT_BUTTON_OFFSET)), Vector_ll(BUTTON_SIZE, INCREASED_BUTTON_HEIGHT), MEDIUM_PURPLE);
+	create_regeneration_button(DATA_TEXT, Vector_ll(BUTTON_X_COORD, START_Y_COORD + (sorts_amount + 2) * (INCREASED_BUTTON_HEIGHT + DEFAULT_BUTTON_OFFSET)), Vector_ll(BUTTON_SIZE, INCREASED_BUTTON_HEIGHT), MEDIUM_PURPLE);
 }
 
 Chart_window *Main_page::create_chart_window(const Vector_ll &position, const Vector_ll &size, const Color &color, const char *name)
@@ -93,23 +77,25 @@ Chart_window *Main_page::create_chart_window(const Vector_ll &position, const Ve
 	return chart;
 }
 
-Button *Main_page::create_control_button(Chart_window *chart_ass, Chart_window *chart_cmp, const char *text, const Vector_ll &position, const Vector_ll &size, const Color &color, void (*sort)(void *, size_t, size_t, int(*cmp)(const void *, const void *)))
+Button *Main_page::create_control_button(Chart_window *chart_ass, Chart_window *chart_cmp, const char *text, const Vector_ll &position, const Vector_ll &size, const Color &color, size_t colored_texture_number, void (*sort)(void *, size_t, size_t, int(*cmp)(const void *, const void *)))
 {
+	Animating_texture *texture = Application::get_app()->get_rescrs()->create_texture(COLORED_BUTTONS[colored_texture_number], size.get_x(), size.get_y(), COLORED_BUTTONS_MOVE[colored_texture_number], nullptr);
 	Visual_object::Config button_base = { this, 
 											(size_t)Vidget_type::BUTTON,
     										position, 
-    										nullptr,
-    										color, 
+    										texture,
+    										TRANSPARENT, 
 								  			(size_t)size.get_x(), 
 								  			(size_t)size.get_y() };
-
-	Generate_chart *ass_delegate = new Generate_chart(chart_ass, color, Research::ASSIGNMENT, sort);	
-	Generate_chart *cmp_delegate = new Generate_chart(chart_cmp, color, Research::COMPARISON, sort);
 	
 	Button *new_button = new Button(button_base,
 								  	nullptr, 
 								  	text,
 								  	true);
+	
+	Animating_generate_graph *ass_delegate = new Animating_generate_graph(chart_ass, color, Research::ASSIGNMENT, sort, new_button);	
+	Generate_chart *cmp_delegate = new Generate_chart(chart_cmp, color, Research::COMPARISON, sort);
+	
 	new_button->set_delegate(ass_delegate);
 	new_button->set_delegate(cmp_delegate);
 	
@@ -120,11 +106,12 @@ Button *Main_page::create_control_button(Chart_window *chart_ass, Chart_window *
 
 Button *Main_page::create_clear_button(std::vector<Chart_window*> charts, const char *text, const Vector_ll &position, const Vector_ll &size, const Color &color)
 {
+	Animating_texture *texture = Application::get_app()->get_rescrs()->create_texture(GREEN_BUTTON, size.get_x(), size.get_y(), GREEN_BUTTON_MOVE, nullptr);
 	Visual_object::Config button_base = { this, 
 											(size_t)Vidget_type::BUTTON,
     										position, 
-    										nullptr,
-    										color, 
+    										texture,
+    										TRANSPARENT, 
 								  			(size_t)size.get_x(), 
 								  			(size_t)size.get_y() };
 
@@ -133,10 +120,10 @@ Button *Main_page::create_clear_button(std::vector<Chart_window*> charts, const 
 										text,
 										true);
 	size_t charts_amount = charts.size();									
-	Clear_field *delegate = nullptr;
+	Animating_clear_field *delegate = nullptr;
 	for (int i = 0; i < charts_amount; ++i)
 	{
-		delegate = new Clear_field(charts[i]);
+		delegate = new Animating_clear_field(charts[i], new_button);
 		new_button->set_delegate(delegate);
 	}
 
@@ -147,19 +134,21 @@ Button *Main_page::create_clear_button(std::vector<Chart_window*> charts, const 
 
 Button *Main_page::create_regeneration_button(const char *text, const Vector_ll &position, const Vector_ll &size, const Color &color)
 {
+	Animating_texture *texture = Application::get_app()->get_rescrs()->create_texture(GREEN_BUTTON, size.get_x(), size.get_y(), GREEN_BUTTON_MOVE, nullptr);
 	Visual_object::Config button_base = { this, 
 											(size_t)Vidget_type::BUTTON,
     										position, 
-    										nullptr,
-    										color, 
+    										texture,
+    										TRANSPARENT, 
 								  			(size_t)size.get_x(), 
 								  			(size_t)size.get_y() };
 
-	Regenerate_data *delegate = new Regenerate_data();
 	Button *new_button = new Button(button_base,
-										delegate, 
+										nullptr, 
 										text,
 										true);
+	Animating_regenerate_data *delegate = new Animating_regenerate_data(new_button);
+	new_button->set_delegate(delegate);
 
 	add_visual_object(new_button);
 

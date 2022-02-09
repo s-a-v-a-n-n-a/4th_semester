@@ -7,6 +7,9 @@
 
 #include "Int_signal_receiver.hpp"
 
+extern const int MAX_VALUE;
+extern const int MIN_VALUE;
+
 class Int_container : public Int_signal_receiver
 {
 private:

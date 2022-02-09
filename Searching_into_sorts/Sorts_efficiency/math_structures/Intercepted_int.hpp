@@ -14,7 +14,6 @@ private:
     mutable size_t comparison_cnt;
 
     Int_signal_receiver *parent;
-    Intercepted_int *address;
 
 public:
     Intercepted_int();

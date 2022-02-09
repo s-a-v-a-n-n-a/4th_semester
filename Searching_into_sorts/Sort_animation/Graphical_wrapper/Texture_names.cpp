@@ -2,13 +2,22 @@
 
 const char *COLORED_BUTTONS[] = 
 {
-	"graphical_attributes/Textures/Black_button.png",
 	"graphical_attributes/Textures/Red_button.png",
 	"graphical_attributes/Textures/Fuchsia_button.png",
 	"graphical_attributes/Textures/Blue_button.png",
 	"graphical_attributes/Textures/Cyan_button.png",
-	"graphical_attributes/Textures/Green_button.png",
-	"graphical_attributes/Textures/Yellow_button.png"
+	"graphical_attributes/Textures/Purple_button.png",
+	"graphical_attributes/Textures/Peach_button.png"
+};
+
+const char *COLORED_BUTTONS_MOVE[] = 
+{
+	"graphical_attributes/Textures/Red_button_move.png",
+	"graphical_attributes/Textures/Fuchsia_button_move.png",
+	"graphical_attributes/Textures/Blue_button_move.png",
+	"graphical_attributes/Textures/Cyan_button_move.png",
+	"graphical_attributes/Textures/Purple_button_move.png",
+	"graphical_attributes/Textures/Peach_button_move.png"
 };
 
 const char *TOOLS_BUTTONS[] = 

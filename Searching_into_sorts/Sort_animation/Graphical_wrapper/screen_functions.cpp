@@ -10,7 +10,7 @@ const char *screen_state_text[]
 };
 
 Screen_information::Screen_information(size_t par_width, size_t par_height) 
-: window(sf::VideoMode(par_width, par_height), "It works"), event(), mouse_position(0.0, 0.0)//, textures()
+: mouse_position(0.0, 0.0), window(sf::VideoMode(par_width, par_height), "It works"), event()//, textures()
 {
 	width  = par_width;
 	height = par_height;

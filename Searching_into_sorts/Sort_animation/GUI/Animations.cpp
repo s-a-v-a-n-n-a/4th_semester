@@ -1,7 +1,7 @@
 #include "Animations.hpp"
 
 Animation::Animation(Animating_texture *par_to_store, Visual_object *par_changable, Full_texture *par_from, Full_texture *par_to, const double par_delta_time)
-: changable(par_changable), to_store(par_to_store), texture_from(par_from), texture_to(par_to), delta_time(par_delta_time), current_time(0), alive(true)
+: to_store(par_to_store), texture_from(par_from), texture_to(par_to), changable(par_changable), delta_time(par_delta_time), current_time(0), alive(true)
 { 
 	// changable->set_texture(nullptr);
 	;

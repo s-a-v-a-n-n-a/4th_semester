@@ -17,15 +17,6 @@ void count_sort_operations(std::vector<Vector_ll> &vec, std::vector<Intercepted_
     int current_size = start_array_length;
     for (size_t i = 0; i < operations_amount; ++i, current_size += step)
     {
-        // Intercepted_int *array = new Intercepted_int[current_size];
-
-        // randomize array
-        // for (int j = 0; j < current_size; ++j)
-        // {
-        //     long long number = rand() % (1000) - 500;
-        //     array[j] = (int)number;
-        // }
-
         sort(data[i], current_size, sizeof(Intercepted_int), compare);
 
         vec[i].set_x(current_size);

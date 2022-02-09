@@ -66,6 +66,7 @@ const char WOW_TEXTURE[] = "graphical_attributes/Textures/Wow.png";
 const char WINTER_TEXTURE[] = "graphical_attributes/Textures/Beautiful.jpg";
 
 extern const char *COLORED_BUTTONS[];
+extern const char *COLORED_BUTTONS_MOVE[];
 extern const char *TOOLS_BUTTONS[];
 extern const char *ACTIVE_TOOLS_BUTTONS[];
 

@@ -8,6 +8,9 @@
 
 #include "../Editor/Chart_delegates.hpp"
 
+extern const int MAX_VALUE;
+extern const int MIN_VALUE;
+
 class DataCharts_control
 {
 private:

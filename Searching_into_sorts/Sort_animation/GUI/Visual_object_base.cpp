@@ -4,7 +4,7 @@
 // const size_t VIDGETS_AMOUNT = 9;
 
 Visual_object::Visual_object(const Visual_object::Config &par_base)
-: objects(), base(par_base), current_active(nullptr), active(false), visible(true), reactive(true), alive(true)
+: current_active(nullptr), base(par_base), objects(), active(false), visible(true), reactive(true), alive(true)
 {
 	;
 }
@@ -96,20 +96,16 @@ void Visual_object::draw(Screen_information *screen)
 	if (base.texture)
 		screen->draw_texture(get_position(), base.texture->get_texture(), get_width(), get_height());
 
+	Visual_object **objects_array = objects.get_array();
+	size_t objects_amount = objects.get_length();
 
-	// if (get_reactive())
-	// {
-		Visual_object **objects_array = objects.get_array();
-		size_t objects_amount = objects.get_length();
-
-		for (size_t i = 0; i < objects_amount; ++i)
+	for (size_t i = 0; i < objects_amount; ++i)
+	{
+		if (objects_array[i]->get_visible())
 		{
-			if (objects_array[i]->get_visible())
-			{
-				objects_array[i]->draw(screen);
-			}
+			objects_array[i]->draw(screen);
 		}
-	// }
+	}
 }
 
 bool Visual_object::point_inside(const size_t par_x, const size_t par_y)

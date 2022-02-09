@@ -7,32 +7,24 @@
 class Animating_texture : public Full_texture
 {
 private:
-	Full_texture *inactive_texture;
 	Full_texture *default_texture;
 	Full_texture *move_texture;
+	Full_texture *inactive_texture;
 
 public:
 	Animating_texture(const char *par_texture_name, const size_t width, const size_t height)
 	: Full_texture(par_texture_name, width, height), default_texture(nullptr), move_texture(nullptr), inactive_texture(nullptr) 
 	{ 
 		default_texture = new Full_texture(par_texture_name, width, height);
-
-		// current_texture = default_texture; 
-		move_texture = nullptr;
-		inactive_texture = nullptr;
 	}
 
 	Animating_texture(const char *par_texture_name)
 	: Full_texture(par_texture_name), default_texture(nullptr), move_texture(nullptr), inactive_texture(nullptr) 
 	{ 
 		default_texture = new Full_texture(par_texture_name, get_width(), get_height());
-
-		// current_texture = default_texture; 
-		move_texture = nullptr;
-		inactive_texture = nullptr;
 	}
 
-	~Animating_texture()
+	virtual ~Animating_texture()
 	{
 		if (inactive_texture)
 			delete inactive_texture;

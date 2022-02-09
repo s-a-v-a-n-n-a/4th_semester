@@ -16,7 +16,7 @@ public:
 	Rectangle(const double par_width, const double par_height, const char par_type, const Vector_ll &par_centre_position, const Color &par_color = WHITE);
 	Rectangle(const Rectangle &other) = delete;
 	// Rectangle(Rectangle &&other) = delete;
-	~Rectangle() = default;
+	virtual ~Rectangle() {}
 
 	// Radius_vector count_move(double delta_time) override;
 	// void move(const Radius_vector &par_centre_position) override;

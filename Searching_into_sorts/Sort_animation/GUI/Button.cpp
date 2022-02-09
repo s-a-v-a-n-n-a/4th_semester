@@ -134,7 +134,7 @@ bool Button::on_mouse_move(const Vector_ll from, const Vector_ll to)
 }
 
 Magnetic::Magnetic(const Visual_object::Config &par_base, Visual_object *par_parent, const Vector_ll &par_left_bound, const Vector_ll &par_right_bound, const size_t par_radius, Button_delegate *par_delegate)
-: Visual_object(par_base), parent(par_parent), left_bound(par_left_bound), right_bound(par_right_bound), pressed(false), radius(par_radius), delegate(par_delegate)
+: Visual_object(par_base), parent(par_parent), left_bound(par_left_bound), right_bound(par_right_bound), radius(par_radius), pressed(false)
 {
 	last_parent_position = parent->get_position();
 

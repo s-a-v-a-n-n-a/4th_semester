@@ -3,12 +3,11 @@
 
 #include "../Graphical_wrapper/screen_functions.hpp"
 #include "../Graphical_wrapper/Renderer.hpp"
+#include "../GUI/Animations.hpp"
 // #include "../GUI/Visual_object_base.hpp"
 // #include "../GUI/Resource_manager.hpp"
 
 #include "Main_page.hpp"
-
-// #include "../GUI/Animations.hpp"
 
 extern const size_t DEFAULT_SIZE;
 
@@ -34,7 +33,7 @@ private:
 	Renderer *renderer;
 	Resources *resources;
 
-	// Animation_manager *animations;
+	Animation_manager *animations;
 	// Plugin_manager *plugins;
 	// Effect_manager *effects;
 	// Toolbar *tools;
@@ -56,7 +55,7 @@ public:
 	// void add_tool(Tool *tool);
 	
 	Renderer *get_renderer();
-	// Animation_manager *get_animations();
+	Animation_manager *get_animations();
 	// Plugin_manager *get_plugins();
 	// Effect_manager *get_effects();
 	// Toolbar *get_tools();
