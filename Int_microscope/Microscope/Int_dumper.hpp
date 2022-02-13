@@ -3,15 +3,18 @@
 
 #include <string>
 #include <cstdlib>
+#include <cstdio>
+#include <vector>
 
 #include "../math_structures/Int_signal_receiver.hpp"
+#include "Operations_history.hpp"
 #include "Dump_messages.hpp"
 
 extern const std::string Signal_names[];
 
 #define VAR(name, value) \
-        Intercepted_int name = value; \
-        name.set_name(#name); 
+        Intercepted_int name(value, #name);
+        // name.set_name((std::string(#name) + std::string("\0")).c_str()); 
 
 #define FUNC(func) \
         Int_dumper::get_dumper()->increase_funcsions_in(); \
@@ -43,6 +46,9 @@ private:
     static Int_dumper *dumper;
 	static Dumper_destroyer destroyer;
 
+    std::vector<Operation*> history;
+    HTML_dump *dump;
+    
     long long functions_in;
     size_t max_tmp_vars_amount;
 
@@ -51,14 +57,25 @@ protected:
 	friend class Dumper_destroyer;
 
 public:
-    Int_dumper *get_dumper();
+    static Int_dumper *get_dumper();
+    ~Int_dumper();
 
     long long get_functions_in() { return functions_in; }
 
     void decrease_functions_in();
     void increase_functions_in();
 
+    void dump_message(std::string message, Int_signal signal_type);
+    void dump_text(std::string text);
+    void signal(Int_signal signal_type, const Intercepted_int &sender) override;
     void signal(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other) override;
+};
+
+class Spy
+{
+public:
+    Spy();
+    ~Spy();
 };
 
 #endif // INT_DUMPER_HPP

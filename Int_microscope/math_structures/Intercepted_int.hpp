@@ -17,7 +17,7 @@ private:
     Int_signal_receiver *parent;
     Intercepted_int *address;
 
-    char *name;
+    mutable char *name;
     
     static size_t max_id;
     size_t id;
@@ -25,17 +25,19 @@ private:
 public:
     Intercepted_int();
     Intercepted_int(int arg_num);
+    Intercepted_int(const Intercepted_int &other);
+    Intercepted_int(int arg_num, const char *arg_name);
 
     ~Intercepted_int();
 
     size_t get_id() const { return id; }
-    char *get_name() { return name; }
+    char *get_name() const { return name; }
     int get_num() const { return num; }
     size_t get_assignment_cnt() const { return assignment_cnt; }
     size_t get_comparison_cnt() const { return comparison_cnt; }
 
     void set_id(size_t arg_id) { id = arg_id; }
-    void set_name(const char *arg_name);
+    void set_name(const char *arg_name) const;
     void set_parent(Int_signal_receiver *arg_contact) { parent = arg_contact; }
     
     const Intercepted_int& operator=(const Intercepted_int& other);

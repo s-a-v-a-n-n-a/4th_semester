@@ -9,6 +9,7 @@ class Intercepted_int;
 class Int_signal_receiver
 {
 public:
+    virtual void signal(Int_signal signal_type, const Intercepted_int &sender) {}
     virtual void signal(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other) {}
 };
 

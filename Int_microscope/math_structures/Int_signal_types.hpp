@@ -15,6 +15,7 @@ enum class Int_signal
     ASSIGN_MUL,
     DIV,
     ASSIGN_DIV,
+    ASSIGN,
     COPY,
     MORE,
     MORE_EQ,
@@ -22,7 +23,9 @@ enum class Int_signal
     LESS_EQ,
     EQ,
     NOT_EQ,
-    MOVE
+    MOVE,
+    CONSTRUCT,
+    DESTRUCT
 };
 
 #endif // INT_SIGNAL_TYPES_HPP
