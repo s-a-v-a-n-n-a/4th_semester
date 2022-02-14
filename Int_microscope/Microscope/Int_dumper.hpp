@@ -62,8 +62,8 @@ public:
 
     long long get_functions_in() { return functions_in; }
 
-    void decrease_functions_in();
-    void increase_functions_in();
+    void decrease_functions_in(const char *func_name);
+    void increase_functions_in(const char *func_name);
 
     void dump_message(std::string message, Int_signal signal_type);
     void dump_text(std::string text);
@@ -73,8 +73,11 @@ public:
 
 class Spy
 {
+private:
+    char *func;
+
 public:
-    Spy();
+    Spy(const char *func_name);
     ~Spy();
 };
 

@@ -9,14 +9,14 @@
 
 Intercepted_int func(Intercepted_int var)
 {
-    Spy spy;
+    Spy spy("func");
     
     return var;
 }
 
 Intercepted_int foo(Intercepted_int var)
 {
-    Spy spy;
+    Spy spy("foo");
     
     return func(var);
 }

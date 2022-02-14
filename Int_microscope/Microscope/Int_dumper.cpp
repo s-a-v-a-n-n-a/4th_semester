@@ -23,8 +23,8 @@ const std::string Signal_names[] =
     "==",
     "!=",
     "MOVE",
-    "CONSTRUCTION",
-    "DESTRUCTION"
+    "CTOR",
+    "DTOR"
 };
 
 Int_dumper *Int_dumper::dumper = nullptr;
@@ -81,7 +81,7 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender)
     memset(sender_address, '\0', 256);
     sprintf(sender_address, "%p", (&sender));
 
-    message += "Happend " + Signal_names[(int)signal_type] + " with " + op->get_sender_name() + " which is int " + std::to_string(sender.get_num()) + " by address " + sender_address + "\n";
+    message += Signal_names[(int)signal_type] + ": " + op->get_sender_name() + " = " + std::to_string(sender.get_num()) + " | " + sender_address + " |\n";
     
     dump_message(message, signal_type);
 }
@@ -113,7 +113,9 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender, c
     memset(other_address, '\0', 256);
     sprintf(other_address, "%p", (&other));
     
-    message += "Operation " + Signal_names[(int)signal_type] + " on " + op->get_sender_name() + " which is int " + std::to_string(sender.get_num()) + " by address " + sender_address + " with " + op->get_other_name() + " which is " + std::to_string(other.get_num()) + " by address " + other_address + "\n";
+    message += "(";
+    message += op->get_sender_name();
+    message += " = " + std::to_string(sender.get_num()) + " | " + sender_address + " |) " + Signal_names[(int)signal_type] + " (" + op->get_other_name() + " = " + std::to_string(other.get_num()) + " | " + other_address + " |)\n";
     
     dump_message(message, signal_type);
 
@@ -132,7 +134,7 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender, c
     // ++doing;
 }
 
-void Int_dumper::decrease_functions_in()
+void Int_dumper::decrease_functions_in(const char *func_name)
 {
    --functions_in;
 
@@ -140,12 +142,14 @@ void Int_dumper::decrease_functions_in()
     for (size_t i = 0; i < functions_in; ++i)
         message += TAB;
     message += ARROW_PARTS[1];
-    message += "Step out of function\n";
+    // message += "Step out of function";
+    message += func_name;
+    message += '\n';
 
     dump_text(message);
 }
 
-void Int_dumper::increase_functions_in()
+void Int_dumper::increase_functions_in(const char *func_name)
 {
     std::string message;
     for (size_t i = 0; i < functions_in; ++i)
@@ -155,7 +159,9 @@ void Int_dumper::increase_functions_in()
     dump_text(message);
 
     //"bgcolor"
-    message = "Step in function\n";
+    // message = "Step in function";
+    message = func_name;
+    message += '\n';
     dump->open_tag("span", 0);
     dump->dump(message);
     dump->close_tag("span");
@@ -174,12 +180,20 @@ void Dumper_destroyer::initialize(Int_dumper *par_dumper)
 	dumper = par_dumper; 
 }
 
-Spy::Spy()
+Spy::Spy(const char *func_name)
+: func(nullptr)
 {
-    Int_dumper::get_dumper()->increase_functions_in();
+    size_t func_name_len = strlen(func_name);
+    func = new char[func_name_len + 1];
+    strncpy(func, func_name, func_name_len);
+    func[func_name_len] = '\0';
+    
+    Int_dumper::get_dumper()->increase_functions_in(func);
 }
 
 Spy::~Spy()
 {
-    Int_dumper::get_dumper()->decrease_functions_in();
+    Int_dumper::get_dumper()->decrease_functions_in(func);
+
+    delete [] func;
 }

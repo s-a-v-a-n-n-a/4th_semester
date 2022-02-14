@@ -1,27 +1,27 @@
-<!DOCTYPE html><head><link rel="stylesheet" href="style.css"></head><pre><font color="000000">Happend CONSTRUCTION with a which is int 20 by address 0x7fff5378ebc8
-</font><font color="000000">Happend CONSTRUCTION with b which is int 22 by address 0x7fff5378eb90
-</font><font color="000000">Happend CONSTRUCTION with c which is int 0 by address 0x7fff5378eb58
-</font><font color="DA3131">Happend <<< C O P Y >>> with tmp #0 which is int 20 by address 0x7fff5378eab0
-</font>---><span>Step in function
-</span><font color="DA3131">    Happend <<< C O P Y >>> with tmp #1 which is int 20 by address 0x7fff5378eae8
-</font><---Step out of function
-<font color="DA3131">Happend <<< C O P Y >>> with tmp #2 which is int 22 by address 0x7fff5378ea78
-</font>---><span>Step in function
-</span><font color="DA3131">    Happend <<< C O P Y >>> with tmp #3 which is int 22 by address 0x7fff5378e9f0
-</font>    ---><span>Step in function
-</span><font color="DA3131">        Happend <<< C O P Y >>> with tmp #4 which is int 22 by address 0x7fff5378ea40
-</font>    <---Step out of function
-<font color="000000">    Happend DESTRUCTION with tmp #3 which is int 22 by address 0x7fff5378e9f0
-</font><---Step out of function
-<font color="000000">Operation + on tmp #1 which is int 20 by address 0x7fff5378eae8 with tmp #4 which is 22 by address 0x7fff5378ea40
-</font><font color="000000">Happend CONSTRUCTION with tmp #5 which is int 42 by address 0x7fff5378eb20
-</font><font color="000000">Operation = on c which is int 42 by address 0x7fff5378eb58 with tmp #5 which is 42 by address 0x7fff5378eb20
-</font><font color="000000">Happend DESTRUCTION with tmp #5 which is int 42 by address 0x7fff5378eb20
-</font><font color="000000">Happend DESTRUCTION with tmp #4 which is int 22 by address 0x7fff5378ea40
-</font><font color="000000">Happend DESTRUCTION with tmp #2 which is int 22 by address 0x7fff5378ea78
-</font><font color="000000">Happend DESTRUCTION with tmp #1 which is int 20 by address 0x7fff5378eae8
-</font><font color="000000">Happend DESTRUCTION with tmp #0 which is int 20 by address 0x7fff5378eab0
-</font><font color="000000">Happend DESTRUCTION with c which is int 42 by address 0x7fff5378eb58
-</font><font color="000000">Happend DESTRUCTION with b which is int 22 by address 0x7fff5378eb90
-</font><font color="000000">Happend DESTRUCTION with a which is int 20 by address 0x7fff5378ebc8
+<!DOCTYPE html><head><link rel="stylesheet" href="style.css"></head><pre><font color="000000">CTOR: a = 20 | 0x7fff29379db8 |
+</font><font color="000000">CTOR: b = 22 | 0x7fff29379d80 |
+</font><font color="000000">CTOR: c = 0 | 0x7fff29379d48 |
+</font><font color="DA3131"><<< C O P Y >>>: tmp #0 = 20 | 0x7fff29379ca0 |
+</font>---><span>func
+</span><font color="DA3131">    <<< C O P Y >>>: tmp #1 = 20 | 0x7fff29379cd8 |
+</font><---func
+<font color="DA3131"><<< C O P Y >>>: tmp #2 = 22 | 0x7fff29379c68 |
+</font>---><span>foo
+</span><font color="DA3131">    <<< C O P Y >>>: tmp #3 = 22 | 0x7fff29379be0 |
+</font>    ---><span>func
+</span><font color="DA3131">        <<< C O P Y >>>: tmp #4 = 22 | 0x7fff29379c30 |
+</font>    <---func
+<font color="000000">    DTOR: tmp #3 = 22 | 0x7fff29379be0 |
+</font><---foo
+<font color="000000">(tmp #1 = 20 | 0x7fff29379cd8 |) + (tmp #4 = 22 | 0x7fff29379c30 |)
+</font><font color="000000">CTOR: tmp #5 = 42 | 0x7fff29379d10 |
+</font><font color="000000">(c = 42 | 0x7fff29379d48 |) = (tmp #5 = 42 | 0x7fff29379d10 |)
+</font><font color="000000">DTOR: tmp #5 = 42 | 0x7fff29379d10 |
+</font><font color="000000">DTOR: tmp #4 = 22 | 0x7fff29379c30 |
+</font><font color="000000">DTOR: tmp #2 = 22 | 0x7fff29379c68 |
+</font><font color="000000">DTOR: tmp #1 = 20 | 0x7fff29379cd8 |
+</font><font color="000000">DTOR: tmp #0 = 20 | 0x7fff29379ca0 |
+</font><font color="000000">DTOR: c = 42 | 0x7fff29379d48 |
+</font><font color="000000">DTOR: b = 22 | 0x7fff29379d80 |
+</font><font color="000000">DTOR: a = 20 | 0x7fff29379db8 |
 </font>
