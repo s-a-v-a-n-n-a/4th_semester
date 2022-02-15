@@ -29,6 +29,12 @@ public:
     Operation(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other);
     ~Operation();
 
+    void set_sender_name(const char *name);
+    void set_other_name(const char *name);
+
+    void create_sender_name();
+    void create_other_name();
+
     char *get_sender_name() const { return sender_name; }
     char *get_other_name() const { return other_name; }
 };

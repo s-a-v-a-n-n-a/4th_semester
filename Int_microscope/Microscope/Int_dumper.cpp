@@ -73,6 +73,18 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender)
     Operation *op = new Operation(signal_type, sender, sender);
     history.push_back(op);
 
+    // create_box(op);
+    /*  
+     * Тут если конструктор - проводим стрелочку в ещё не существующую struct_#id_dtor
+     * Соответственно у них имена struct_#id_ctor и struct_#id_dtor
+     * Стрелки можно проставить в конце циклом по max_id (?)
+     * 
+     * Если, скажем, плюс, туда тоже стрелочку отправляем
+     * Создаём ноду плюса - имя будет struct_#id1_#id2_plus
+     * Из него стрелку проводим в следующий после op элемент вектора
+     * Видимо, их будем нумеровать
+    */
+
     std::string message;
     for (size_t i = 0; i < functions_in; ++i)
         message += TAB;
@@ -91,16 +103,6 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender, c
     Operation *op = new Operation(signal_type, sender, other);
     history.push_back(op);
     
-    // static long int doing = 0;
-
-    
-    // const char* mode = nullptr;
-    // if (!doing)
-    //     mode = "wb";
-    // else
-    //     mode = "ab";
-    // FILE* log = fopen(DUMP_FILE, mode);
-    
     std::string message;
     for (size_t i = 0; i < functions_in; ++i)
         message += TAB;
@@ -118,20 +120,6 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender, c
     message += " = " + std::to_string(sender.get_num()) + " | " + sender_address + " |) " + Signal_names[(int)signal_type] + " (" + op->get_other_name() + " = " + std::to_string(other.get_num()) + " | " + other_address + " |)\n";
     
     dump_message(message, signal_type);
-
-    // for (size_t i = 0; i < functions_in; ++i)
-    //     fprintf(log, "%s", TAB);
-    // fprintf(log, "%s<%s>", PREFIX, FONT);
-    // for (int i = 0; i < font_params_amount; ++i)
-    // {
-    //     if (FONT_PARAMS[i])
-    //         fprintf(log, "%s=%s ", FONT_PARAM_NAMES[i], FONT_PARAMS[i][(int)signal_type]);
-    // }
-    // fprintf(log, "\b>%s</%s>\n", message, FONT);
-
-    // fclose(log);
-
-    // ++doing;
 }
 
 void Int_dumper::decrease_functions_in(const char *func_name)
