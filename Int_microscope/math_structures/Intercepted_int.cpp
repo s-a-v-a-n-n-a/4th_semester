@@ -16,8 +16,11 @@ Intercepted_int::Intercepted_int(int arg_num)
 {
     id = max_id++;
 
-    if (parent) 
-        parent->signal(Int_signal::CONSTRUCT, *this);
+    Int_signal signal = Int_signal::CONSTRUCT;
+    report(false, signal);
+    // if (parent) 
+    //     parent->signal(signal, *this);
+    // memorize(*this, signal);
 }
 
 Intercepted_int::Intercepted_int(const Intercepted_int &other)
@@ -25,8 +28,12 @@ Intercepted_int::Intercepted_int(const Intercepted_int &other)
 {
     id = max_id++;
 
-    if (parent) 
-        parent->signal(Int_signal::COPY, *this);
+    Int_signal signal = Int_signal::COPY;
+    report(false, signal, &other); // не передаю other
+
+    // if (parent) 
+    //     parent->signal(signal, *this);
+    // memorize(*this, signal);
 }
 
 Intercepted_int::Intercepted_int(int arg_num, const char *arg_name)
@@ -41,18 +48,26 @@ Intercepted_int::Intercepted_int(int arg_num, const char *arg_name)
     // name[name_len] = '\0';
     set_name(arg_name);
 
-    if (parent) 
-        parent->signal(Int_signal::CONSTRUCT, *this);
+    Int_signal signal = Int_signal::CONSTRUCT;
+    report(false, signal);
+    
+    // if (parent) 
+    //     parent->signal(Int_signal::CONSTRUCT, *this);
+    // memorize(*this, signal);
 }
 
 
 Intercepted_int::~Intercepted_int()
 {        
-    if (parent) 
-        parent->signal(Int_signal::DESTRUCT, *this);
+    Int_signal signal = Int_signal::DESTRUCT;
+    report(false, signal);
+
+    // if (parent) 
+    //     parent->signal(Int_signal::DESTRUCT, *this);
 
     if (name)
         delete [] name;
+    clear_history();
 }
 
 void Intercepted_int::set_name(const char *arg_name) const
@@ -64,6 +79,40 @@ void Intercepted_int::set_name(const char *arg_name) const
     name[name_len] = '\0';
 }
 
+void Intercepted_int::memorize(const Intercepted_int &other, Int_signal op) const
+{
+    Event *event = new Event(other, op, other.get_history_length() - 1); 
+    local_history.push_back(event); 
+}
+
+void Intercepted_int::report(bool binary, Int_signal op, Intercepted_int const *other) const
+{
+    if (parent)
+    {
+        if (binary || other)
+        {
+            parent->signal(op, *this, *other);
+            memorize(*other, op);
+        }
+        else
+        {
+            parent->signal(op, *this);
+            memorize(*this, op);
+        }
+    }
+    
+}
+
+void Intercepted_int::clear_history()
+{
+    size_t history_size = local_history.size();
+
+    for (long long i = history_size - 1; i >= 0; --i)
+    {
+        delete local_history[i];
+    }
+}
+
 const Intercepted_int& Intercepted_int::operator=(const Intercepted_int& other) 
 { 
     assignment_cnt++;
@@ -71,8 +120,11 @@ const Intercepted_int& Intercepted_int::operator=(const Intercepted_int& other)
     
     num = other.get_num();
 
-    if (parent) 
-        parent->signal(Int_signal::ASSIGN, *this, other);
+    Int_signal signal = Int_signal::ASSIGN;
+    report(true, signal, &other);
+    
+    // if (parent) 
+    //     parent->signal(Int_signal::ASSIGN, *this, other);
     
     return *this; 
 } 
@@ -89,8 +141,10 @@ const Intercepted_int& Intercepted_int::operator+=(const Intercepted_int &other)
 { 
     num += other.get_num();
 
-    if (parent)
-        parent->signal(Int_signal::ASSIGN_ADD, *this, other);
+    Int_signal signal = Int_signal::ASSIGN_ADD;
+    report(true, signal, &other);
+    // if (parent)
+    //     parent->signal(Int_signal::ASSIGN_ADD, *this, other);
 
     return *this; 
 }
@@ -101,8 +155,11 @@ const Intercepted_int& Intercepted_int::operator-=(const Intercepted_int &other)
     
     num -= other.get_num();
 
-    if (parent)
-        parent->signal(Int_signal::ASSIGN_SUB, *this, other);
+    Int_signal signal = Int_signal::ASSIGN_SUB;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::ASSIGN_SUB, *this, other);
 
     return *this; 
 } 
@@ -111,8 +168,11 @@ const Intercepted_int& Intercepted_int::operator*=(const Intercepted_int &other)
 { 
     num *= other.get_num(); 
 
-    if (parent)
-        parent->signal(Int_signal::ASSIGN_MUL, *this, other);
+    Int_signal signal = Int_signal::ASSIGN_MUL;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::ASSIGN_MUL, *this, other);
 
     return *this;
 }
@@ -126,31 +186,43 @@ const Intercepted_int& Intercepted_int::operator/=(const Intercepted_int &other)
 
     num /= other.get_num(); 
 
-    if (parent)
-        parent->signal(Int_signal::ASSIGN_DIV, *this, other);
+    Int_signal signal = Int_signal::ASSIGN_DIV;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::ASSIGN_DIV, *this, other);
 
     return *this; 
 } 
 
 const Intercepted_int Intercepted_int::operator+(const Intercepted_int &other) const 
 { 
-    if (parent)
-        parent->signal(Int_signal::ADD, *this, other);
+    Int_signal signal = Int_signal::ADD;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::ADD, *this, other);
 
     return { num + other.get_num() }; 
 } 
 const Intercepted_int Intercepted_int::operator-(const Intercepted_int &other) const 
 { 
     // comparison_cnt++;
-    if (parent)
-        parent->signal(Int_signal::ASSIGN_SUB, *this, other);
+    Int_signal signal = Int_signal::SUB;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::SUB, *this, other);
 
     return { num - other.get_num() }; 
 }
 const Intercepted_int Intercepted_int::operator*(const Intercepted_int &other) const 
 { 
-    if (parent)
-        parent->signal(Int_signal::ASSIGN_MUL, *this, other);
+    Int_signal signal = Int_signal::MUL;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::MUL, *this, other);
     
     return { num * other.get_num() }; 
 }
@@ -162,8 +234,11 @@ const Intercepted_int Intercepted_int::operator/(const Intercepted_int &other) c
     //     return other;
     // }
 
-    if (parent)
-        parent->signal(Int_signal::ASSIGN_DIV, *this, other);
+    Int_signal signal = Int_signal::DIV;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::DIV, *this, other);
     
     return { num / other.get_num() };
 }
@@ -174,8 +249,11 @@ const Intercepted_int Intercepted_int::operator++(int)
     
     num++;
     
-    if (parent)
-        parent->signal(Int_signal::PREF_INC, *this, *this);
+    Int_signal signal = Int_signal::PREF_INC;
+    report(false, signal);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::PREF_INC, *this, *this);
 
     return old;
 }
@@ -184,8 +262,11 @@ const Intercepted_int& Intercepted_int::operator++()
 {
     ++num;
     
-    if (parent)
-        parent->signal(Int_signal::POST_INC, *this, *this);
+    Int_signal signal = Int_signal::POST_INC;
+    report(false, signal);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::POST_INC, *this, *this);
 
     return *this;
 }
@@ -196,8 +277,11 @@ const Intercepted_int Intercepted_int::operator--(int)
     
     num--;
     
-    if (parent)
-        parent->signal(Int_signal::POST_DEC, *this, *this);
+    Int_signal signal = Int_signal::POST_DEC;
+    report(false, signal);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::POST_DEC, *this, *this);
 
     return old;
 }
@@ -206,8 +290,11 @@ const Intercepted_int& Intercepted_int::operator--()
 {
     --num;
     
-    if (parent)
-        parent->signal(Int_signal::PREF_DEC, *this, *this);
+    Int_signal signal = Int_signal::PREF_DEC;
+    report(false, signal);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::PREF_DEC, *this, *this);
 
     return *this;
 }
@@ -217,8 +304,11 @@ bool Intercepted_int::operator==(const Intercepted_int &other) const
 { 
     comparison_cnt++;
     
-    if (parent)
-        parent->signal(Int_signal::EQ, *this, other);
+    Int_signal signal = Int_signal::EQ;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::EQ, *this, other);
     
     if (num == other.get_num()) 
         return true; 
@@ -229,8 +319,11 @@ bool Intercepted_int::operator!=(const Intercepted_int &other) const
 { 
     comparison_cnt++;
     
-    if (parent)
-        parent->signal(Int_signal::NOT_EQ, *this, other);
+    Int_signal signal = Int_signal::NOT_EQ;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::NOT_EQ, *this, other);
     
     if (num != other.get_num()) 
         return true; 
@@ -241,8 +334,11 @@ bool Intercepted_int::operator<(const Intercepted_int &other) const
 {
     comparison_cnt++;
     
-    if (parent)
-        parent->signal(Int_signal::LESS, *this, other);
+    Int_signal signal = Int_signal::LESS;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::LESS, *this, other);
     
     return num < other.get_num(); 
 }
@@ -251,8 +347,11 @@ bool Intercepted_int::operator>(const Intercepted_int &other) const
 {
     comparison_cnt++;
     
-    if (parent)
-        parent->signal(Int_signal::MORE, *this, other);
+    Int_signal signal = Int_signal::MORE;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::MORE, *this, other);
     
     if (num > other.get_num()) 
         return true; 
@@ -263,8 +362,11 @@ bool Intercepted_int::operator<=(const Intercepted_int &other) const
 {
     comparison_cnt++;
     
-    if (parent)
-        parent->signal(Int_signal::LESS_EQ, *this, other);
+    Int_signal signal = Int_signal::LESS_EQ;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::LESS_EQ, *this, other);
     
     if (num <= other.get_num()) 
         return true; 
@@ -275,10 +377,23 @@ bool Intercepted_int::operator>=(const Intercepted_int &other) const
 {
     comparison_cnt++;
     
-    if (parent)
-        parent->signal(Int_signal::MORE_EQ, *this, other);
+    Int_signal signal = Int_signal::MORE_EQ;
+    report(true, signal, &other);
+    
+    // if (parent)
+    //     parent->signal(Int_signal::MORE_EQ, *this, other);
 
     if (num >= other.get_num()) 
         return true; 
     return false; 
+}
+
+Event::Event(const Intercepted_int &arg_other, Int_signal arg_op, long long arg_other_prev_op_idx)
+: other(arg_other), op(arg_op), other_prev_op_idx(arg_other_prev_op_idx) 
+{
+    if (arg_other_prev_op_idx >= 0 && 
+    ((other.get_event(arg_other_prev_op_idx)->op == Int_signal::CONSTRUCT) || (other.get_event(arg_other_prev_op_idx)->op == Int_signal::ASSIGN)))
+    {
+        other_prev_op_idx = -1;
+    }
 }

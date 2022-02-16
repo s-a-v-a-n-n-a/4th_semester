@@ -56,6 +56,37 @@ Int_dumper *Int_dumper::get_dumper()
 	return dumper;
 }
 
+std::string Int_dumper::restore_history(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other)
+{
+    std::string result;
+    if (sender.get_id() == other.get_id())
+        return result;
+    
+    long long next_idx = other.get_history_length();
+    // Intercepted_int &next;
+
+    printf("Here\n");
+
+    result = sender.get_name();
+    result += " " + Signal_names[(int)signal_type] + " ";
+
+    Intercepted_int const *next = &(other.get_event(next_idx)->other);
+    while(next_idx != -1)
+    {
+        if (other.get_event(next_idx)->op != Int_signal::COPY)
+        {
+            result += other.get_event(next_idx)->other.get_name() + Signal_names[(int)other.get_event(next_idx)->op];
+        }
+
+        next = &(other.get_event(next_idx)->other);
+        next_idx = next->get_history_length();
+    }
+
+    printf("%s\n", result.c_str());
+
+    return result;
+}
+
 void Int_dumper::dump_message(std::string message, Int_signal signal_type)
 {
     dump->open_tag(FONT, font_params_amount, FONT_PARAM_NAMES[0], FONT_PARAMS[0][(int)signal_type]);
@@ -93,8 +124,9 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender)
     memset(sender_address, '\0', 256);
     sprintf(sender_address, "%p", (&sender));
 
-    message += Signal_names[(int)signal_type] + ": " + op->get_sender_name() + " = " + std::to_string(sender.get_num()) + " | " + sender_address + " |\n";
-    
+    message += Signal_names[(int)signal_type] + ": " + op->get_sender_name() + " = " + std::to_string(sender.get_num()) + " | " + sender_address + " | " + "\n";
+    restore_history(signal_type, sender, sender);
+
     dump_message(message, signal_type);
 }
 
@@ -119,6 +151,8 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender, c
     message += op->get_sender_name();
     message += " = " + std::to_string(sender.get_num()) + " | " + sender_address + " |) " + Signal_names[(int)signal_type] + " (" + op->get_other_name() + " = " + std::to_string(other.get_num()) + " | " + other_address + " |)\n";
     
+    restore_history(signal_type, sender, sender);
+
     dump_message(message, signal_type);
 }
 

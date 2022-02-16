@@ -65,8 +65,11 @@ public:
     void decrease_functions_in(const char *func_name);
     void increase_functions_in(const char *func_name);
 
+    std::string restore_history(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other);
+
     void dump_message(std::string message, Int_signal signal_type);
     void dump_text(std::string text);
+
     void signal(Int_signal signal_type, const Intercepted_int &sender) override;
     void signal(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other) override;
 };
