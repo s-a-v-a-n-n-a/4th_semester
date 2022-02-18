@@ -11,7 +11,7 @@ COMPILATOR  = clang++ -std=c++17# g++ -std=c++17
 INC     	= 
 NO_OPT		= -fno-elide-constructors
 SFML    	= -lsfml-graphics -lsfml-window -lsfml-system
-OPT     	= -O3
+OPT     	= -O1
 DEF     	= -DNDEBUG
 CFLAGS  	= $(OPT) $(DEF) $(ASAN) -g $(INC) $(NO_OPT)
 DLL			= -ldl -lm -lpthread -pthread

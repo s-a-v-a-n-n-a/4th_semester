@@ -14,7 +14,8 @@ const std::string Signal_names[] =
     "*=",
     "/",
     "/=",
-    "=",
+    " COPY= ",
+    " MOVE= ",
     "<<< C O P Y >>>",
     ">",
     ">=",
@@ -60,7 +61,10 @@ std::string Int_dumper::restore_history(Int_signal signal_type, const Intercepte
 {
     std::string result;
     if (sender.get_id() == other.get_id())
+    {
+        printf("Return(\n");
         return result;
+    }
     
     long long next_idx = other.get_history_length();
     // Intercepted_int &next;
@@ -75,6 +79,7 @@ std::string Int_dumper::restore_history(Int_signal signal_type, const Intercepte
     {
         if (other.get_event(next_idx)->op != Int_signal::COPY)
         {
+            printf("%lld: %s\n", next_idx, other.get_event(next_idx)->other.get_name());
             result += other.get_event(next_idx)->other.get_name() + Signal_names[(int)other.get_event(next_idx)->op];
         }
 
@@ -99,6 +104,51 @@ void Int_dumper::dump_text(std::string text)
     dump->dump(text);
 }
 
+void Int_dumper::reset_required()
+{
+    required.clear();
+}
+
+void Int_dumper::send_message(bool binary, Operation *op, bool ending)
+{
+    std::string message = "";
+    if (!ending)
+        message += '\n';
+    
+    for (size_t i = 0; i < functions_in; ++i)
+        message += TAB;
+    
+    char sender_address[256] = "";
+    memset(sender_address, '\0', 256);
+    sprintf(sender_address, "%p", (op->get_sender_address()));
+
+    if (binary) 
+    {
+        char other_address[256] = "";
+        memset(other_address, '\0', 256);
+        sprintf(other_address, "%p", (op->get_other_address()));
+        
+        message += "[(";
+        message += op->get_sender_name();
+        message += " = " + std::to_string(op->get_sender_value()) + " | " + sender_address + ") ";
+        
+        message += Signal_names[(int)op->get_signal()];
+        
+        message += " (";
+        message += op->get_other_name();
+        message += " = " + std::to_string(op->get_other_value()) + " | " + other_address + ")]"; // + "\n"
+    }
+    else
+    {
+        message += Signal_names[(int)op->get_signal()] + ": ";
+        message += "[";
+        message += op->get_sender_name();
+        message += " = " + std::to_string(op->get_sender_value()) + " | " + sender_address + "]"; //  + "\n"
+    }
+
+    dump_message(message, op->get_signal());
+}
+
 void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender)
 {
     Operation *op = new Operation(signal_type, sender, sender);
@@ -116,18 +166,19 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender)
      * Видимо, их будем нумеровать
     */
 
-    std::string message;
-    for (size_t i = 0; i < functions_in; ++i)
-        message += TAB;
-
-    char sender_address[256] = "";
-    memset(sender_address, '\0', 256);
-    sprintf(sender_address, "%p", (&sender));
-
-    message += Signal_names[(int)signal_type] + ": " + op->get_sender_name() + " = " + std::to_string(sender.get_num()) + " | " + sender_address + " | " + "\n";
-    restore_history(signal_type, sender, sender);
-
-    dump_message(message, signal_type);
+    if (required.size() && required[required.size() - 1] == signal_type)
+    {
+        send_message(false, op);
+        
+        std::string message = " FROM ";
+        dump_text(message);
+        
+        bool required_binary = history[history.size() - 2]->get_other_name() ? true : false;
+        send_message(required_binary, history[history.size() - 2], true);
+        reset_required();
+    }
+    else
+        send_message(false, op);
 }
 
 void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other)
@@ -135,38 +186,39 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender, c
     Operation *op = new Operation(signal_type, sender, other);
     history.push_back(op);
     
-    std::string message;
-    for (size_t i = 0; i < functions_in; ++i)
-        message += TAB;
-    
-    char sender_address[256] = "";
-    memset(sender_address, '\0', 256);
-    sprintf(sender_address, "%p", (&sender));
+    if (signal_type == Int_signal::ADD || signal_type == Int_signal::SUB || signal_type == Int_signal::MUL || signal_type == Int_signal::DIV) // && signal_type != Int_signal::ASSIGN_COPY && signal_type != Int_signal::ASSIGN_MOVE)
+    {
+        required.push_back(Int_signal::CONSTRUCT); // Почему только CONSTRUCT
 
-    char other_address[256] = "";
-    memset(other_address, '\0', 256);
-    sprintf(other_address, "%p", (&other));
-    
-    message += "(";
-    message += op->get_sender_name();
-    message += " = " + std::to_string(sender.get_num()) + " | " + sender_address + " |) " + Signal_names[(int)signal_type] + " (" + op->get_other_name() + " = " + std::to_string(other.get_num()) + " | " + other_address + " |)\n";
-    
-    restore_history(signal_type, sender, sender);
-
-    dump_message(message, signal_type);
+        // Потому что
+    }
+    else if (required.size() && required[required.size() - 1] == signal_type)
+    {
+        send_message(true, op);
+        
+        std::string message = " FROM ";
+        dump_text(message);
+        
+        bool required_binary = history[history.size() - 2]->get_other_name() ? true : false;
+        send_message(required_binary, history[history.size() - 2], true);
+        reset_required();
+    }
+    else
+    {
+        send_message(true, op);
+    }
 }
 
 void Int_dumper::decrease_functions_in(const char *func_name)
 {
-   --functions_in;
+    --functions_in;
 
-   std::string message;
+    std::string message;
+    message += '\n';
     for (size_t i = 0; i < functions_in; ++i)
         message += TAB;
     message += ARROW_PARTS[1];
-    // message += "Step out of function";
     message += func_name;
-    message += '\n';
 
     dump_text(message);
 }
@@ -174,16 +226,14 @@ void Int_dumper::decrease_functions_in(const char *func_name)
 void Int_dumper::increase_functions_in(const char *func_name)
 {
     std::string message;
+    message += '\n';
     for (size_t i = 0; i < functions_in; ++i)
         message += TAB;
     message += ARROW_PARTS[0];
-    // message += "Step in function\n";
     dump_text(message);
 
     //"bgcolor"
-    // message = "Step in function";
     message = func_name;
-    message += '\n';
     dump->open_tag("span", 0);
     dump->dump(message);
     dump->close_tag("span");

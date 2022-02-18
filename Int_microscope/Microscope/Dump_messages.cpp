@@ -21,7 +21,8 @@ const char *OP_COLORS[] =
     "000000",
     "000000",
     "000000",
-    "000000",
+    "DA3131", // COPY ASSIGNMENT
+    "7BE76D", // MOVE ASSIGNMENT
     "DA3131", // COPY
     "000000",
     "000000",
@@ -30,8 +31,8 @@ const char *OP_COLORS[] =
     "000000",
     "000000",
     "7BE76D", // MOVE
-    "000000",
-    "000000"
+    "A500AF",
+    "0039AF"
 };
 
 const char *FONT_PARAM_NAMES[] = 

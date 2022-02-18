@@ -4,8 +4,10 @@ size_t Operation::max_tmp_id = 0;
 
 Operation::Operation(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other)
 : op(signal_type), 
+  sender_name(nullptr),
   sender_id(sender.get_id()), 
   sender_value(sender.get_num()), 
+  other_name(nullptr),
   other_id(other.get_id()), 
   other_value(other.get_num())
 {

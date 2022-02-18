@@ -9,14 +9,14 @@
 
 Intercepted_int func(Intercepted_int var)
 {
-    Spy spy("func");
+    Spy spy(__FUNCTION__); // RAII
     
     return var;
 }
 
 Intercepted_int foo(Intercepted_int var)
 {
-    Spy spy("foo");
+    Spy spy(__FUNCTION__); // RAII
     
     return func(var);
 }
@@ -25,9 +25,11 @@ void test0()
 {
     VAR(a, 20);
     VAR(b, 22);
-
-    VAR(c, 0)
+    VAR(c, 0);
+    // VAR(d, 4);
+    
     c = func(a) + foo(b);
+    // c = (a + b) * d;
 }
 
 #endif // TEST1_HPP

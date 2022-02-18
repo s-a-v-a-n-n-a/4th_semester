@@ -120,7 +120,7 @@ const Intercepted_int& Intercepted_int::operator=(const Intercepted_int& other)
     
     num = other.get_num();
 
-    Int_signal signal = Int_signal::ASSIGN;
+    Int_signal signal = Int_signal::ASSIGN_COPY;
     report(true, signal, &other);
     
     // if (parent) 
@@ -392,7 +392,7 @@ Event::Event(const Intercepted_int &arg_other, Int_signal arg_op, long long arg_
 : other(arg_other), op(arg_op), other_prev_op_idx(arg_other_prev_op_idx) 
 {
     if (arg_other_prev_op_idx >= 0 && 
-    ((other.get_event(arg_other_prev_op_idx)->op == Int_signal::CONSTRUCT) || (other.get_event(arg_other_prev_op_idx)->op == Int_signal::ASSIGN)))
+    ((other.get_event(arg_other_prev_op_idx)->op == Int_signal::CONSTRUCT) || (other.get_event(arg_other_prev_op_idx)->op == Int_signal::ASSIGN_COPY)))
     {
         other_prev_op_idx = -1;
     }
