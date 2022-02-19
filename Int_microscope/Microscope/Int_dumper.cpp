@@ -38,6 +38,8 @@ Int_dumper::Int_dumper()
     dump->dump("<!DOCTYPE html><head><link rel=\"stylesheet\" href=\"style.css\"></head>");
     dump->open_tag(PREFIX, 0);
 
+    dot = new Dot_dump(DUMP_FILE);
+
     // dumper = this;
 }
 
@@ -57,19 +59,25 @@ Int_dumper *Int_dumper::get_dumper()
 	return dumper;
 }
 
+void Int_dumper::visual_dump(Int_signal signal_type, Operation *op)
+{
+    // std::string box_name = "";
+    // std::string label = "";
+    // std::string arrow_type = "";
+    
+    // dot->create_box(box_name.c_str(), label.c_str(), arrow_type);
+}
+
 std::string Int_dumper::restore_history(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other)
 {
     std::string result;
     if (sender.get_id() == other.get_id())
     {
-        printf("Return(\n");
         return result;
     }
     
     long long next_idx = other.get_history_length();
     // Intercepted_int &next;
-
-    printf("Here\n");
 
     result = sender.get_name();
     result += " " + Signal_names[(int)signal_type] + " ";
@@ -148,6 +156,10 @@ void Int_dumper::send_message(bool binary, Operation *op, bool ending)
 
     dump_message(message, op->get_signal());
 }
+
+/*
+void Int_dumper::create_
+*/
 
 void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender)
 {

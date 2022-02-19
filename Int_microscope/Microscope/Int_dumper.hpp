@@ -9,6 +9,7 @@
 #include "../math_structures/Int_signal_receiver.hpp"
 #include "Operations_history.hpp"
 #include "Dump_messages.hpp"
+#include "Dot_dump.hpp"
 
 extern const std::string Signal_names[];
 
@@ -48,6 +49,7 @@ private:
 
     std::vector<Operation*> history;
     HTML_dump *dump;
+    Dot_dump *dot;
     
     long long functions_in;
     size_t max_tmp_vars_amount;
@@ -69,6 +71,8 @@ public:
 
     std::string restore_history(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other);
 
+    void visual_dump(Int_signal signal_type, Operation *op);
+    
     void send_message(bool binary, Operation *op, bool no_end = false);
     
     void dump_message(std::string message, Int_signal signal_type);
