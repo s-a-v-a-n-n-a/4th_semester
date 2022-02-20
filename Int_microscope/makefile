@@ -25,6 +25,7 @@ FILES   	= $(OBJ)main.o \
 			$(OBJ)Microscope/Dump_messages.o \
 			$(OBJ)Microscope/Operations_history.o \
 			$(OBJ)Microscope/Int_dumper.o \
+			$(OBJ)Microscope/Dot_dump.o \
 
           # остальные файлы по правилу a.cpp -> $(OBJ)a.o (a может содержать путь)
  

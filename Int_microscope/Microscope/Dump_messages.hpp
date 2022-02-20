@@ -19,7 +19,7 @@ const char FONT[] = "font";
 extern const char *FONT_PARAM_NAMES[];
 extern const char **FONT_PARAMS[];
 
-const char TMP_VAR[] = "tmp #";
+const char TMP_VAR[] = "tmp No";
 
 extern const char *MODES[];
 enum class MODE_NAME

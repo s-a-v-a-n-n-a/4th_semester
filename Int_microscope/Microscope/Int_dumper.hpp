@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <vector>
+#include <cassert>
 
 #include "../math_structures/Int_signal_receiver.hpp"
 #include "Operations_history.hpp"
@@ -55,6 +56,7 @@ private:
     size_t max_tmp_vars_amount;
 
     std::vector<Int_signal> required;
+    std::vector<size_t> last_change_op; // индекс - это id переменной, значение - индекс в истории
 
 protected:
 	Int_dumper();

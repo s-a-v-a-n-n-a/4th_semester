@@ -1,26 +1,26 @@
 <!DOCTYPE html><head><link rel="stylesheet" href="style.css"></head><pre><font color="A500AF">
-CTOR: [a = 20 | 0x7ffdeb348e40]</font><font color="A500AF">
-CTOR: [b = 22 | 0x7ffdeb348df0]</font><font color="A500AF">
-CTOR: [c = 0 | 0x7ffdeb348da0]</font><font color="DA3131">
-[(tmp #0 = 20 | 0x7ffdeb348cb0) <<< C O P Y >>> (a = 20 | 0x7ffdeb348e40)]</font>
+CTOR: [a = 20 | 0x7ffd94cbac50]</font><font color="A500AF">
+CTOR: [b = 22 | 0x7ffd94cbac00]</font><font color="A500AF">
+CTOR: [c = 0 | 0x7ffd94cbabb0]</font><font color="DA3131">
+[(tmp No0 = 20 | 0x7ffd94cbaac0) <<< C O P Y >>> (a = 20 | 0x7ffd94cbac50)]</font>
 ---><span>func</span><font color="DA3131">
-    [(tmp #1 = 20 | 0x7ffdeb348d00) <<< C O P Y >>> (tmp #0 = 20 | 0x7ffdeb348cb0)]</font>
+    [(tmp No1 = 20 | 0x7ffd94cbab10) <<< C O P Y >>> (tmp No0 = 20 | 0x7ffd94cbaac0)]</font>
 <---func<font color="DA3131">
-[(tmp #2 = 22 | 0x7ffdeb348c10) <<< C O P Y >>> (b = 22 | 0x7ffdeb348df0)]</font>
+[(tmp No2 = 22 | 0x7ffd94cbaa20) <<< C O P Y >>> (b = 22 | 0x7ffd94cbac00)]</font>
 ---><span>foo</span><font color="DA3131">
-    [(tmp #3 = 22 | 0x7ffdeb348ba8) <<< C O P Y >>> (tmp #2 = 22 | 0x7ffdeb348c10)]</font>
+    [(tmp No3 = 22 | 0x7ffd94cba9b8) <<< C O P Y >>> (tmp No2 = 22 | 0x7ffd94cbaa20)]</font>
     ---><span>func</span><font color="DA3131">
-        [(tmp #4 = 22 | 0x7ffdeb348c60) <<< C O P Y >>> (tmp #3 = 22 | 0x7ffdeb348ba8)]</font>
+        [(tmp No4 = 22 | 0x7ffd94cbaa70) <<< C O P Y >>> (tmp No3 = 22 | 0x7ffd94cba9b8)]</font>
     <---func<font color="0039AF">
-    DTOR: [tmp #3 = 22 | 0x7ffdeb348ba8]</font>
+    DTOR: [tmp No3 = 22 | 0x7ffd94cba9b8]</font>
 <---foo<font color="A500AF">
-CTOR: [tmp #5 = 42 | 0x7ffdeb348d50]</font> FROM <font color="000000">[(tmp #1 = 20 | 0x7ffdeb348d00) + (tmp #4 = 22 | 0x7ffdeb348c60)]</font><font color="DA3131">
-[(c = 42 | 0x7ffdeb348da0)  COPY=  (tmp #5 = 42 | 0x7ffdeb348d50)]</font><font color="0039AF">
-DTOR: [tmp #5 = 42 | 0x7ffdeb348d50]</font><font color="0039AF">
-DTOR: [tmp #4 = 22 | 0x7ffdeb348c60]</font><font color="0039AF">
-DTOR: [tmp #2 = 22 | 0x7ffdeb348c10]</font><font color="0039AF">
-DTOR: [tmp #1 = 20 | 0x7ffdeb348d00]</font><font color="0039AF">
-DTOR: [tmp #0 = 20 | 0x7ffdeb348cb0]</font><font color="0039AF">
-DTOR: [c = 42 | 0x7ffdeb348da0]</font><font color="0039AF">
-DTOR: [b = 22 | 0x7ffdeb348df0]</font><font color="0039AF">
-DTOR: [a = 20 | 0x7ffdeb348e40]</font>
+CTOR: [tmp No5 = 42 | 0x7ffd94cbab60]</font> FROM <font color="000000">[(tmp No1 = 20 | 0x7ffd94cbab10) + (tmp No4 = 22 | 0x7ffd94cbaa70)]</font><font color="DA3131">
+[(c = 42 | 0x7ffd94cbabb0)  COPY=  (tmp No5 = 42 | 0x7ffd94cbab60)]</font><font color="0039AF">
+DTOR: [tmp No5 = 42 | 0x7ffd94cbab60]</font><font color="0039AF">
+DTOR: [tmp No4 = 22 | 0x7ffd94cbaa70]</font><font color="0039AF">
+DTOR: [tmp No2 = 22 | 0x7ffd94cbaa20]</font><font color="0039AF">
+DTOR: [tmp No1 = 20 | 0x7ffd94cbab10]</font><font color="0039AF">
+DTOR: [tmp No0 = 20 | 0x7ffd94cbaac0]</font><font color="0039AF">
+DTOR: [c = 42 | 0x7ffd94cbabb0]</font><font color="0039AF">
+DTOR: [b = 22 | 0x7ffd94cbac00]</font><font color="0039AF">
+DTOR: [a = 20 | 0x7ffd94cbac50]</font>

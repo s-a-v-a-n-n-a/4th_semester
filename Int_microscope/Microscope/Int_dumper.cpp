@@ -28,6 +28,34 @@ const std::string Signal_names[] =
     "DTOR"
 };
 
+const std::string Signal_official_names[] = 
+{
+    "plus",
+    "plus_ass",
+    "prefix_increment",
+    "postfix_increment",
+    "sub",
+    "sub_ass",
+    "prefix_decrement",
+    "postfix_decrement",
+    "mul",
+    "mul_ass",
+    "div",
+    "div_ass",
+    "COPY_ass",
+    "MOVE_ass",
+    "COPY",
+    "more",
+    "more_eq",
+    "less",
+    "less_eq",
+    "eq",
+    "not_eq",
+    "MOVE",
+    "CTOR",
+    "DTOR"
+};
+
 Int_dumper *Int_dumper::dumper = nullptr;
 Dumper_destroyer Int_dumper::destroyer;
 
@@ -38,13 +66,14 @@ Int_dumper::Int_dumper()
     dump->dump("<!DOCTYPE html><head><link rel=\"stylesheet\" href=\"style.css\"></head>");
     dump->open_tag(PREFIX, 0);
 
-    dot = new Dot_dump(DUMP_FILE);
+    dot = new Dot_dump("Dot_dump.txt");
 
     // dumper = this;
 }
 
 Int_dumper::~Int_dumper() 
 {
+    delete dot;
     delete dump;
 }
 
@@ -59,13 +88,107 @@ Int_dumper *Int_dumper::get_dumper()
 	return dumper;
 }
 
+std::string create_name(Operation *op)
+{
+    std::string result = "";
+    
+    if (op->get_signal() == Int_signal::CONSTRUCT || op->get_signal() == Int_signal::COPY || op->get_signal() == Int_signal::MOVE || op->get_signal() == Int_signal::DESTRUCT)
+    {
+        result = "struct_" + std::to_string(op->get_sender_id()) + "_" + Signal_official_names[(int)op->get_signal()];
+    }
+    else
+    {
+        result = "struct_" + std::to_string(op->get_other_id()) + "_" + std::to_string(op->get_other_id()) + "_" + Signal_official_names[(int)op->get_signal()];
+    }
+
+    return result;
+}
+
 void Int_dumper::visual_dump(Int_signal signal_type, Operation *op)
 {
-    // std::string box_name = "";
     // std::string label = "";
-    // std::string arrow_type = "";
     
     // dot->create_box(box_name.c_str(), label.c_str(), arrow_type);
+    long long last_op = history.size() - 1;
+    assert(last_op >= 0);
+    
+    std::string struct_name = "";
+    std::string box_name = "";
+    std::string label = "";
+    if (history[last_op]->get_signal() == Int_signal::CONSTRUCT || history[last_op]->get_signal() == Int_signal::COPY || history[last_op]->get_signal() == Int_signal::MOVE || history[last_op]->get_signal() == Int_signal::DESTRUCT)
+    {
+        box_name = "record";
+        struct_name = create_name(history[last_op]);// "struct_" + std::to_string(history[last_op]->get_sender_id()) + "_" + Signal_official_names[(int)history[last_op]->get_signal()];
+        
+        char sender_address[256] = "";
+        memset(sender_address, 0, 256);
+        sprintf(sender_address, "%p", history[last_op]->get_sender_address());
+        label = "{" + Signal_official_names[(int)history[last_op]->get_signal()] + "|{" + std::to_string(history[last_op]->get_sender_value()) + "|" + history[last_op]->get_sender_name() + "}|" + sender_address + "}";
+    
+        if (history[last_op]->get_signal() == Int_signal::COPY)
+            dot->create_box(struct_name.c_str(), label.c_str(), "\"#da3131\"", box_name.c_str());
+        else
+            dot->create_box(struct_name.c_str(), label.c_str(), "\"#ffffff\"", box_name.c_str());
+
+        if (history[last_op]->get_signal() != Int_signal::DESTRUCT)
+        {
+            std::string to = "struct_" + std::to_string(history[last_op]->get_sender_id()) + "_" + Signal_official_names[(int)Int_signal::DESTRUCT]; 
+            dot->create_arrow(struct_name.c_str(), to.c_str(), "dashed");
+        }
+
+        if (last_op > 0)
+        {
+            std::string sender = create_name(history[last_op - 1]);
+            dot->create_arrow(sender.c_str(), struct_name.c_str(), "solid");
+        }
+        
+        size_t id = history[last_op]->get_sender_id();
+        if (history[last_op]->get_signal() != Int_signal::DESTRUCT && last_change_op.size() > id)
+        {
+            std::string sender = create_name(history[last_change_op[id]]);
+            dot->create_arrow(sender.c_str(), struct_name.c_str(), "solid");
+        }
+    }
+    else
+    {
+        box_name = "hexagon";
+        struct_name = create_name(history[last_op]);// "struct_" + std::to_string(history[last_op]->get_sender_id()) + "_" + std::to_string(history[last_op]->get_other_name()) + "_" + Signal_official_names[(int)history[last_op]->get_signal()];
+
+        label = Signal_official_names[(int)history[last_op]->get_signal()];
+
+        if (history[last_op]->get_signal() == Int_signal::ASSIGN_COPY)
+            dot->create_box(struct_name.c_str(), label.c_str(), "\"#da3131\"", box_name.c_str());
+        else
+            dot->create_box(struct_name.c_str(), label.c_str(), "\"#ffffff\"", box_name.c_str());
+        
+        std::string sender = create_name(history[last_change_op[history[last_op]->get_sender_id()]]);
+        std::string other = create_name(history[last_change_op[history[last_op]->get_other_id()]]);
+        dot->create_arrow(sender.c_str(), struct_name.c_str(), "solid");
+        dot->create_arrow(other.c_str(), struct_name.c_str(), "solid");
+    }
+
+    size_t id = history[last_op]->get_sender_id();
+    
+    switch(history[last_op]->get_signal())
+    {
+        case Int_signal::ASSIGN_ADD:
+        case Int_signal::ASSIGN_SUB:
+        case Int_signal::ASSIGN_MUL:
+        case Int_signal::ASSIGN_DIV:
+        case Int_signal::ASSIGN_COPY:
+        case Int_signal::ASSIGN_MOVE:
+        case Int_signal::COPY:
+        case Int_signal::MOVE:
+        case Int_signal::CONSTRUCT:
+            if (last_change_op.size() <= id)
+                last_change_op.push_back(last_op);
+            else
+                last_change_op[id] = last_op;
+            break;
+        
+        default:
+            break;
+    }
 }
 
 std::string Int_dumper::restore_history(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other)
@@ -166,6 +289,8 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender)
     Operation *op = new Operation(signal_type, sender, sender);
     history.push_back(op);
 
+    visual_dump(signal_type, op);
+
     // create_box(op);
     /*  
      * Тут если конструктор - проводим стрелочку в ещё не существующую struct_#id_dtor
@@ -197,6 +322,8 @@ void Int_dumper::signal(Int_signal signal_type, const Intercepted_int &sender, c
 {
     Operation *op = new Operation(signal_type, sender, other);
     history.push_back(op);
+    
+    visual_dump(signal_type, op);
     
     if (signal_type == Int_signal::ADD || signal_type == Int_signal::SUB || signal_type == Int_signal::MUL || signal_type == Int_signal::DIV) // && signal_type != Int_signal::ASSIGN_COPY && signal_type != Int_signal::ASSIGN_MOVE)
     {
