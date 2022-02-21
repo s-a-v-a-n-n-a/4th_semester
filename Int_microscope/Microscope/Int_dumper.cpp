@@ -125,21 +125,23 @@ void Int_dumper::visual_dump(Int_signal signal_type, Operation *op)
         sprintf(sender_address, "%p", history[last_op]->get_sender_address());
         label = "{" + Signal_official_names[(int)history[last_op]->get_signal()] + "|{" + std::to_string(history[last_op]->get_sender_value()) + "|" + history[last_op]->get_sender_name() + "}|" + sender_address + "}";
     
-        if (history[last_op]->get_signal() == Int_signal::COPY)
-            dot->create_box(struct_name.c_str(), label.c_str(), "\"#da3131\"", box_name.c_str());
-        else
-            dot->create_box(struct_name.c_str(), label.c_str(), "\"#ffffff\"", box_name.c_str());
+        dot->create_box(struct_name.c_str(), label.c_str(), BOX_COLORS[(int)history[last_op]->get_signal()], box_name.c_str());
 
+        if (required.size() && required[required.size() - 1] == signal_type && last_op > 0)
+        {
+            std::string sender = create_name(history[last_op - 1]);
+            dot->create_arrow(sender.c_str(), struct_name.c_str(), "solid");
+        }
+        else if (last_op > 0)
+        {
+            std::string sender = create_name(history[last_op - 1]);
+            dot->create_arrow(sender.c_str(), struct_name.c_str(), "invis");
+        }
+        
         if (history[last_op]->get_signal() != Int_signal::DESTRUCT)
         {
             std::string to = "struct_" + std::to_string(history[last_op]->get_sender_id()) + "_" + Signal_official_names[(int)Int_signal::DESTRUCT]; 
             dot->create_arrow(struct_name.c_str(), to.c_str(), "dashed");
-        }
-
-        if (last_op > 0)
-        {
-            std::string sender = create_name(history[last_op - 1]);
-            dot->create_arrow(sender.c_str(), struct_name.c_str(), "solid");
         }
         
         size_t id = history[last_op]->get_sender_id();
@@ -156,16 +158,19 @@ void Int_dumper::visual_dump(Int_signal signal_type, Operation *op)
 
         label = Signal_official_names[(int)history[last_op]->get_signal()];
 
-        if (history[last_op]->get_signal() == Int_signal::ASSIGN_COPY)
-            dot->create_box(struct_name.c_str(), label.c_str(), "\"#da3131\"", box_name.c_str());
-        else
-            dot->create_box(struct_name.c_str(), label.c_str(), "\"#ffffff\"", box_name.c_str());
+        dot->create_box(struct_name.c_str(), label.c_str(), BOX_COLORS[(int)history[last_op]->get_signal()], box_name.c_str());
         
         std::string sender = create_name(history[last_change_op[history[last_op]->get_sender_id()]]);
         std::string other = create_name(history[last_change_op[history[last_op]->get_other_id()]]);
         dot->create_arrow(sender.c_str(), struct_name.c_str(), "solid");
         dot->create_arrow(other.c_str(), struct_name.c_str(), "solid");
     }
+
+    // if (required.size() && required[required.size() - 1] == signal_type && last_op > 0)
+    // {
+    //     std::string sender = create_name(history[last_op - 1]);
+    //     dot->create_arrow(sender.c_str(), struct_name.c_str(), "invis");
+    // }
 
     size_t id = history[last_op]->get_sender_id();
     

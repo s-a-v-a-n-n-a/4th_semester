@@ -38,6 +38,7 @@ public:
     Intercepted_int();
     Intercepted_int(int arg_num);
     Intercepted_int(const Intercepted_int &other);
+    Intercepted_int(Intercepted_int &&other);
     Intercepted_int(int arg_num, const char *arg_name);
 
     ~Intercepted_int();
@@ -61,7 +62,8 @@ public:
 
     void clear_history();
     
-    const Intercepted_int& operator=(const Intercepted_int& other);
+    const Intercepted_int& operator=(const Intercepted_int &other);
+    const Intercepted_int& operator=(Intercepted_int &&other);
     const Intercepted_int& operator=(const int &other);
 
     const Intercepted_int& operator+=(const Intercepted_int &other);

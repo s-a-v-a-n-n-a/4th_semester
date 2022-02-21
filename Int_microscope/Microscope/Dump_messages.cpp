@@ -35,6 +35,34 @@ const char *OP_COLORS[] =
     "0039AF"
 };
 
+const char *BOX_COLORS[] =
+{
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#da3131\"", // COPY ASSIGNMENT
+    "\"#7be76d\"", // MOVE ASSIGNMENT
+    "\"#da3131\"", // COPY
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#ffffff\"",
+    "\"#7be76d\"", // MOVE
+    "\"#ffffff\"",
+    "\"#ffffff\""
+};
+
 const char *FONT_PARAM_NAMES[] = 
 {
     "color",

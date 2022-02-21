@@ -7,6 +7,7 @@
 
 extern const char *ARROW_PARTS[];
 extern const char *OP_COLORS[];
+extern const char *BOX_COLORS[];
 
 const char TAB[] = "    ";
 

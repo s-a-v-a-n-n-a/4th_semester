@@ -36,6 +36,23 @@ Intercepted_int::Intercepted_int(const Intercepted_int &other)
     // memorize(*this, signal);
 }
 
+Intercepted_int::Intercepted_int(Intercepted_int &&other)
+: num(other.get_num()), assignment_cnt(1), comparison_cnt(0), address(this), name(nullptr), parent(other.parent) 
+{
+    id = max_id++;
+
+    Int_signal signal = Int_signal::MOVE;
+    report(false, signal, &other); // не передаю other
+
+    // Опустошаем объект, из которого перемещали 
+    other.num = 0;
+    other.address = nullptr;
+    other.id = 0;
+    other.parent = nullptr;
+    delete [] name;
+    name = nullptr;
+}
+
 Intercepted_int::Intercepted_int(int arg_num, const char *arg_name)
 : num(arg_num), assignment_cnt(1), comparison_cnt(0), address(this), name(nullptr), parent(Int_dumper::get_dumper())
 {
@@ -128,6 +145,30 @@ const Intercepted_int& Intercepted_int::operator=(const Intercepted_int& other)
     
     return *this; 
 } 
+
+const Intercepted_int& Intercepted_int::operator=(Intercepted_int &&other)
+{
+    assignment_cnt++;
+    comparison_cnt += other.get_comparison_cnt();
+    
+    num = other.get_num();
+    delete [] name;
+    set_name(other.name);
+
+    Int_signal signal = Int_signal::ASSIGN_MOVE;
+    report(true, signal, &other);
+
+    // Опустошаем объект, из которого перемещали 
+    other.num = 0;
+    other.address = nullptr;
+    other.id = 0;
+    other.parent = nullptr;
+    delete [] name;
+    name = nullptr;
+    
+    return *this; 
+}
+
 
 const Intercepted_int& Intercepted_int::operator=(const int& other) 
 { 
