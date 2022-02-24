@@ -24,7 +24,7 @@ OS: Linux.
   Then type <pre><code>make run</code></pre>. Enjoy the picture!
 </li>
 <li>
-  If you want to observe text dump, just open <pre><code>Int_dump.html</code></pre>.
+  If you want to observe text dump, just open <pre>Int_dump.html</pre>.
 </li>
 
 **TO BE CONTINUED**
