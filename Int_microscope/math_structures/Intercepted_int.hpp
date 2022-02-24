@@ -3,18 +3,17 @@
 
 #include <cstdio>
 #include <cstring>
+#include <string>
 #include <vector>
 
-// #define MEMORISE(op); \
-//         Event *event = new Event(other, op); \
-//         local_history.push_back(event); \
+#define MOVE_ON
 
 class Int_signal_receiver;
 enum class Int_signal;
 
 class Intercepted_int;
 
-struct Event;
+// struct Event;
 
 class Intercepted_int
 {
@@ -32,13 +31,19 @@ private:
     static size_t max_id;
     size_t id;
 
-    mutable std::vector<Event*> local_history;
+    // mutable std::vector<Event*> local_history;
+    
+    std::string history;
+    Int_signal last_op;
+    size_t change_with;
 
 public:
     Intercepted_int();
     Intercepted_int(int arg_num);
     Intercepted_int(const Intercepted_int &other);
+    #ifdef MOVE_ON
     Intercepted_int(Intercepted_int &&other);
+    #endif
     Intercepted_int(int arg_num, const char *arg_name);
 
     ~Intercepted_int();
@@ -49,21 +54,30 @@ public:
     size_t get_assignment_cnt() const { return assignment_cnt; }
     size_t get_comparison_cnt() const { return comparison_cnt; }
 
-    size_t get_history_length() const { return local_history.size(); }
-    Event *get_event(const size_t idx) const { return local_history[idx]; }
-    std::vector<Event*> &get_history() { return local_history; }
+    Int_signal get_last_change() const { return last_op; }
+    size_t get_influencer_id() const { return change_with; }
+
+    // size_t get_history_length() const { return local_history.size(); }
+    // Event *get_event(const size_t idx) const { return local_history[idx]; }
+    // std::vector<Event*> &get_local_history() { return local_history; }
 
     void set_id(size_t arg_id) { id = arg_id; }
     void set_name(const char *arg_name) const;
     void set_parent(Int_signal_receiver *arg_contact) { parent = arg_contact; }
 
-    void memorize(const Intercepted_int &other, Int_signal op) const;
+    void set_history(std::string suggestion);
+    std::string get_history() const { return history; }  
+    void clear_history();
+
+    // void memorize(const Intercepted_int &other, Int_signal op) const;
     void report(bool binary, Int_signal op, Intercepted_int const *other = nullptr) const;
 
-    void clear_history();
+    // void clear_local_history();
     
     const Intercepted_int& operator=(const Intercepted_int &other);
+    #ifdef MOVE_ON
     const Intercepted_int& operator=(Intercepted_int &&other);
+    #endif
     const Intercepted_int& operator=(const int &other);
 
     const Intercepted_int& operator+=(const Intercepted_int &other);
@@ -88,14 +102,14 @@ public:
     bool operator>=(const Intercepted_int &other) const;
 };
 
-struct Event
-{
-    const Intercepted_int &other;
-    Int_signal op;
+// struct Event
+// {
+//     const Intercepted_int &other;
+//     Int_signal op;
 
-    long long other_prev_op_idx;
+//     long long other_prev_op_idx;
 
-    Event(const Intercepted_int &arg_other, Int_signal arg_op, long long arg_other_prev_op_idx);
-};
+//     Event(const Intercepted_int &arg_other, Int_signal arg_op, long long arg_other_prev_op_idx);
+// };
 
 #endif // INTERCEPTED_INT

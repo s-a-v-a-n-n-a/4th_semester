@@ -1,22 +1,39 @@
 digraph structs {
-    struct_0_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{20|a}|0x7fff5ff1ab60}"];
-    struct_1_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{22|b}|0x7fff5ff1ab10}"];
-    struct_2_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{0|c}|0x7fff5ff1aac0}"];
-    struct_3_COPY [shape=record, style=filled, fillcolor="#da3131" label="{COPY|{20|tmp No0}|0x7fff5ff1a9d0}"];
-    struct_4_MOVE [shape=record, style=filled, fillcolor="#7be76d" label="{MOVE|{20|tmp No1}|0x7fff5ff1aa20}"];
-    struct_5_COPY [shape=record, style=filled, fillcolor="#da3131" label="{COPY|{22|tmp No2}|0x7fff5ff1a930}"];
-    struct_6_COPY [shape=record, style=filled, fillcolor="#da3131" label="{COPY|{22|tmp No3}|0x7fff5ff1a8c8}"];
-    struct_7_MOVE [shape=record, style=filled, fillcolor="#7be76d" label="{MOVE|{22|tmp No4}|0x7fff5ff1a980}"];
-    struct_7_7_plus [shape=hexagon, style=filled, fillcolor="#ffffff" label="plus"];
-    struct_8_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{42|tmp No7}|0x7fff5ff1aa70}"];
-    struct_8_8_COPY_ass [shape=hexagon, style=filled, fillcolor="#da3131" label="COPY_ass"];
-    struct_8_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{42|tmp No7}|0x7fff5ff1aa70}"];
-    struct_7_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{22|tmp No5}|0x7fff5ff1a980}"];
-    struct_5_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{22|tmp No2}|0x7fff5ff1a930}"];
-    struct_4_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{20|tmp No5}|0x7fff5ff1aa20}"];
-    struct_2_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{42|c}|0x7fff5ff1aac0}"];
-    struct_1_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{22|b}|0x7fff5ff1ab10}"];
-    struct_0_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{20|a}|0x7fff5ff1ab60}"];
+   struct_0_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{20|a|id: 0}|hist: CTOR(a)|0x7ffd4cf13220}"];
+   struct_1_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{22|b|id: 1}|hist: CTOR(b)|0x7ffd4cf13290}"];
+   struct_2_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{0|c|id: 2}|hist: CTOR(c)|0x7ffd4cf13300}"];
+   struct_3_COPY [shape=record, style=filled, fillcolor="#da3131" label="{COPY|{22|tmp No0|id: 3}|hist: COPY(b)|0x7ffd4cf13450}"];
+   subgraph cluster_0 {
+      style=filled
+      color="#dadada"
+      label=foo;
+      struct_4_COPY [shape=record, style=filled, fillcolor="#da3131" label="{COPY|{22|tmp No1|id: 4}|hist: COPY(tmp No0)|0x7ffd4cf13190}"];
+      subgraph cluster_1 {
+         style=filled
+         color="#bcbcbc"
+         label=func;
+         struct_5_MOVE [shape=record, style=filled, fillcolor="#7be76d" label="{MOVE|{22|tmp No2|id: 5}|hist: MOVE(tmp No1)|0x7ffd4cf134c0}"];
+      }
+      struct_4_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{0|tmp No1|id: 4}|hist: DTOR(tmp No1)|0x7ffd4cf13190}"];
+   }
+   struct_6_COPY [shape=record, style=filled, fillcolor="#da3131" label="{COPY|{20|tmp No3|id: 6}|hist: COPY(a)|0x7ffd4cf13370}"];
+   subgraph cluster_2 {
+      style=filled
+      color="#dadada"
+      label=func;
+      struct_7_MOVE [shape=record, style=filled, fillcolor="#7be76d" label="{MOVE|{20|tmp No4|id: 7}|hist: MOVE(tmp No3)|0x7ffd4cf133e0}"];
+   }
+   struct_7_5_plus [shape=doubleoctagon, style=filled, fillcolor="#ffffff" label="tmp No4+tmp No2"];
+   struct_8_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{42|tmp No5|id: 8}|hist: tmp No4+tmp No2|0x7ffd4cf13530}"];
+   struct_2_8_COPY_ass [shape=doubleoctagon, style=filled, fillcolor="#da3131" label="c COPY= tmp No5"];
+   struct_8_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{42|tmp No5|id: 8}|hist: DTOR(tmp No5)|0x7ffd4cf13530}"];
+   struct_7_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{20|tmp No4|id: 7}|hist: DTOR(tmp No4)|0x7ffd4cf133e0}"];
+   struct_6_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{0|tmp No3|id: 6}|hist: DTOR(tmp No3)|0x7ffd4cf13370}"];
+   struct_5_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{22|tmp No2|id: 5}|hist: DTOR(tmp No2)|0x7ffd4cf134c0}"];
+   struct_3_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{22|tmp No0|id: 3}|hist: DTOR(tmp No0)|0x7ffd4cf13450}"];
+   struct_2_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{42|c|id: 2}|hist: DTOR(c)|0x7ffd4cf13300}"];
+   struct_1_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{22|b|id: 1}|hist: DTOR(b)|0x7ffd4cf13290}"];
+   struct_0_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{20|a|id: 0}|hist: DTOR(a)|0x7ffd4cf13220}"];
     struct_0_CTOR -> struct_0_DTOR [style=dashed];
     struct_0_CTOR -> struct_1_CTOR [style=invis];
     struct_1_CTOR -> struct_1_DTOR [style=dashed];
@@ -24,25 +41,28 @@ digraph structs {
     struct_2_CTOR -> struct_2_DTOR [style=dashed];
     struct_2_CTOR -> struct_3_COPY [style=invis];
     struct_3_COPY -> struct_3_DTOR [style=dashed];
-    struct_3_COPY -> struct_4_MOVE [style=invis];
-    struct_4_MOVE -> struct_4_DTOR [style=dashed];
-    struct_4_MOVE -> struct_5_COPY [style=invis];
-    struct_5_COPY -> struct_5_DTOR [style=dashed];
-    struct_5_COPY -> struct_6_COPY [style=invis];
+    struct_3_COPY -> struct_4_COPY [style=invis];
+    struct_4_COPY -> struct_4_DTOR [style=dashed];
+    struct_4_COPY -> struct_5_MOVE [style=invis];
+    struct_5_MOVE -> struct_5_DTOR [style=dashed];
+    struct_5_MOVE -> struct_4_DTOR [style=invis];
+    struct_4_DTOR -> struct_6_COPY [style=invis];
     struct_6_COPY -> struct_6_DTOR [style=dashed];
     struct_6_COPY -> struct_7_MOVE [style=invis];
     struct_7_MOVE -> struct_7_DTOR [style=dashed];
-    struct_4_MOVE -> struct_7_7_plus [style=solid];
-    struct_7_MOVE -> struct_7_7_plus [style=solid];
-    struct_7_7_plus -> struct_8_CTOR [style=solid];
+    struct_7_MOVE -> struct_7_5_plus [style=solid];
+    struct_5_MOVE -> struct_7_5_plus [style=solid];
+    struct_7_5_plus -> struct_8_CTOR [style=solid];
     struct_8_CTOR -> struct_8_DTOR [style=dashed];
-    struct_2_CTOR -> struct_8_8_COPY_ass [style=solid];
-    struct_8_CTOR -> struct_8_8_COPY_ass [style=solid];
-    struct_8_8_COPY_ass -> struct_8_DTOR [style=invis];
+    struct_2_CTOR -> struct_2_8_COPY_ass [style=solid];
+    struct_8_CTOR -> struct_2_8_COPY_ass [style=solid];
+    struct_2_8_COPY_ass -> struct_8_DTOR [style=invis];
     struct_8_DTOR -> struct_7_DTOR [style=invis];
-    struct_7_DTOR -> struct_5_DTOR [style=invis];
-    struct_5_DTOR -> struct_4_DTOR [style=invis];
-    struct_4_DTOR -> struct_2_DTOR [style=invis];
+    struct_7_DTOR -> struct_6_DTOR [style=invis];
+    struct_6_DTOR -> struct_5_DTOR [style=invis];
+    struct_5_DTOR -> struct_3_DTOR [style=invis];
+    struct_3_DTOR -> struct_2_DTOR [style=invis];
+    struct_2_8_COPY_ass -> struct_2_DTOR [style=solid];
     struct_2_DTOR -> struct_1_DTOR [style=invis];
     struct_1_DTOR -> struct_0_DTOR [style=invis];
 }

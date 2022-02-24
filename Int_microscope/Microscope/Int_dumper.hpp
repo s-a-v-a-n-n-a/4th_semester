@@ -51,12 +51,16 @@ private:
     std::vector<Operation*> history;
     HTML_dump *dump;
     Dot_dump *dot;
-    
+
+    size_t copy_amount;
+    size_t move_amount;
+     
     long long functions_in;
-    size_t max_tmp_vars_amount;
+    size_t max_func_id;
 
     std::vector<Int_signal> required;
     std::vector<size_t> last_change_op; // индекс - это id переменной, значение - индекс в истории
+
 
 protected:
 	Int_dumper();
@@ -71,16 +75,20 @@ public:
     void decrease_functions_in(const char *func_name);
     void increase_functions_in(const char *func_name);
 
-    std::string restore_history(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other);
+    // std::string restore_history(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other);
 
-    void visual_dump(Int_signal signal_type, Operation *op);
+    void visual_dump(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other);
+    void make_connections(const Intercepted_int &sender, std::string &current_struct);
     
     void send_message(bool binary, Operation *op, bool no_end = false);
     
     void dump_message(std::string message, Int_signal signal_type);
     void dump_text(std::string text);
 
+    void update_history();
     void reset_required();
+
+    void copy_move_detect(Int_signal signal_type);
 
     void signal(Int_signal signal_type, const Intercepted_int &sender) override;
     void signal(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other) override;

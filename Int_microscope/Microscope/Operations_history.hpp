@@ -17,11 +17,13 @@ private:
     const Intercepted_int *sender_address;
     size_t sender_id;
     int sender_value;
+    std::string sender_history;
 
     char *other_name;
     const Intercepted_int *other_address;
     size_t other_id;
     int other_value;
+    std::string other_history;
 
     static size_t max_tmp_id;
 
@@ -48,6 +50,12 @@ public:
 
     size_t get_sender_id() const { return sender_id; }
     size_t get_other_id() const { return other_id; }
+
+    std::string get_sender_history() { return sender_history; }
+    std::string get_other_history() { return other_history; }
+
+    void set_sender_history(std::string suggestion);
+    void set_other_history(std::string suggestion);
 };
 
 #endif // OPERATIONS_HISTORY_HPP

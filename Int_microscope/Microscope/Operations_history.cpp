@@ -7,9 +7,11 @@ Operation::Operation(Int_signal signal_type, const Intercepted_int &sender, cons
   sender_name(nullptr),
   sender_id(sender.get_id()), 
   sender_value(sender.get_num()), 
+  sender_history(sender.get_history()),
   other_name(nullptr),
   other_id(other.get_id()), 
-  other_value(other.get_num())
+  other_value(other.get_num()),
+  other_history(other.get_history())
 {
     if (sender.get_name())
     {
@@ -66,6 +68,17 @@ void Operation::create_other_name()
 	std::string tmps_name = TMP_VAR + std::to_string(max_tmp_id++);
 	set_other_name(tmps_name.c_str());
 }
+
+void Operation::set_sender_history(std::string suggestion)
+{
+	sender_history = suggestion;
+}
+
+void Operation::set_other_history(std::string suggestion)
+{
+	other_history = suggestion;
+}
+
 
 
 Operation::~Operation()
