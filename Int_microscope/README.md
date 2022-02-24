@@ -18,7 +18,7 @@ OS: Linux.
   If you want to play with using move operators or not, go to `math_structures/Intercepted_int.hpp` and comment or uncomment the line where MOVE_ON macros is defined.
 </li>
 <li>
-  In your console type `make clean`. It just make sense :).
+  In your console type <s>make clean<\s>. It just make sense :).
 </li>
 <li>
   Then type `make run`. Enjoy the picture!
