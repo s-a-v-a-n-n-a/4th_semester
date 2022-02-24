@@ -18,10 +18,10 @@ OS: Linux.
   If you want to play with using move operators or not, go to `math_structures/Intercepted_int.hpp` and comment or uncomment the line where MOVE_ON macros is defined.
 </li>
 <li>
-  In your console type <pre><code>make clean</code></pre>. It just make sense :).
+  In your console type <pre><code>make clean</code></pre> It just makes sense :).
 </li>
 <li>
-  Then type <pre><code>make run</code></pre>. Enjoy the picture!
+  Then type <pre><code>make run</code></pre> Enjoy the picture!
 </li>
 <li>
   If you want to observe text dump, just open Int_dump.html.
