@@ -35,6 +35,12 @@ There are several designations in graphical dump used.
 <li>
   To show the changes of the variable red solid arrows used. As not to clutter up the picture there is no red lines between constructors and destructors if they are only operators that changed the variable.
 </li>
+<li>
+  Grey clusters used for entering the scope of a function. Its name is also written on clusrter's top.
+</li>
+<li>
+  The picture below shows the organization of information in rectangle boxes.
+</li>
 
 **HOW TO CONDUCT YOUR OWN INVESTIGATION**
 -----------------------------------------
