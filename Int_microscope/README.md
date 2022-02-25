@@ -68,7 +68,7 @@ void test0()
 **FIRST COMPARISON**
 ----------------------------
 | WITHOUT | WITH |
-|:----------------:|:---------:|:----------------:|
+|:------------------------------------------------------------------:|:------------------------------------------------------------------:|
 | <img src="Research/Dot_dump_copy.png" alt="Picture 0" width="300"> | <img src="Research/Dot_dump_move.png" alt="Picture 1" width="300"> |
 
 **TO BE CONTINUED**
