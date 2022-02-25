@@ -46,7 +46,7 @@ There are several designations in graphical dump used.
 </li>
 
 <img src="Research/Example.jpg" alt="Picture 0" width="400">
-***Picture 0***
+_Picture 0_
 
 The structure of rectangles.
 
