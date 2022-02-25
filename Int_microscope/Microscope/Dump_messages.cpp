@@ -22,7 +22,7 @@ const char *OP_COLORS[] =
     "000000",
     "000000",
     "DA3131", // COPY ASSIGNMENT
-    "7BE76D", // MOVE ASSIGNMENT
+    "00910A", // MOVE ASSIGNMENT
     "DA3131", // COPY
     "000000",
     "000000",
@@ -30,7 +30,7 @@ const char *OP_COLORS[] =
     "000000",
     "000000",
     "000000",
-    "7BE76D", // MOVE
+    "00910A", // MOVE
     "A500AF",
     "0039AF"
 };

@@ -76,13 +76,13 @@ void Dot_dump::create_box(const char *name, const char *label, const char *bgcol
     fclose(dump_file);
 }
 
-void Dot_dump::create_arrow(const char *from, const char *to, const char *arrow_type)
+void Dot_dump::create_arrow(const char *from, const char *to, const char *arrow_type, const char *color)
 {
     assert(from);
     assert(to);
     assert(arrow_type);
 
-    arrows.push_back({from, to, arrow_type});
+    arrows.push_back({from, to, arrow_type, color});
 }
 
 void Dot_dump::open_cluster(const size_t unique_id, const char *label)
@@ -133,7 +133,7 @@ void Dot_dump::dump_arrows() // Просто выписывает все сущ�
     
     for (size_t i = 0; i < arrows_amount; ++i)
     {
-        fprintf(dump_file, "    %s -> %s [style=%s];\n", arrows[i].from.c_str(), arrows[i].to.c_str(), arrows[i].type.c_str());
+        fprintf(dump_file, "    %s -> %s [style=%s color=%s];\n", arrows[i].from.c_str(), arrows[i].to.c_str(), arrows[i].type.c_str(), arrows[i].color.c_str());
     }
 
     arrows.clear();

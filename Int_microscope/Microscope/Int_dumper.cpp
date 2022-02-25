@@ -86,6 +86,34 @@ const bool Binary[] =
     false
 };
 
+const bool Changable[] = 
+{
+    false,
+    true,
+    true,
+    true,
+    false,
+    true, // sub_Ass
+    true,
+    true,
+    false, // mul
+    true,
+    false, 
+    true, // div_ass
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true
+};
+
 Int_dumper *Int_dumper::dumper = nullptr;
 Dumper_destroyer Int_dumper::destroyer;
 
@@ -231,17 +259,19 @@ void Int_dumper::make_connections(const Intercepted_int &sender, std::string &cu
     }
 
     // Логическая стрелка изменения переменной 
-    if (signal_type != Int_signal::CONSTRUCT && signal_type != Int_signal::COPY && signal_type != Int_signal::MOVE)
+    if (signal_type != Int_signal::CONSTRUCT && signal_type != Int_signal::COPY && signal_type != Int_signal::MOVE && Changable[(int)signal_type])
     {
         std::string from = "struct_";
         Int_signal last_change_signal = sender.get_last_change();
-        if (!(last_change_signal == Int_signal::CONSTRUCT || last_change_signal == Int_signal::COPY || last_change_signal == Int_signal::MOVE))
+        // if (!(last_change_signal == Int_signal::CONSTRUCT || last_change_signal == Int_signal::COPY || last_change_signal == Int_signal::MOVE))
+        // {
+        if (!(signal_type == Int_signal::DESTRUCT && (last_change_signal == Int_signal::CONSTRUCT || last_change_signal == Int_signal::COPY || last_change_signal == Int_signal::MOVE)))
         {
-            if (Binary[(int)last_change_signal]) 
+            if (last_change_signal == Int_signal::ASSIGN_COPY || last_change_signal == Int_signal::ASSIGN_MOVE) // Binary[(int)last_change_signal]
                 from += std::to_string(history[last_op]->get_sender_id()) + "_" + std::to_string(sender.get_influencer_id()) + "_" + Signal_official_names[(int)last_change_signal]; 
-            else
+            else if (last_change_signal == Int_signal::COPY || last_change_signal == Int_signal::MOVE || last_change_signal == Int_signal::CONSTRUCT)
                 from += std::to_string(history[last_op]->get_sender_id()) + "_" + Signal_official_names[(int)last_change_signal];
-            dot->create_arrow(from.c_str(), current_struct.c_str(), "solid");
+            dot->create_arrow(from.c_str(), current_struct.c_str(), "solid", "\"#da3131\""); // 
         }
     }
 }

@@ -16,6 +16,7 @@ private:
         std::string to;
 
         std::string type;
+        std::string color;
     };
 
     std::vector<Arrow> arrows;
@@ -32,7 +33,7 @@ public:
     void open_if_needed();
     
     void create_box(const char *name, const char *label, const char *bgcolor = "\"#ffffff\"", const char *box_type = "record");
-    void create_arrow(const char *from, const char *to, const char *arrow_type = "solid");
+    void create_arrow(const char *from, const char *to, const char *arrow_type = "solid", const char *color = "\"#000000\"");
     
     void open_cluster(const size_t unique_id, const char *label = nullptr);
     void close_cluster();
