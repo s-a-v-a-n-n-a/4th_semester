@@ -7,14 +7,14 @@
 
 #include "Int_dumper.hpp"
 
-Intercepted_int func(Intercepted_int var)
+Intercepted_int func(const Intercepted_int &var)
 {
     Spy spy(__FUNCTION__); // RAII
     
     return var;
 }
 
-Intercepted_int foo(Intercepted_int var)
+Intercepted_int foo(const Intercepted_int &var)
 {
     Spy spy(__FUNCTION__); // RAII
     
