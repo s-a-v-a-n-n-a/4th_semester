@@ -48,7 +48,7 @@ There are several designations in graphical dump used.
 <img src="Research/Example.jpg" alt="Picture 0" width="400">
 <em><b>Picture 0</b></em>
 
-The structure of rectangles.
+<em>The structure of rectangles.</em>
 
 **HOW TO CONDUCT YOUR OWN INVESTIGATION**
 -----------------------------------------
