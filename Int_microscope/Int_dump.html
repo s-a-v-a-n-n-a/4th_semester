@@ -1,22 +1,13 @@
 <!DOCTYPE html><head><link rel="stylesheet" href="style.css"></head><pre><font color="A500AF">
-CTOR: [a = 20 | 0x7ffd94330f40]</font><font color="A500AF">
-CTOR: [b = 22 | 0x7ffd94330fb0]</font><font color="A500AF">
-CTOR: [c = 0 | 0x7ffd94331020]</font>
----><span>foo</span>
-    ---><span>func</span><font color="DA3131">
-        [(tmp No0 = 22 | 0x7ffd94331100) <<< C O P Y >>> (b = 22 | 0x7ffd94330fb0)]</font>
-    <---func
-<---foo
----><span>func</span><font color="DA3131">
-    [(tmp No1 = 20 | 0x7ffd94331090) <<< C O P Y >>> (a = 20 | 0x7ffd94330f40)]</font>
-<---func<font color="A500AF">
-CTOR: [tmp No2 = 42 | 0x7ffd94331170]</font> FROM <font color="000000">[(tmp No1 = 20 | 0x7ffd94331090) + (tmp No0 = 22 | 0x7ffd94331100)]</font><font color="DA3131">
-[(c = 42 | 0x7ffd94331020)  COPY=  (tmp No2 = 42 | 0x7ffd94331170)]</font><font color="0039AF">
-DTOR: [tmp No2 = 42 | 0x7ffd94331170]</font><font color="0039AF">
-DTOR: [tmp No1 = 20 | 0x7ffd94331090]</font><font color="0039AF">
-DTOR: [tmp No0 = 22 | 0x7ffd94331100]</font><font color="0039AF">
-DTOR: [c = 42 | 0x7ffd94331020]</font><font color="0039AF">
-DTOR: [b = 22 | 0x7ffd94330fb0]</font><font color="0039AF">
-DTOR: [a = 20 | 0x7ffd94330f40]</font>
+CTOR: [a = 20 | 0x7ffc4fb0d140]</font><font color="A500AF">
+CTOR: [b = 22 | 0x7ffc4fb0d1b0]</font><font color="A500AF">
+CTOR: [c = 0 | 0x7ffc4fb0d220]</font><font color="DA3131">
+[(a = 22 | 0x7ffc4fb0d140)  COPY=  (b = 22 | 0x7ffc4fb0d1b0)]</font><font color="A500AF">
+CTOR: [tmp No0 = 44 | 0x7ffc4fb0d290]</font> FROM <font color="000000">[(a = 22 | 0x7ffc4fb0d140) + (b = 22 | 0x7ffc4fb0d1b0)]</font><font color="DA3131">
+[(c = 44 | 0x7ffc4fb0d220)  COPY=  (tmp No0 = 44 | 0x7ffc4fb0d290)]</font><font color="0039AF">
+DTOR: [tmp No0 = 44 | 0x7ffc4fb0d290]</font><font color="0039AF">
+DTOR: [c = 44 | 0x7ffc4fb0d220]</font><font color="0039AF">
+DTOR: [b = 22 | 0x7ffc4fb0d1b0]</font><font color="0039AF">
+DTOR: [a = 22 | 0x7ffc4fb0d140]</font>
 
-Copies amount = 3, Moves amount = 0.
+Copies amount = 2, Moves amount = 0.

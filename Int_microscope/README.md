@@ -40,6 +40,8 @@ There are several designations in graphical dump used.
 </li>
 <li>
   The picture below shows the organization of information in rectangle boxes.
+  <img src="Research/Example.jpg" alt="Picture 0" width="500">
+  For reasons of clarity the history shows operations since last change of variable.
 </li>
 
 **HOW TO CONDUCT YOUR OWN INVESTIGATION**
@@ -93,7 +95,7 @@ void test0()
 --------------------
 | WITHOUT MOVES | WITH MOVES |
 |:------------------------------------------------------------------:|:------------------------------------------------------------------:|
-| <img src="Research/Dot_dump_copy.png" alt="Picture 0" width="500"> | <img src="Research/Dot_dump_move.png" alt="Picture 1" width="500"> |
+| <img src="Research/Dot_dump_copy.png" alt="Picture 1" width="500"> | <img src="Research/Dot_dump_move.png" alt="Picture 2" width="500"> |
 
 The difference in amount of using copying can be seen from the table above.
 
@@ -133,7 +135,7 @@ void test0()
 
 | PASSING BY VALUE | PASSING BY REFERENCE |
 |:------------------------------------------------------------------:|:----------------------------------------------------------------------------------:|
-| <img src="Research/Dot_dump_copy.png" alt="Picture 0" width="500"> | <img src="Research/Dot_dump_passing_by_reference.png" alt="Picture 2" width="500"> |
+| <img src="Research/Dot_dump_copy.png" alt="Picture 1" width="500"> | <img src="Research/Dot_dump_passing_by_reference.png" alt="Picture 3" width="500"> |
 
 **DISCUSSION**
 --------------
