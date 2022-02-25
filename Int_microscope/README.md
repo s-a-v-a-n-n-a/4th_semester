@@ -42,7 +42,7 @@ To "catch" variables with their names macros `VAR(variable_name, initial_value)`
 To "catch" functions we step in or out class Spy is used. It gets macros `__FUNCTION__` to get the name of function to dump it.
 
 The code itself is 
-<code>Intercepted_int func(Intercepted_int var)
+pre><code>Intercepted_int func(Intercepted_int var)
 {
     Spy spy(__FUNCTION__);
     
@@ -63,11 +63,11 @@ void test0()
     VAR(c, 0);
     
     c = func(a) + foo(b);
-}</code>
+}</code></pre>
 
 **FIRST COMPARISON**
 ----------------------------
-| WITHOUT | RIGHT |
+| WITHOUT | WITH |
 |:----------------:|:---------:|:----------------:|
 | <img src="Research/Dot_dump_copy.png" alt="Picture 0" width="300"> | <img src="Research/Dot_dump_move.png" alt="Picture 1" width="300"> |
 
