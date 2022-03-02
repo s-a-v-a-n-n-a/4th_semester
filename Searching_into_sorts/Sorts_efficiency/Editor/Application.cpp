@@ -16,7 +16,7 @@ Application::Application()
     animations = new Animation_manager();
     resources = new Resources();
 
-    controller = new DataCharts_control(5, 10, 10);
+    controller = new DataCharts_control(5, 5, 10);
 
     Main_page *editor = new Main_page({nullptr, (size_t)Vidget_type::EDITOR, Vector_ll(0, 0), nullptr, DARK_GREY, DEFAULT_SIZE, DEFAULT_SIZE});
     default_main = editor;

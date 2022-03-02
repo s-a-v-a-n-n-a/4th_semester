@@ -120,6 +120,51 @@ const Intercepted_int Intercepted_int::operator/(const Intercepted_int &other) c
     return { num / other.get_num() };
 }
 
+const Intercepted_int Intercepted_int::operator++(int)
+{
+    Intercepted_int old = *this;
+    
+    num++;
+    
+    if (parent)
+        parent->signal(Int_signal::PREF_INC, *this, *this);
+
+    return old;
+}
+
+const Intercepted_int& Intercepted_int::operator++()
+{
+    ++num;
+    
+    if (parent)
+        parent->signal(Int_signal::POST_INC, *this, *this);
+
+    return *this;
+}
+
+const Intercepted_int Intercepted_int::operator--(int)
+{
+    Intercepted_int old = *this;
+    
+    num--;
+    
+    if (parent)
+        parent->signal(Int_signal::POST_DEC, *this, *this);
+
+    return old;
+}
+
+const Intercepted_int& Intercepted_int::operator--()
+{
+    --num;
+    
+    if (parent)
+        parent->signal(Int_signal::PREF_DEC, *this, *this);
+
+    return *this;
+}
+
+
 bool Intercepted_int::operator==(const Intercepted_int &other) const
 { 
     comparison_cnt++;

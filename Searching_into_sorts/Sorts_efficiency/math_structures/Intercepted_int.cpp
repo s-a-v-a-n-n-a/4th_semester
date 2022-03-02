@@ -79,23 +79,23 @@ const Intercepted_int& Intercepted_int::operator=(const int& other)
 //     return { num / other.get_num() };
 // }
 
-// bool Intercepted_int::operator==(const Intercepted_int &other) const
-// { 
-//     comparison_cnt++;
+bool Intercepted_int::operator==(const Intercepted_int &other) const
+{ 
+    comparison_cnt++;
     
-//     if (num == other.get_num()) 
-//         return true; 
-//     return false; 
-// }
+    if (num == other.get_num()) 
+        return true; 
+    return false; 
+}
 
-// bool Intercepted_int::operator!=(const Intercepted_int &other) const
-// { 
-//     comparison_cnt++;
+bool Intercepted_int::operator!=(const Intercepted_int &other) const
+{ 
+    comparison_cnt++;
     
-//     if (num != other.get_num()) 
-//         return true; 
-//     return false; 
-// }
+    if (num != other.get_num()) 
+        return true; 
+    return false; 
+}
 
 bool Intercepted_int::operator<(const Intercepted_int &other) const
 {
@@ -106,29 +106,29 @@ bool Intercepted_int::operator<(const Intercepted_int &other) const
     return false; 
 }
 
-// bool Intercepted_int::operator>(const Intercepted_int &other) const
-// {
-//     comparison_cnt++;
+bool Intercepted_int::operator>(const Intercepted_int &other) const
+{
+    comparison_cnt++;
     
-//     if (num > other.get_num()) 
-//         return true; 
-//     return false; 
-// }
+    if (num > other.get_num()) 
+        return true; 
+    return false; 
+}
 
-// bool Intercepted_int::operator<=(const Intercepted_int &other) const
-// {
-//     comparison_cnt++;
+bool Intercepted_int::operator<=(const Intercepted_int &other) const
+{
+    comparison_cnt++;
     
-//     if (num <= other.get_num()) 
-//         return true; 
-//     return false; 
-// }
+    if (num <= other.get_num()) 
+        return true; 
+    return false; 
+}
 
-// bool Intercepted_int::operator>=(const Intercepted_int &other) const
-// {
-//     comparison_cnt++;
+bool Intercepted_int::operator>=(const Intercepted_int &other) const
+{
+    comparison_cnt++;
     
-//     if (num >= other.get_num()) 
-//         return true; 
-//     return false; 
-// }
+    if (num >= other.get_num()) 
+        return true; 
+    return false; 
+}

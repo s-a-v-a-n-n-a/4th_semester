@@ -37,12 +37,12 @@ public:
 	// const Intercepted_int operator*(const Intercepted_int &other) const;
     // const Intercepted_int operator/(const Intercepted_int &other) const;
 
-	// bool operator==(const Intercepted_int &other) const;
-    // bool operator!=(const Intercepted_int &other) const;
+	bool operator==(const Intercepted_int &other) const;
+    bool operator!=(const Intercepted_int &other) const;
 	bool operator<(const Intercepted_int &other) const;
-    // bool operator>(const Intercepted_int &other) const;
-    // bool operator<=(const Intercepted_int &other) const;
-    // bool operator>=(const Intercepted_int &other) const;
+    bool operator>(const Intercepted_int &other) const;
+    bool operator<=(const Intercepted_int &other) const;
+    bool operator>=(const Intercepted_int &other) const;
 };
 
 #endif // INTERCEPTED_INT

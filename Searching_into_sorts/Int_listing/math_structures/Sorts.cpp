@@ -29,15 +29,15 @@ bool cmp(const Intercepted_int &a, const Intercepted_int &b)
 
 void bubble_sort(void *array, size_t size, size_t block_size, int (*cmp)(const void *, const void *))
 {
-    for (int i = 0; i < size; i++)    
+    for (Intercepted_int i = 0; i < size; i++)    
     { 
         // Last i elements are already in place 
-        for (int j = 0; j < size - i - 1; j++) 
-            if (((Intercepted_int*)array)[j + 1] < ((Intercepted_int*)array)[j]) 
+        for (Intercepted_int j = 0; j < size - i.get_num() - 1; j++) 
+            if (((Intercepted_int*)array)[j.get_num() + 1] < ((Intercepted_int*)array)[j.get_num()]) 
             {
-                Intercepted_int tmp = ((Intercepted_int*)array)[j + 1];
-                ((Intercepted_int*)array)[j + 1] = ((Intercepted_int*)array)[j];
-                ((Intercepted_int*)array)[j] = tmp;
+                Intercepted_int tmp = ((Intercepted_int*)array)[j.get_num() + 1];
+                ((Intercepted_int*)array)[j.get_num() + 1] = ((Intercepted_int*)array)[j.get_num()];
+                ((Intercepted_int*)array)[j.get_num()] = tmp;
             } 
     }
 }

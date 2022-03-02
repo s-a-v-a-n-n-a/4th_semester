@@ -33,6 +33,7 @@ public:
     void signal(Int_signal signal_type, const Intercepted_int &sender, const Intercepted_int &other) override;
     void set_contact(Int_signal_receiver *contact) { to_contact = contact; }
 
+    Intercepted_int& operator[] (const Intercepted_int index);
 };
 
 #endif // INT_CONTAINER_HPP

@@ -41,4 +41,9 @@ void Int_container::signal(Int_signal signal_type, const Intercepted_int &sender
         to_contact->signal(signal_type, sender, other);
 }
 
+Intercepted_int& Int_container::operator[] (const Intercepted_int index)
+{
+    return array[index.get_num()];
+}
+
 
