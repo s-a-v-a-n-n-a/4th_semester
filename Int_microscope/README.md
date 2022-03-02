@@ -92,12 +92,11 @@ void test0()
     VAR(c, 0);
     
     c = func(a) + secret_func();
-}
 }</code></pre>
 
 | WITHOUT COPY ELISION | WITH COPY ELISION |
 |:--------------------------------------------------------------------:|:----------------------------------------------------------------------:|
-| <img src="Research/No_copy_elision.png" alt="Picture 1" width="500"> | <img src="Research/With_copy_elision.png" alt="Picture 1" width="500"> |
+| <img src="Research/No_copy_elision.png" alt="Picture 1" width="500"> | <img src="Research/With copy_elision.png" alt="Picture 1" width="500"> |
 | ***Picture 1***                                                      | ***Picture 2***                                                        |
 
 It may seem that programmers can only use this flag. But using next examples he will get same results despite of turning off `-fno-elide-constructors`.
