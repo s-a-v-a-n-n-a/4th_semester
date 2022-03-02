@@ -33,7 +33,7 @@ Intercepted_int sum(const Intercepted_int &var1, const Intercepted_int &var2)
 {
     Spy spy(__FUNCTION__); // RAII
 
-    return var1 + func(var2);
+    return var1 + var2;
 }
 
 void test0()
@@ -42,7 +42,7 @@ void test0()
     VAR(b, 22);
     VAR(c, 0);
     
-    c = sum(sum(a, b), foo(b));
+    c = sum(a, b);
 }
 
 #endif // TEST1_HPP

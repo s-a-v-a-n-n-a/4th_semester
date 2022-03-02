@@ -1,32 +1,14 @@
 <!DOCTYPE html><head><link rel="stylesheet" href="style.css"></head><pre><font color="A500AF">
-CTOR: [a = 20 | 0x7ffe6ca07580]</font><font color="A500AF">
-CTOR: [b = 22 | 0x7ffe6ca075f0]</font><font color="A500AF">
-CTOR: [c = 0 | 0x7ffe6ca07660]</font>
----><span>foo</span>
-    ---><span>func</span><font color="DA3131">
-        [(tmp No0 = 22 | 0x7ffe6ca07740) <<< C O P Y >>> (b = 22 | 0x7ffe6ca075f0)]</font>
-    <---func
-<---foo
----><span>sum</span>
-    ---><span>func</span><font color="DA3131">
-        [(tmp No1 = 22 | 0x7ffe6ca074f0) <<< C O P Y >>> (b = 22 | 0x7ffe6ca075f0)]</font>
-    <---func<font color="A500AF">
-    CTOR: [tmp No2 = 42 | 0x7ffe6ca076d0]</font> FROM <font color="000000">    [(a = 20 | 0x7ffe6ca07580) + (tmp No1 = 22 | 0x7ffe6ca074f0)]</font><font color="0039AF">
-    DTOR: [tmp No1 = 22 | 0x7ffe6ca074f0]</font>
-<---sum
----><span>sum</span>
-    ---><span>func</span><font color="DA3131">
-        [(tmp No3 = 22 | 0x7ffe6ca074f0) <<< C O P Y >>> (tmp No0 = 22 | 0x7ffe6ca07740)]</font>
-    <---func<font color="A500AF">
-    CTOR: [tmp No4 = 64 | 0x7ffe6ca077b0]</font> FROM <font color="000000">    [(tmp No2 = 42 | 0x7ffe6ca076d0) + (tmp No3 = 22 | 0x7ffe6ca074f0)]</font><font color="0039AF">
-    DTOR: [tmp No3 = 22 | 0x7ffe6ca074f0]</font>
+CTOR: [a = 20 | 0x7fff183a22a0]</font><font color="A500AF">
+CTOR: [b = 22 | 0x7fff183a2310]</font><font color="A500AF">
+CTOR: [c = 0 | 0x7fff183a2380]</font>
+---><span>sum</span><font color="A500AF">
+    CTOR: [tmp No0 = 42 | 0x7fff183a23f0]</font> FROM <font color="000000">    [(a = 20 | 0x7fff183a22a0) + (b = 22 | 0x7fff183a2310)]</font>
 <---sum<font color="00910A">
-[(c = 64 | 0x7ffe6ca07660)  MOVE=  (tmp No4 = 64 | 0x7ffe6ca077b0)]</font><font color="0039AF">
-DTOR: [tmp No4 = 0 | 0x7ffe6ca077b0]</font><font color="0039AF">
-DTOR: [tmp No2 = 42 | 0x7ffe6ca076d0]</font><font color="0039AF">
-DTOR: [tmp No0 = 22 | 0x7ffe6ca07740]</font><font color="0039AF">
-DTOR: [c = 64 | 0x7ffe6ca07660]</font><font color="0039AF">
-DTOR: [b = 22 | 0x7ffe6ca075f0]</font><font color="0039AF">
-DTOR: [a = 20 | 0x7ffe6ca07580]</font>
+[(c = 42 | 0x7fff183a2380)  MOVE=  (tmp No0 = 42 | 0x7fff183a23f0)]</font><font color="0039AF">
+DTOR: [tmp No0 = 0 | 0x7fff183a23f0]</font><font color="0039AF">
+DTOR: [c = 42 | 0x7fff183a2380]</font><font color="0039AF">
+DTOR: [b = 22 | 0x7fff183a2310]</font><font color="0039AF">
+DTOR: [a = 20 | 0x7fff183a22a0]</font>
 
-Copies amount = 3, Moves amount = 1.
+Copies amount = 0, Moves amount = 1.

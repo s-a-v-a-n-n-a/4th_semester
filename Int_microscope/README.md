@@ -194,21 +194,14 @@ The next code is to show that moves are used by compilator to det rid of copies.
 
 <pre><code>Intercepted_int func(const Intercepted_int &var)
 {
-    Spy spy(__FUNCTION__); // RAII
+    Spy spy(__FUNCTION__);
     
     return var;
 }
 
-Intercepted_int foo(const Intercepted_int &var)
-{
-    Spy spy(__FUNCTION__); // RAII
-    
-    return func(var);
-}
-
 Intercepted_int sum(const Intercepted_int &var1, const Intercepted_int &var2)
 {
-    Spy spy(__FUNCTION__); // RAII
+    Spy spy(__FUNCTION__);
 
     return var1 + func(var2);
 }
@@ -219,18 +212,37 @@ void test0()
     VAR(b, 22);
     VAR(c, 0);
     
-    c = sum(sum(a, b), foo(b));
+    c = sum(a, b);
 }
 </code></pre>
 
-**THIRD EXAMPLES**
-------------------
+For short version:
+
+<pre><code>Intercepted_int sum(const Intercepted_int &var1, const Intercepted_int &var2)
+{
+    Spy spy(__FUNCTION__);
+
+    return var1 + var2;
+}
+
+void test0()
+{
+    VAR(a, 20);
+    VAR(b, 22);
+    VAR(c, 0);
+    
+    c = sum(a, b);
+}
+</code></pre>
+
+**THIRD COMPARISON**
+--------------------
 Let us see the result.
 
-| CONSTANT LINKS WITHOUT MOVES | CONSTANT LINKS WITH MOVES |
-|:-----------------------------------------------------------------:|:------------------------------------------------------------------:|
-| <img src="Research/Link_no_move.png" alt="Picture 1" width="500"> | <img src="Research/Link_and_move.png" alt="Picture 3" width="500"> |
-| ***Picture 6***<br/>4 copies; 5 temporary variables               | ***Picture 7***<br/>3 copies; 5 temporary variables<br/>1 move!                                                                    |
+| CONSTANT LINKS WITHOUT MOVES | CONSTANT LINKS WITH MOVES | CONSTANT LINKS WITHOUT MOVES SHORT | CONSTANT LINKS WITH MOVES SHORT |
+|:-----------------------------------------------------------------:|:------------------------------------------------------------------:|:-----------------------------------------------------------------------:|:------------------------------------------------------------------------:|
+| <img src="Research/Link_no_move.png" alt="Picture 6" width="500"> | <img src="Research/Link_and_move.png" alt="Picture 7" width="500"> | <img src="Research/Link_no_move_short.png" alt="Picture 8" width="500"> | <img src="Research/Link_and_move_short.png" alt="Picture 9" width="500"> |
+| ***Picture 6***<br/>2 copies; 2 temporary variables               | ***Picture 7***<br/>1 copy; 2 temporary variables<br/>1 move!                                                                    | ***Picture 8***<br/> | ***Picture 9***<br/> |
 
 **DISCUSSION**
 --------------
@@ -238,7 +250,7 @@ In this research two ways of avoiding copying are shown. They both can be useful
 
 **ANNOUNCEMENT**
 ----------------
-In next researches the using of `std::move` and `std::forward will be taken apart`.
+In next researches the using of `std::move` and `std::forward will be taken apart`. The link to it will appear soon.
 
 **LITERATURE AND LINKS**
 ------------------------
