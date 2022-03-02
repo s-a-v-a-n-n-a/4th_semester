@@ -4,20 +4,20 @@
 -----------
 Research was conducted by a second year student at MIPT Anna Savchuk in 2022.
 
-**BEGINNING**
--------------
-This project contains intercepted realisation of 32-bit int type. In the README the difference between compilator behavior when using move operators and not. 
+**INTRODUCTION**
+----------------
 
-OS: Linux.
-
-**MOTIVATION**
---------------
-Maybe some of readers have already heard about how bad copying is. One of the reasons is that it may be much slowlier when copying big data, for example. That is why passing by reference and using move operators are so important.
+Maybe some of readers have already heard about how bad copying is. One of the reasons is that it may be much more slowly when copying big data, for example. That is why passing by reference and using move operators are so important.
 
 The problem is that words are not as persuasive as the author is willing them to be. That is why some illustrative examples will be presented.
 
 **INSTRUMENTS**
 ---------------
+
+This project contains intercepted realisation of 32-bit int type. In the README the difference between compilator behavior when using move operators and not. 
+
+OS: Linux.
+
 The  author used text dump in html and visual dump in dot to conduct the investigation. For reasons of beauty and clarity only dot dump will be shown. To see the text one read the next paragraph.
 
 There are several designations in graphical dump used. 
@@ -63,8 +63,8 @@ There are several designations in graphical dump used.
   If you want to observe text dump, just open Int_dump.html.
 </li>
 
-**TOPICALITY**
---------------
+**MOTIVATION**
+------------------------
 
 Important flag of compilator is `-fno-elide-constructors`. It disables all optimizations connected with copy operators.
 
