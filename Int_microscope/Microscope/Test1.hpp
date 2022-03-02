@@ -15,18 +15,25 @@ Intercepted_int secret_func()
     return in_secret;
 }
 
-Intercepted_int func(Intercepted_int var)
+Intercepted_int func(const Intercepted_int &var)
 {
     Spy spy(__FUNCTION__); // RAII
     
     return var;
 }
 
-Intercepted_int foo(Intercepted_int var)
+Intercepted_int foo(const Intercepted_int &var)
 {
     Spy spy(__FUNCTION__); // RAII
     
     return func(var);
+}
+
+Intercepted_int sum(const Intercepted_int &var1, const Intercepted_int &var2)
+{
+    Spy spy(__FUNCTION__); // RAII
+
+    return var1 + func(var2);
 }
 
 void test0()
@@ -35,7 +42,7 @@ void test0()
     VAR(b, 22);
     VAR(c, 0);
     
-    c = func(a) + secret_func();// foo(b);
+    c = sum(sum(a, b), foo(b));
 }
 
 #endif // TEST1_HPP

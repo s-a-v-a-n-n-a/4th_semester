@@ -88,7 +88,6 @@ Intercepted_int func(Intercepted_int var)
 void test0()
 {
     VAR(a, 20);
-    VAR(b, 22);
     VAR(c, 0);
     
     c = func(a) + secret_func();
@@ -96,8 +95,8 @@ void test0()
 
 | WITHOUT COPY ELISION | WITH COPY ELISION |
 |:--------------------------------------------------------------------:|:----------------------------------------------------------------------:|
-| <img src="Research/No_copy_elision.png" alt="Picture 1" width="500"> | <img src="Research/With copy_elision.png" alt="Picture 1" width="500"> |
-| ***Picture 1***                                                      | ***Picture 2***                                                        |
+| <img src="Research/No_copy_elision.png" alt="Picture 1" width="500"> | <img src="Research/With_copy_elision.png" alt="Picture 1" width="500"> |
+| ***Picture 1***<br/>4 copies; 4 temporary variables                                                 | ***Picture 2***<br/>3 copies; 3 temporary variables                                                   |
 
 It may seem that programmers can only use this flag. But using next examples he will get same results despite of turning off `-fno-elide-constructors`.
 
@@ -140,7 +139,7 @@ void test0()
 | WITHOUT MOVES | WITH MOVES |
 |:------------------------------------------------------------------:|:------------------------------------------------------------------:|
 | <img src="Research/Dot_dump_copy.png" alt="Picture 1" width="500"> | <img src="Research/Dot_dump_move.png" alt="Picture 2" width="500"> |
-| ***Picture 3***                                                    | ***Picture 4***                                                    |
+| ***Picture 3***<br/>6 copies; 6 temporary variables                                                    | ***Picture 4***<br/>4 copies; 6 temporary variables<br/>2 moves!                                                   |
 
 The difference in amount of using copying can be seen from the table above. Six copies can be decreased to four.
 
@@ -148,7 +147,7 @@ The difference in amount of using copying can be seen from the table above. Six 
 -------------------------
 Using move operators is not the only one way to decrease copying. Furthermore, sometimes programmers do not need them at all - for example, in small projects or in projects where all data is simple (no vectors or arrays are used). For that reason passing by reference can help.
 
-In code below it is shown how it can be changed to test "new" opportunity.
+In code below it is shown how it can be changed to test "new" opportunity with turning off all move operators.
 
 <pre><code>
 Intercepted_int func(const Intercepted_int &var)
@@ -181,9 +180,57 @@ void test0()
 | PASSING BY VALUE | PASSING BY REFERENCE |
 |:------------------------------------------------------------------:|:----------------------------------------------------------------------------------:|
 | <img src="Research/Dot_dump_copy.png" alt="Picture 1" width="500"> | <img src="Research/Dot_dump_passing_by_reference.png" alt="Picture 3" width="500"> |
-| ***Picture 3***                                                    | ***Picture 5***                                                                    |
+| ***Picture 3***<br/>6 copies; 6 temporary variables                                                    | ***Picture 5***<br/>3 copies; 3 temporary variables                                                                    |
 
 It can be seen six copies can be decreased to three.
+
+**MOVES ARE USELESS?**
+----------------------
+Okay, there are move operations and constant links that can be used. And last example showed that copy links are quite effective in avoiding copying. If we now turn on move operators we cannot see any use of them in this test. The question comes: maybe moves are useless?
+
+The answer is "No". 
+
+The next code is to show that moves are used by compilator to det rid of copies.
+
+<pre><code>Intercepted_int func(const Intercepted_int &var)
+{
+    Spy spy(__FUNCTION__); // RAII
+    
+    return var;
+}
+
+Intercepted_int foo(const Intercepted_int &var)
+{
+    Spy spy(__FUNCTION__); // RAII
+    
+    return func(var);
+}
+
+Intercepted_int sum(const Intercepted_int &var1, const Intercepted_int &var2)
+{
+    Spy spy(__FUNCTION__); // RAII
+
+    return var1 + func(var2);
+}
+
+void test0()
+{
+    VAR(a, 20);
+    VAR(b, 22);
+    VAR(c, 0);
+    
+    c = sum(sum(a, b), foo(b));
+}
+</code></pre>
+
+**THIRD EXAMPLES**
+------------------
+Let us see the result.
+
+| CONSTANT LINKS WITHOUT MOVES | CONSTANT LINKS WITH MOVES |
+|:-----------------------------------------------------------------:|:------------------------------------------------------------------:|
+| <img src="Research/Link_no_move.png" alt="Picture 1" width="500"> | <img src="Research/Link_and_move.png" alt="Picture 3" width="500"> |
+| ***Picture 6***<br/>4 copies; 5 temporary variables               | ***Picture 7***<br/>3 copies; 5 temporary variables<br/>1 move!                                                                    |
 
 **DISCUSSION**
 --------------
