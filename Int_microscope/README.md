@@ -39,7 +39,7 @@ There are several designations in graphical dump used.
   Grey clusters used for entering the scope of a function. Its name is also written on clusrter's top.
 </li>
 <li>
-  The picture below shows the organization of information in rectangle boxes. For reasons of clarity the history shows operations since last change of variable.
+  Picture 0 shows the organization of information in rectangle boxes. For reasons of clarity the history shows operations since last change of variable.
 </li>
 <li>
   Hexagons show binary operations.
