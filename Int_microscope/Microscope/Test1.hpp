@@ -7,14 +7,22 @@
 
 #include "Int_dumper.hpp"
 
-Intercepted_int func(const Intercepted_int &var)
+Intercepted_int secret_func()
+{
+    Spy spy(__FUNCTION__); // RAII
+
+    VAR(in_secret, 128);
+    return in_secret;
+}
+
+Intercepted_int func(Intercepted_int var)
 {
     Spy spy(__FUNCTION__); // RAII
     
     return var;
 }
 
-Intercepted_int foo(const Intercepted_int &var)
+Intercepted_int foo(Intercepted_int var)
 {
     Spy spy(__FUNCTION__); // RAII
     
@@ -27,7 +35,7 @@ void test0()
     VAR(b, 22);
     VAR(c, 0);
     
-    c = func(a) + foo(b);
+    c = func(a) + secret_func();// foo(b);
 }
 
 #endif // TEST1_HPP

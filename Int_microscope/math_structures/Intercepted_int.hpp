@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#define MOVE_ON
+// #define MOVE_ON
 
 class Int_signal_receiver;
 enum class Int_signal;

@@ -8,8 +8,6 @@ Research was conducted by a second year student at MIPT Anna Savchuk in 2022.
 -------------
 This project contains intercepted realisation of 32-bit int type. In the README the difference between compilator behavior when using move operators and not. 
 
-Important flag of compilator is `-fno-elide-constructors`. It disables all optimizations connected with copy operators.
-
 OS: Linux.
 
 **MOTIVATION**
@@ -65,6 +63,47 @@ There are several designations in graphical dump used.
   If you want to observe text dump, just open Int_dump.html.
 </li>
 
+**TOPICALITY**
+--------------
+
+Important flag of compilator is `-fno-elide-constructors`. It disables all optimizations connected with copy operators.
+
+Using code written below and turning on and off this flag the results in the table can be seen.
+
+<pre><code>Intercepted_int secret_func()
+{
+    Spy spy(__FUNCTION__);
+
+    VAR(in_secret, 128);
+    return in_secret;
+}
+
+Intercepted_int func(Intercepted_int var)
+{
+    Spy spy(__FUNCTION__);
+    
+    return var;
+}
+
+void test0()
+{
+    VAR(a, 20);
+    VAR(b, 22);
+    VAR(c, 0);
+    
+    c = func(a) + secret_func();
+}
+}</code></pre>
+
+| WITHOUT COPY ELISION | WITH COPY ELISION |
+|:--------------------------------------------------------------------:|:----------------------------------------------------------------------:|
+| <img src="Research/No_copy_elision.png" alt="Picture 1" width="500"> | <img src="Research/With_copy_elision.png" alt="Picture 1" width="500"> |
+| ***Picture 1***                                                      | ***Picture 2***                                                        |
+
+It may seem that programmers can only use this flag. But using next examples he will get same results despite of turning off `-fno-elide-constructors`.
+
+In next code this flag will be turned on.
+
 **TEST PROGRAM**
 ----------------
 To test the difference the author used the code, presented in Microscope/Test1.hpp.
@@ -102,7 +141,7 @@ void test0()
 | WITHOUT MOVES | WITH MOVES |
 |:------------------------------------------------------------------:|:------------------------------------------------------------------:|
 | <img src="Research/Dot_dump_copy.png" alt="Picture 1" width="500"> | <img src="Research/Dot_dump_move.png" alt="Picture 2" width="500"> |
-| ***Picture 1***                                                    | ***Picture 2***                                                    |
+| ***Picture 3***                                                    | ***Picture 4***                                                    |
 
 The difference in amount of using copying can be seen from the table above. Six copies can be decreased to four.
 
@@ -143,7 +182,7 @@ void test0()
 | PASSING BY VALUE | PASSING BY REFERENCE |
 |:------------------------------------------------------------------:|:----------------------------------------------------------------------------------:|
 | <img src="Research/Dot_dump_copy.png" alt="Picture 1" width="500"> | <img src="Research/Dot_dump_passing_by_reference.png" alt="Picture 3" width="500"> |
-| ***Picture 1***                                                    | ***Picture 3***                                                                    |
+| ***Picture 3***                                                    | ***Picture 5***                                                                    |
 
 It can be seen six copies can be decreased to three.
 

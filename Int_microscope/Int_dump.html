@@ -1,13 +1,22 @@
 <!DOCTYPE html><head><link rel="stylesheet" href="style.css"></head><pre><font color="A500AF">
-CTOR: [a = 20 | 0x7ffc4fb0d140]</font><font color="A500AF">
-CTOR: [b = 22 | 0x7ffc4fb0d1b0]</font><font color="A500AF">
-CTOR: [c = 0 | 0x7ffc4fb0d220]</font><font color="DA3131">
-[(a = 22 | 0x7ffc4fb0d140)  COPY=  (b = 22 | 0x7ffc4fb0d1b0)]</font><font color="A500AF">
-CTOR: [tmp No0 = 44 | 0x7ffc4fb0d290]</font> FROM <font color="000000">[(a = 22 | 0x7ffc4fb0d140) + (b = 22 | 0x7ffc4fb0d1b0)]</font><font color="DA3131">
-[(c = 44 | 0x7ffc4fb0d220)  COPY=  (tmp No0 = 44 | 0x7ffc4fb0d290)]</font><font color="0039AF">
-DTOR: [tmp No0 = 44 | 0x7ffc4fb0d290]</font><font color="0039AF">
-DTOR: [c = 44 | 0x7ffc4fb0d220]</font><font color="0039AF">
-DTOR: [b = 22 | 0x7ffc4fb0d1b0]</font><font color="0039AF">
-DTOR: [a = 22 | 0x7ffc4fb0d140]</font>
+CTOR: [a = 20 | 0x7ffdbcdc32b0]</font><font color="A500AF">
+CTOR: [b = 22 | 0x7ffdbcdc3320]</font><font color="A500AF">
+CTOR: [c = 0 | 0x7ffdbcdc3390]</font>
+---><span>secret_func</span><font color="A500AF">
+    CTOR: [in_secret = 128 | 0x7ffdbcdc34e0]</font>
+<---secret_func<font color="DA3131">
+[(tmp No0 = 20 | 0x7ffdbcdc3400) <<< C O P Y >>> (a = 20 | 0x7ffdbcdc32b0)]</font>
+---><span>func</span><font color="DA3131">
+    [(tmp No1 = 20 | 0x7ffdbcdc3470) <<< C O P Y >>> (tmp No0 = 20 | 0x7ffdbcdc3400)]</font>
+<---func<font color="A500AF">
+CTOR: [tmp No2 = 148 | 0x7ffdbcdc3550]</font> FROM <font color="000000">[(tmp No1 = 20 | 0x7ffdbcdc3470) + (in_secret = 128 | 0x7ffdbcdc34e0)]</font><font color="DA3131">
+[(c = 148 | 0x7ffdbcdc3390)  COPY=  (tmp No2 = 148 | 0x7ffdbcdc3550)]</font><font color="0039AF">
+DTOR: [tmp No2 = 148 | 0x7ffdbcdc3550]</font><font color="0039AF">
+DTOR: [tmp No1 = 20 | 0x7ffdbcdc3470]</font><font color="0039AF">
+DTOR: [tmp No0 = 20 | 0x7ffdbcdc3400]</font><font color="0039AF">
+DTOR: [in_secret = 128 | 0x7ffdbcdc34e0]</font><font color="0039AF">
+DTOR: [c = 148 | 0x7ffdbcdc3390]</font><font color="0039AF">
+DTOR: [b = 22 | 0x7ffdbcdc3320]</font><font color="0039AF">
+DTOR: [a = 20 | 0x7ffdbcdc32b0]</font>
 
-Copies amount = 2, Moves amount = 0.
+Copies amount = 3, Moves amount = 0.
