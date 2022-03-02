@@ -104,7 +104,7 @@ void test0()
 | <img src="Research/Dot_dump_copy.png" alt="Picture 1" width="500"> | <img src="Research/Dot_dump_move.png" alt="Picture 2" width="500"> |
 | ***Picture 1***                                                    | ***Picture 2***                                                    |
 
-The difference in amount of using copying can be seen from the table above.
+The difference in amount of using copying can be seen from the table above. Six copies can be decreased to four.
 
 **CHANGING TEST PROGRAM**
 -------------------------
@@ -145,13 +145,15 @@ void test0()
 | <img src="Research/Dot_dump_copy.png" alt="Picture 1" width="500"> | <img src="Research/Dot_dump_passing_by_reference.png" alt="Picture 3" width="500"> |
 | ***Picture 1***                                                    | ***Picture 3***                                                                    |
 
+It can be seen six copies can be decreased to three.
+
 **DISCUSSION**
 --------------
-In this research the ways of avoiding copying are shown.
+In this research two ways of avoiding copying are shown. They both can be useful in different projects for different purposes so it is quite important to be aware of them.
 
-**TO BE CONTINUED**
--------------------
-Some more text will be written here.
+**ANNOUNCEMENT**
+----------------
+In next researches the using of `std::move` and `std::forward will be taken apart`.
 
 **LITERATURE AND LINKS**
 ------------------------
