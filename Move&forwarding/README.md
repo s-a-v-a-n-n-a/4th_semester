@@ -120,6 +120,8 @@ Now we can observe the results:
 --------------------
 It can be seen that `std::move` is used to make everything an rvalue. That is true because it firstly removes any references and then uses static_cast. It is a really useful thing because it calls existing move operators and allows to work with such primitives as containers when there are no default and copy constructors. 
 
+<img src="Research/std_move.jpg" alt="Picture 3" width="500">
+
 **PROBLEM APPEARED**
 --------------------
 Let's look at the following example:
@@ -184,8 +186,8 @@ Time to see the changes:
 
 | STEALING MOVE | FAIR FORWARD |
 |:-----------------------------------------------------------------------------|:----------------------------------------------------------------------------:|
-| <img src="Research/Spurious_move_of_lvalue.png" alt="Picture 3" width="500"> | <img src="Research/Using_forward_on_lvalue.png" alt="Picture 4" width="500"> |
-| ***Picture 3***<br/>In destructor `a` turns into 0, but it never changed intentionally         | ***Picture 4***<br/>Everything is ok        |
+| <img src="Research/Spurious_move_of_lvalue.png" alt="Picture 4" width="500"> | <img src="Research/Using_forward_on_lvalue.png" alt="Picture 5" width="500"> |
+| ***Picture 4***<br/>In destructor `a` turns into 0, but it never changed intentionally         | ***Picture 5***<br/>Everything is ok        |
 
 **A TINY CATCH**
 ----------------
@@ -193,8 +195,8 @@ Attentive reader may argue: if we pass this argument without `std::forward` the 
 
 | PASSING LVALUE WITH FORWARD | PASSING LVALUE WITHOUT FORWARD |
 |:-----------------------------------------------------------------------------|:-------------------------------------------------------------------:|
-| <img src="Research/Using_forward_on_lvalue.png" alt="Picture 4" width="500"> | <img src="Research/Copying_lvalue.png" alt="Picture 5" width="500"> |
-| ***Picture 4***        | ***Picture 5***       |
+| <img src="Research/Using_forward_on_lvalue.png" alt="Picture 5" width="500"> | <img src="Research/Copying_lvalue.png" alt="Picture 6" width="500"> |
+| ***Picture 5***        | ***Picture 6***       |
 
 The answer is simple: everything is about passed argument. Let us see the example where we pass rvalue as before:
 
@@ -235,13 +237,14 @@ The result is:
 
 | PASSING RVALUE WITH FORWARD | PASSING RVALUE WITHOUT FORWARD |
 |:-----------------------------------------------------------------------------|:-------------------------------------------------------------------:|
-| <img src="Research/Using_forward_on_rvalue.png" alt="Picture 6" width="500"> | <img src="Research/Nothing_used.png" alt="Picture 7" width="500"> |
-| ***Picture 6***<br/>Forward turned into move        | ***Picture 7***<br/>Copy again       |
+| <img src="Research/Using_forward_on_rvalue.png" alt="Picture 7" width="500"> | <img src="Research/Nothing_used.png" alt="Picture 8" width="500"> |
+| ***Picture 7***<br/>Forward turned into move        | ***Picture 8***<br/>Copy again       |
 
 **SECOND CONCLUSION**
 ---------------------
 Now it is clear that if we want to save values in intentionally created variables and avoid copies of one temporary `std::forward` is good enough. It casts lvalue to lvalue and rvalue of any type to rvalue.
 
+<img src="Research/std_forward.jpg" alt="Picture 9" width="500">
 
 **WHY NOT ONLY STD::FORWARD**
 -----------------------------
