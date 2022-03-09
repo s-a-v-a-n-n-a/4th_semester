@@ -57,7 +57,7 @@ In reasons of author's education `my_move` removes `std::move` and `my_forward` 
 
 **MOTIVATION**
 --------------
-Imagine a situation when you want to optimize your program by moving the content from place to place but compiler copies it in reasons that are set in its rules. For example, working with different containers we sometimes want to move the contant of variable than to copy it:
+Imagine a situation when you want to optimize your program by moving the content from place to place but compiler copies it in reasons that are set in its rules. For example, working with different containers we sometimes want to move the content of variable than to copy it:
 
 <pre><code>template< class T >
 void imitaion(T&& arg) 
