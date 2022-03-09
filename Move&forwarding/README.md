@@ -59,8 +59,7 @@ In reasons of author's education `my_move` removes `std::move` and `my_forward` 
 --------------
 Imagine a situation when you want to optimize your program by moving the content from place to place but compiler copies it in reasons that are set in its rules. For example, working with different containers we sometimes want to move the contant of variable than to copy it:
 
-<pre><code>template<class T>
-template<class T>
+<pre><code>template< class T >
 void imitaion(T&& arg) 
 {
     Spy spy(__FUNCTION__);
@@ -69,7 +68,7 @@ void imitaion(T&& arg)
     volatile auto local_tmp = arg;
 }
 
-template<class T>
+template< class T >
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
@@ -85,9 +84,8 @@ void test()
 
 Compilator copies the argument because it turns into lvalue in `wrapper`. How that can be fixed? `std::move` can help:
 
-<pre><code>template<class T>
-template<class T>
-void imitaion_move(T&& arg) 
+<pre><code>template< class T >
+void imitaion_with_move(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
@@ -95,12 +93,12 @@ void imitaion_move(T&& arg)
     volatile auto local_tmp = my_move(arg);
 }
 
-template<class T>
+template< class T >
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_move(arg);
+    imitaion_with_move(arg);
 }
 
 void test()
@@ -126,22 +124,21 @@ It can be seen that `std::move` is used to make everything an rvalue. That is tr
 --------------------
 Let's look at the following example:
 
-<pre><code>template<class T>
-template<class T>
-void imitaion_move(T&& arg) 
-{
+<pre><code>template< class T >
+void imitaion_with_move(T&& arg) 
+{https://en.cppreference.com/w/cpp/utility/forward
     Spy spy(__FUNCTION__);
     
     // like writing into container
     volatile auto local_tmp = my_move(arg);
 }
 
-template<class T>
+template< class T >
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_move(arg);
+    imitaion_with_move(arg);
 }
 
 void test()
@@ -156,9 +153,8 @@ Below we will make sure that our variable `a` will turn into zero (because it ca
 
 Now `std::forward` comes to help us:
 
-<pre><code>template<class T>
-template<class T>
-void imitaion_forward(T&& arg) 
+<pre><code>template< class T >
+void imitaion_with_forward(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
@@ -166,12 +162,12 @@ void imitaion_forward(T&& arg)
     volatile auto local_tmp = my_forward<T>(arg);
 }
 
-template<class T>
+template< class T >
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_forward(my_forward<T>(arg));
+    imitaion_with_forward(my_forward<T>(arg));
 }
 
 void test()
@@ -185,7 +181,7 @@ void test()
 Time to see the changes:
 
 | STEALING MOVE | FAIR FORWARD |
-|:-----------------------------------------------------------------------------|:----------------------------------------------------------------------------:|
+|:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
 | <img src="Research/Spurious_move_of_lvalue.png" alt="Picture 4" width="500"> | <img src="Research/Using_forward_on_lvalue.png" alt="Picture 5" width="500"> |
 | ***Picture 4***<br/>In destructor `a` turns into 0, but it never changed intentionally         | ***Picture 5***<br/>Everything is ok        |
 
@@ -194,15 +190,14 @@ Time to see the changes:
 Attentive reader may argue: if we pass this argument without `std::forward` the result will be the same:
 
 | PASSING LVALUE WITH FORWARD | PASSING LVALUE WITHOUT FORWARD |
-|:-----------------------------------------------------------------------------|:-------------------------------------------------------------------:|
+|:----------------------------------------------------------------------------:|:-------------------------------------------------------------------:|
 | <img src="Research/Using_forward_on_lvalue.png" alt="Picture 5" width="500"> | <img src="Research/Copying_lvalue.png" alt="Picture 6" width="500"> |
 | ***Picture 5***        | ***Picture 6***       |
 
 The answer is simple: everything is about passed argument. Let us see the example where we pass rvalue as before:
 
-<pre><code>template<class T>
-template<class T>
-void imitaion_forward(T&& arg) 
+<pre><code>template< class T >
+void imitaion_with_forward(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
@@ -219,12 +214,12 @@ void imitaion(T&& arg)
     volatile auto local_tmp = arg;
 }
 
-template<class T>
+template< class T >
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_forward(my_forward<T>(arg)); // or just `imitation(arg);` in other case
+    imitaion_with_forward(my_forward<T>(arg)); // or just `imitation(arg);` in other case
 }
 
 void test()
@@ -236,7 +231,7 @@ void test()
 The result is:
 
 | PASSING RVALUE WITH FORWARD | PASSING RVALUE WITHOUT FORWARD |
-|:-----------------------------------------------------------------------------|:-------------------------------------------------------------------:|
+|:----------------------------------------------------------------------------:|:-------------------------------------------------------------------:|
 | <img src="Research/Using_forward_on_rvalue.png" alt="Picture 7" width="500"> | <img src="Research/Nothing_used.png" alt="Picture 8" width="500"> |
 | ***Picture 7***<br/>Forward turned into move        | ***Picture 8***<br/>Copy again       |
 
@@ -248,14 +243,26 @@ Now it is clear that if we want to save values in intentionally created variable
 
 **WHY NOT ONLY STD::FORWARD**
 -----------------------------
-A very good question if we can use only `std::forward` and never `std::move`. The answer is "no". But now the reason in our purposes. Such structures as `std::unique_ptr` cannot be passed by std::forward.
+A very good question if we can use only `std::forward` and never `std::move`. The answer is "no". Now the reason in ideas of their appearing. `std::forward` demands type specifying which overfills the code. In addition, which is also very important, it is supposed to be used for perfect forwarding, when passing argument through several amount of functions that "eat" the type. These two reasons are enough to use `std::forward` only for specific purpose and use `std::move` instead where it is needed.
 
 **DISCUSSION**
 --------------
-
+Now we can get the understanding of how to solve the problem stated in introduction. The conclusion is written everywhere but for very busy people it will be also doubled here: "`std::move` is used for displacing and `std::forward` is used for universal referencing." It is quite important to differentiate these two purposes and to use developer-provided tools correctly. 
 
 **LITERATURE AND LINKS**
 ------------------------
 <li> 
 [Author's github page](https://github.com/s-a-v-a-n-n-a)
+</li>
+<li>
+[About lvalues and rvalues](https://habr.com/ru/post/568306/)
+</li>
+<li>
+[cppreference: remove_reference(https://en.cppreference.com/w/cpp/types/remove_reference)
+</li>
+<li>
+[cppreference: std::move](https://en.cppreference.com/w/cpp/utility/move)
+</li>
+<li>
+[cppreference: std::forward](https://en.cppreference.com/w/cpp/utility/forward)
 </li>

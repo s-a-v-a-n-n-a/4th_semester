@@ -40,7 +40,7 @@ void imitaion(T& arg)
 }
 
 template<class T>
-void wrapper(T& arg) 
+void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
@@ -63,10 +63,10 @@ void test0()
     // imitaion(a);
     // swap(a, b);
     // imitaion_move(a);
-    // std::unique_ptr<Intercepted_int> n;
+    std::unique_ptr<Intercepted_int> n;
 
-    // wrapper(std::forward<std::unique_ptr>(n));
-    wrapper(a);
+    wrapper(std::forward<std::unique_ptr<Intercepted_int>>(n));
+    // wrapper(a);
     // we do not have a right to move it
     // forced move is very very bad
 }
