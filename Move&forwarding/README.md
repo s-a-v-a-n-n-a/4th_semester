@@ -2,7 +2,7 @@
 ================================
 **AUTHORS**
 -----------
-Research was conducted by a second year student at MIPT Anna Savchuk in 2022. All pictures were also creates by author.
+Research was conducted by a second year student at MIPT Anna Savchuk in 2022. All pictures were also created by author.
 
 **INTRODUCTION**
 --------------------
