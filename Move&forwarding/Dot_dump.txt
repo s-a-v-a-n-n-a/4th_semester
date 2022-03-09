@@ -1,6 +1,5 @@
 digraph structs {
-   struct_0_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{20|a|id: 0}|hist: CTOR(a)|0x7ffdf7c85920}"];
-   struct_1_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{22|b|id: 1}|hist: CTOR(b)|0x7ffdf7c85990}"];
+   struct_0_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{20|tmp No0|id: 0}|hist: |0x7fff87724ae0}"];
    subgraph cluster_0 {
       style=filled
       color="#dadada"
@@ -8,14 +7,15 @@ digraph structs {
       subgraph cluster_1 {
          style=filled
          color="#bcbcbc"
-         label=imitaion_forward;
+         label=imitaion_with_forward;
+         struct_1_MOVE [shape=record, style=filled, fillcolor="#7be76d" label="{MOVE|{20|tmp No1|id: 1}|hist: MOVE(tmp No0)|0x7fff87724b50}"];
+         struct_1_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{20|tmp No1|id: 1}|hist: DTOR(tmp No1)|0x7fff87724b50}"];
       }
    }
-   struct_1_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{22|b|id: 1}|hist: DTOR(b)|0x7ffdf7c85990}"];
-   struct_0_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{20|a|id: 0}|hist: DTOR(a)|0x7ffdf7c85920}"];
+   struct_0_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{0|tmp No0|id: 0}|hist: DTOR(tmp No0)|0x7fff87724ae0}"];
     struct_0_CTOR -> struct_0_DTOR [style=dashed color="#000000"];
-    struct_0_CTOR -> struct_1_CTOR [style=invis color="#000000"];
-    struct_1_CTOR -> struct_1_DTOR [style=dashed color="#000000"];
-    struct_1_CTOR -> struct_1_DTOR [style=invis color="#000000"];
+    struct_0_CTOR -> struct_1_MOVE [style=invis color="#000000"];
+    struct_1_MOVE -> struct_1_DTOR [style=dashed color="#000000"];
+    struct_1_MOVE -> struct_1_DTOR [style=invis color="#000000"];
     struct_1_DTOR -> struct_0_DTOR [style=invis color="#000000"];
 }

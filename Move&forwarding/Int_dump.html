@@ -1,11 +1,11 @@
 <!DOCTYPE html><head><link rel="stylesheet" href="style.css"></head><pre><font color="A500AF">
-CTOR: [a = 20 | 0x7ffdf7c85920]</font><font color="A500AF">
-CTOR: [b = 22 | 0x7ffdf7c85990]</font>
+CTOR: [tmp No0 = 20 | 0x7fff87724ae0]</font>
 ---><span>wrapper</span>
-    ---><span>imitaion_forward</span>
-    <---imitaion_forward
+    ---><span>imitaion_with_forward</span><font color="00910A">
+        [(tmp No1 = 20 | 0x7fff87724b50) MOVE (tmp No0 = 20 | 0x7fff87724ae0)]</font><font color="0039AF">
+        DTOR: [tmp No1 = 20 | 0x7fff87724b50]</font>
+    <---imitaion_with_forward
 <---wrapper<font color="0039AF">
-DTOR: [b = 22 | 0x7ffdf7c85990]</font><font color="0039AF">
-DTOR: [a = 20 | 0x7ffdf7c85920]</font>
+DTOR: [tmp No0 = 0 | 0x7fff87724ae0]</font>
 
-Copies amount = 0, Moves amount = 0.
+Copies amount = 0, Moves amount = 1.

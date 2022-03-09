@@ -205,7 +205,7 @@ void imitaion_with_forward(T&& arg)
     volatile auto local_tmp = my_forward<T>(arg);
 }
 
-template<class T>
+template< class T >
 void imitaion(T&& arg) 
 {
     Spy spy(__FUNCTION__);
