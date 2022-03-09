@@ -111,7 +111,7 @@ Now we can observe the results:
 
 | NOTHING WAS USED | MY_MOVE WAS USED |
 |:-----------------------------------------------------------------:|:------------------------------------------------------------:|
-| <img src="Research/Nothing_used.png" alt="Picture 1" width="500"> | <img src="Research/My_move.png" alt="Picture 2" width="500"> |
+| <img src="Research/Nothing_used.png" alt="Picture 1" width="400"> | <img src="Research/My_move.png" alt="Picture 2" width="400"> |
 | ***Picture 1***<br/>Temporary variable turns into lvalue          | ***Picture 2***<br/>The lvalue is forced to be rvalue        |
 
 **FIRST CONCLUSION**
@@ -182,7 +182,7 @@ Time to see the changes:
 
 | STEALING MOVE | FAIR FORWARD |
 |:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="Research/Spurious_move_of_lvalue.png" alt="Picture 4" width="500"> | <img src="Research/Using_forward_on_lvalue.png" alt="Picture 5" width="500"> |
+| <img src="Research/Spurious_move_of_lvalue.png" alt="Picture 4" width="400"> | <img src="Research/Using_forward_on_lvalue.png" alt="Picture 5" width="400"> |
 | ***Picture 4***<br/>In destructor `a` turns into 0, but it never changed intentionally         | ***Picture 5***<br/>Everything is ok        |
 
 **A TINY CATCH**
@@ -191,7 +191,7 @@ Attentive reader may argue: if we pass this argument without `std::forward` the 
 
 | PASSING LVALUE WITH FORWARD | PASSING LVALUE WITHOUT FORWARD |
 |:----------------------------------------------------------------------------:|:-------------------------------------------------------------------:|
-| <img src="Research/Using_forward_on_lvalue.png" alt="Picture 5" width="500"> | <img src="Research/Copying_lvalue.png" alt="Picture 6" width="500"> |
+| <img src="Research/Using_forward_on_lvalue.png" alt="Picture 5" width="400"> | <img src="Research/Copying_lvalue.png" alt="Picture 6" width="400"> |
 | ***Picture 5***        | ***Picture 6***       |
 
 The answer is simple: everything is about passed argument. Let us see the example where we pass rvalue as before:
@@ -232,7 +232,7 @@ The result is:
 
 | PASSING RVALUE WITH FORWARD | PASSING RVALUE WITHOUT FORWARD |
 |:----------------------------------------------------------------------------:|:-------------------------------------------------------------------:|
-| <img src="Research/Using_forward_on_rvalue.png" alt="Picture 7" width="500"> | <img src="Research/Nothing_used.png" alt="Picture 8" width="500"> |
+| <img src="Research/Using_forward_on_rvalue.png" alt="Picture 7" width="400"> | <img src="Research/Nothing_used.png" alt="Picture 8" width="400"> |
 | ***Picture 7***<br/>Forward turned into move        | ***Picture 8***<br/>Copy again       |
 
 **SECOND CONCLUSION**
