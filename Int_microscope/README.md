@@ -258,12 +258,8 @@ In next researches the using of `std::move` and `std::forward will be taken apar
 
 **LITERATURE AND LINKS**
 ------------------------
-<li> 
-[Author's github page](https://github.com/s-a-v-a-n-n-a)
-</li>
-<li>
-  [rvalue-links (short <s>int</s>) in Russian](https://habr.com/ru/post/226229/)
-</li>
-<li>
-  [rvalue-links (long <s>int</s>) in Russian](https://habr.com/ru/post/322132/)
-</li>
+
+ - [Author's github page](https://github.com/s-a-v-a-n-n-a)
+
+ - [rvalue-links (short <s>int</s>) in Russian](https://habr.com/ru/post/226229/)
+ - [rvalue-links (long <s>int</s>) in Russian](https://habr.com/ru/post/322132/)

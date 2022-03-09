@@ -251,18 +251,13 @@ Now we can get the understanding of how to solve the problem stated in introduct
 
 **LITERATURE AND LINKS**
 ------------------------
-<li> 
-[Author's github page](https://github.com/s-a-v-a-n-n-a)
-</li>
-<li>
-[About lvalues and rvalues](https://habr.com/ru/post/568306/)
-</li>
-<li>
-[cppreference: remove_reference(https://en.cppreference.com/w/cpp/types/remove_reference)
-</li>
-<li>
-[cppreference: std::move](https://en.cppreference.com/w/cpp/utility/move)
-</li>
-<li>
-[cppreference: std::forward](https://en.cppreference.com/w/cpp/utility/forward)
-</li>
+
+ - [Author's github page](https://github.com/s-a-v-a-n-n-a)
+
+ - [About lvalues and rvalues](https://habr.com/ru/post/568306/)
+
+ - [cppreference: remove_reference](https://en.cppreference.com/w/cpp/types/remove_reference)
+
+ - [cppreference: std::move](https://en.cppreference.com/w/cpp/utility/move)
+
+ - [cppreference: std::forward](https://en.cppreference.com/w/cpp/utility/forward)
