@@ -126,7 +126,7 @@ Let's look at the following example:
 
 <pre><code>template< class T >
 void imitaion_with_move(T&& arg) 
-{https://en.cppreference.com/w/cpp/utility/forward
+{
     Spy spy(__FUNCTION__);
     
     // like writing into container
