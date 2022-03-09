@@ -248,9 +248,13 @@ Let us see the result.
 --------------
 In this research two ways of avoiding copying are shown. They both can be useful in different projects for different purposes so it is quite important to be aware of them.
 
+**FUNNY PICTURE**
+-----------------
+<img src="Research/funny_move.jpg" alt="Picture 10" width="500">
+
 **ANNOUNCEMENT**
 ----------------
-In next researches the using of `std::move` and `std::forward will be taken apart`. The link to it will appear soon.
+In next researches the using of `std::move` and `std::forward will be taken apart`. Here is [the link](https://github.com/s-a-v-a-n-n-a/4th_semester/tree/main/Move%26forwarding) to it.
 
 **LITERATURE AND LINKS**
 ------------------------
