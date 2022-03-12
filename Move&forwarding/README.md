@@ -59,7 +59,7 @@ In reasons of author's education `my_move` removes `std::move` and `my_forward` 
 --------------
 Imagine a situation when you want to optimize your program by moving the content from place to place but compiler copies it in reasons that are set in its rules. For example, working with different containers we sometimes want to move the content of variable than to copy it:
 
-<pre><code>template< class T >
+<pre><code>template&ltclass T&gt
 void imitaion(T&& arg) 
 {
     Spy spy(__FUNCTION__);
@@ -68,7 +68,7 @@ void imitaion(T&& arg)
     volatile auto local_tmp = arg;
 }
 
-template< class T >
+template&ltclass T&gt
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
@@ -84,7 +84,7 @@ void test()
 
 Compilator copies the argument because it turns into lvalue in `wrapper`. How that can be fixed? `std::move` can help:
 
-<pre><code>template< class T >
+<pre><code>template&ltclass T&gt
 void imitaion_with_move(T&& arg) 
 {
     Spy spy(__FUNCTION__);
@@ -93,7 +93,7 @@ void imitaion_with_move(T&& arg)
     volatile auto local_tmp = my_move(arg);
 }
 
-template< class T >
+template&ltclass T&gt
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
@@ -124,7 +124,7 @@ It can be seen that `std::move` is used to make everything an rvalue. That is tr
 --------------------
 Let's look at the following example:
 
-<pre><code>template< class T >
+<pre><code>template&ltclass T&gt
 void imitaion_with_move(T&& arg) 
 {
     Spy spy(__FUNCTION__);
@@ -133,7 +133,7 @@ void imitaion_with_move(T&& arg)
     volatile auto local_tmp = my_move(arg);
 }
 
-template< class T >
+template&ltclass T&gt
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
@@ -153,21 +153,21 @@ Below we will make sure that our variable `a` will turn into zero (because it ca
 
 Now `std::forward` comes to help us:
 
-<pre><code>template< class T >
+<pre><code>template&ltclass T&gt
 void imitaion_with_forward(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
     // like writing into container
-    volatile auto local_tmp = my_forward< T >(arg);
+    volatile auto local_tmp = my_forward&ltT&gt(arg);
 }
 
-template< class T >
+template&ltclass T&gt
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_with_forward(my_forward< T >(arg));
+    imitaion_with_forward(my_forward&ltT&gt(arg));
 }
 
 void test()
@@ -196,16 +196,16 @@ Attentive reader may argue: if we pass this argument without `std::forward` the 
 
 The answer is simple: everything is about passed argument. Let us see the example where we pass rvalue as before:
 
-<pre><code>template< class T >
+<pre><code>template&ltclass T&gt
 void imitaion_with_forward(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
     // like writing into container
-    volatile auto local_tmp = my_forward< T >(arg);
+    volatile auto local_tmp = my_forward&ltT&gt(arg);
 }
 
-template< class T >
+template&ltclass T&gt
 void imitaion(T&& arg) 
 {
     Spy spy(__FUNCTION__);
@@ -214,12 +214,12 @@ void imitaion(T&& arg)
     volatile auto local_tmp = arg;
 }
 
-template< class T >
+template&ltclass T&gt
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_with_forward(my_forward< T >(arg)); // or just `imitation(arg);` in other case
+    imitaion_with_forward(my_forward&ltT&gt(arg)); // or just `imitation(arg);` in other case
 }
 
 void test()
