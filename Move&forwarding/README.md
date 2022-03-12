@@ -159,7 +159,7 @@ void imitaion_with_forward(T&& arg)
     Spy spy(__FUNCTION__);
     
     // like writing into container
-    volatile auto local_tmp = my_forward<T>(arg);
+    volatile auto local_tmp = my_forward< T >(arg);
 }
 
 template< class T >
@@ -167,7 +167,7 @@ void wrapper(T&& arg)
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_with_forward(my_forward<T>(arg));
+    imitaion_with_forward(my_forward< T >(arg));
 }
 
 void test()
@@ -202,7 +202,7 @@ void imitaion_with_forward(T&& arg)
     Spy spy(__FUNCTION__);
     
     // like writing into container
-    volatile auto local_tmp = my_forward<T>(arg);
+    volatile auto local_tmp = my_forward< T >(arg);
 }
 
 template< class T >
@@ -219,7 +219,7 @@ void wrapper(T&& arg)
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_with_forward(my_forward<T>(arg)); // or just `imitation(arg);` in other case
+    imitaion_with_forward(my_forward< T >(arg)); // or just `imitation(arg);` in other case
 }
 
 void test()
