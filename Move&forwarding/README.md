@@ -6,7 +6,7 @@ Research was conducted by a second year student at MIPT Anna Savchuk in 2022. Al
 
 **INTRODUCTION**
 --------------------
-In [last article](https://github.com/s-a-v-a-n-n-a/4th_semester/tree/main/Int_microscope#readme) about move and copy investigation it was established that move is better in effectiveness. But is it really appropriate for constant usage and why?
+In [last article](https://github.com/s-a-v-a-n-n-a/4th_semester/tree/main/Int_microscope#readme) about move and copy investigation was established that move is better in effectiveness. But is it really appropriate for constant usage and why?
 
 In this investigation `std::move` and `std::forward` will be studied and some illustrating examples will be shown.
 
@@ -53,7 +53,7 @@ To disable copy elision `-fno-elide-constructors` flag is used.
 **COMMENT**
 -----------
 
-In reasons of author's education `my_move` removes `std::move` and `my_forward` removes `std::forward`. They actually do the same but we need to understand how they work.
+In reasons of author's education `my_move` will be removed by `std::move` and `my_forward` removed by `std::forward`. They actually do the same but I needed to understand how they work because I am a student.
 
 **MOTIVATION**
 --------------
