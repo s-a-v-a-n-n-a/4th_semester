@@ -291,14 +291,14 @@ Eventually, I will double the table comparising `std::move` and `std::forward` a
 | T& | T&& | __T&__ |
 | T&& | T&& | T&& |
 
-**LITERATURE AND LINKS**
-------------------------
+**RVALUE REFERENCES**
+---------------------
 
  - [Author's github page](https://github.com/s-a-v-a-n-n-a)
 
- - [Last article about move and copy operators](https://github.com/s-a-v-a-n-n-a/4th_semester/tree/main/Int_microscope#readme) 
+ - [Author's article about move and copy operators](https://github.com/s-a-v-a-n-n-a/4th_semester/tree/main/Int_microscope#readme) 
 
- - [About lvalues and rvalues](https://habr.com/ru/post/568306/)
+ - [Habr article about lvalues and rvalues](https://habr.com/ru/post/568306/)
 
  - [cppreference: remove_reference](https://en.cppreference.com/w/cpp/types/remove_reference)
 
