@@ -43,7 +43,7 @@ There are several designations in graphical dump used.
 | STRUCTURE | EXAMPLE |
 |:---------:|:-------:|
 | <img src="Research/Example.jpg" alt="Picture 0" width="400"> | <img src="Research/Rectangle_real.jpg" alt="Picture 1" width="300"> |
-| <em><b>Picture 0</b><br/>The structure of rectangles.</em> | <em><b>Picture 1</b><br/> Example of rectangle structure.</em> |
+| <em><b>Picture 0</b><br/>Structure of rectangles.</em> | <em><b>Picture 1</b><br/> Example of rectangle structure.</em> |
 
 
 
@@ -54,7 +54,7 @@ There are several designations in graphical dump used.
 | STRUCTURE | EXAMPLE |
 |:---------:|:-------:|
 | <img src="Research/Hexagon_example.jpg" alt="Picture 2" width="400"> | <img src="Research/Hexagon_real.jpg" alt="Picture 3" width="200"> |
-| <em><b>Picture 2</b><br/>The structure of hexagons.</em> | <em><b>Picture 3</b><br/>The structure of hexagons.</em> |
+| <em><b>Picture 2</b><br/>Structure of hexagons.</em> | <em><b>Picture 3</b><br/>Example of hexagon structure.</em> |
 
 
 To disable copy elision `-fno-elide-constructors` flag is used.
