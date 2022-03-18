@@ -1,7 +1,7 @@
 #ifndef TEST0_HPP
 #define TEST0_HPP
 
-#include <memory>
+#include <memory> 
 
 #include "../math_structures/Intercepted_int.hpp"
 #include "../math_structures/Int_container.hpp"
@@ -22,7 +22,7 @@ void imitaion_with_forward(T&& arg)
 }
 
 template< class T >
-void imitaion(T&& arg) 
+void container_push_imitaion(T arg) 
 {
     Spy spy(__FUNCTION__);
     
@@ -35,11 +35,19 @@ void wrapper(T&& arg)
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_with_forward(my_forward<T>(arg)); // or just `imitation(arg);` in other case
+    container_push_imitaion(my_forward<T>(arg));
 }
 
 void test0()
 {
+    // VAR(a, 20);
+    
+    // printf("variable a: %d\n", a.get_num());
+    // container_push_imitaion(a);
+    // printf("variable a after \"safe\" function: %d\n", a.get_num());
+
     wrapper(Intercepted_int(20));
+
+    // printf("variable a after wrapper: %d\n", a.get_num());
 }
 #endif // TEST0_HPP

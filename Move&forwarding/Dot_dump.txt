@@ -1,21 +1,26 @@
 digraph structs {
-   struct_0_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{20|tmp No0|id: 0}|hist: |0x7fff87724ae0}"];
+   struct_0_CTOR [shape=record, style=filled, fillcolor="#ffffff" label="{CTOR|{20|tmp No0|id: 0}|hist: |0x7ffc34fa15e0}"];
    subgraph cluster_0 {
       style=filled
       color="#dadada"
       label=wrapper;
+      struct_1_MOVE [shape=record, style=filled, fillcolor="#7be76d" label="{MOVE|{20|tmp No1|id: 1}|hist: MOVE(tmp No0)|0x7ffc34fa14f0}"];
       subgraph cluster_1 {
          style=filled
          color="#bcbcbc"
-         label=imitaion_with_forward;
-         struct_1_MOVE [shape=record, style=filled, fillcolor="#7be76d" label="{MOVE|{20|tmp No1|id: 1}|hist: MOVE(tmp No0)|0x7fff87724b50}"];
-         struct_1_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{20|tmp No1|id: 1}|hist: DTOR(tmp No1)|0x7fff87724b50}"];
+         label=container_push_imitaion;
+         struct_2_COPY [shape=record, style=filled, fillcolor="#da3131" label="{COPY|{20|tmp No2|id: 2}|hist: COPY(tmp No1)|0x7ffc34fa1560}"];
+         struct_2_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{20|tmp No2|id: 2}|hist: DTOR(tmp No2)|0x7ffc34fa1560}"];
       }
+      struct_1_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{20|tmp No1|id: 1}|hist: DTOR(tmp No1)|0x7ffc34fa14f0}"];
    }
-   struct_0_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{0|tmp No0|id: 0}|hist: DTOR(tmp No0)|0x7fff87724ae0}"];
+   struct_0_DTOR [shape=record, style=filled, fillcolor="#ffffff" label="{DTOR|{0|tmp No0|id: 0}|hist: DTOR(tmp No0)|0x7ffc34fa15e0}"];
     struct_0_CTOR -> struct_0_DTOR [style=dashed color="#000000"];
     struct_0_CTOR -> struct_1_MOVE [style=invis color="#000000"];
     struct_1_MOVE -> struct_1_DTOR [style=dashed color="#000000"];
-    struct_1_MOVE -> struct_1_DTOR [style=invis color="#000000"];
+    struct_1_MOVE -> struct_2_COPY [style=invis color="#000000"];
+    struct_2_COPY -> struct_2_DTOR [style=dashed color="#000000"];
+    struct_2_COPY -> struct_2_DTOR [style=invis color="#000000"];
+    struct_2_DTOR -> struct_1_DTOR [style=invis color="#000000"];
     struct_1_DTOR -> struct_0_DTOR [style=invis color="#000000"];
 }

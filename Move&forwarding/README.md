@@ -125,65 +125,104 @@ It can be seen that `std::move` is used to make everything an rvalue. That is tr
 Let's look at the following example:
 
 <pre><code>template&ltclass T&gt
-void imitaion_with_move(T&& arg) 
+void container_push_imitaion(T arg) 
 {
     Spy spy(__FUNCTION__);
     
     // like writing into container
-    volatile auto local_tmp = my_move(arg);
+    volatile auto local_tmp = arg;
 }
 
-template&ltclass T&gt
+template&ltclass T&rt
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_with_move(arg);
+    container_push_imitaion(my_move(arg));
 }
 
 void test()
 {
     VAR(a, 20);
     
+    printf("variable a: %d\n",  a.get_num());
+    container_push_imitaion(a);
+    printf("variable a after \"safe\" function: %d\n", a.get_num());
+
     wrapper(a);
+
+    printf("variable a after wrapper: %d\n", a.get_num());
 }
 </code></pre>
 
-Below we will make sure that our variable `a` will turn into zero (because it can be considered as int's default state) and it is not its desired behaviour.
+Let's make sure that our variable `a` turns into zero (because it can be considered as int's default state):
+
+<code><pre>
+variable a: 20
+after "safe" function: 20
+after wrapper: 0
+</code></pre>
+
+It is not desired behaviour of our program.
 
 Now `std::forward` comes to help us:
 
 <pre><code>template&ltclass T&gt
-void imitaion_with_forward(T&& arg) 
+void container_push_imitaion(T arg) 
 {
     Spy spy(__FUNCTION__);
     
     // like writing into container
-    volatile auto local_tmp = my_forward&ltT&gt(arg);
+    volatile auto local_tmp = arg;
 }
 
-template&ltclass T&gt
+template&ltclass T&rt
 void wrapper(T&& arg) 
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_with_forward(my_forward&ltT&gt(arg));
+    container_push_imitaion(my_forward&ltT&gt(arg));
 }
 
 void test()
 {
     VAR(a, 20);
     
+    printf("variable a: %d\n",  a.get_num());
+    container_push_imitaion(a);
+    printf("variable a after \"safe\" function: %d\n", a.get_num());
+
     wrapper(a);
+
+    printf("variable a after wrapper: %d\n", a.get_num());
 }
 </code></pre>
+
+This code will show the other result:
+
+<code><pre>
+variable a: 20
+after "safe" function: 20
+after wrapper: 20
+</code></pre>
+
+And it is OK.
 
 Time to see the changes:
 
 | STEALING MOVE | FAIR FORWARD |
-|:----------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="Research/Spurious_move_of_lvalue.png" alt="Picture 4" width="400"> | <img src="Research/Using_forward_on_lvalue.png" alt="Picture 5" width="400"> |
+|:-------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
+| <img src="Research/Using_move_on_lvalue.png" alt="Picture 4" width="400"> | <img src="Research/Using_forward_on_lvalue.png" alt="Picture 5" width="400"> |
 | ***Picture 4***<br/>In destructor `a` turns into 0, but it never changed intentionally         | ***Picture 5***<br/>Everything is ok        |
+
+Here is significant table to differentiate one operation from another:
+
+| COMPARISON PARAMETER | STD::MOVE | STD::FORWARD |
+|:--------------------:|:---------:|:------------:|
+| T | T&& | T&& |
+| T& | T&& | __T&__ |
+| T&& | T&& | T&& |
+
 
 **A TINY CATCH**
 ----------------
@@ -197,16 +236,7 @@ Attentive reader may argue: if we pass this argument without `std::forward` the 
 The answer is simple: everything is about passed argument. Let us see the example where we pass rvalue as before:
 
 <pre><code>template&ltclass T&gt
-void imitaion_with_forward(T&& arg) 
-{
-    Spy spy(__FUNCTION__);
-    
-    // like writing into container
-    volatile auto local_tmp = my_forward&ltT&gt(arg);
-}
-
-template&ltclass T&gt
-void imitaion(T&& arg) 
+void container_push_imitaion(T arg) 
 {
     Spy spy(__FUNCTION__);
     
@@ -219,7 +249,8 @@ void wrapper(T&& arg)
 {
     Spy spy(__FUNCTION__);
     
-    imitaion_with_forward(my_forward&ltT&gt(arg)); // or just `imitation(arg);` in other case
+    // or just `container_push_imitaion(arg);` in other case
+    container_push_imitaion(my_forward&ltT&gt(arg));
 }
 
 void test()
@@ -245,9 +276,17 @@ Now it is clear that if we want to save values in intentionally created variable
 -----------------------------
 A very good question if we can use only `std::forward` and never `std::move`. The answer is "no". Now the reason in ideas of their appearing. `std::forward` demands type specifying which overfills the code. In addition, which is also very important, it is supposed to be used for perfect forwarding, when passing argument through several amount of functions that "eat" the type. These two reasons are enough to use `std::forward` only for specific purpose and use `std::move` instead where it is needed.
 
-**DISCUSSION**
+**CONCLUSION**
 --------------
 Now we can get the understanding of how to solve the problem stated in introduction. The conclusion is written everywhere but for very busy people it will be also doubled here: "`std::move` is used for displacing and `std::forward` is used for universal referencing." It is quite important to differentiate these two purposes and to use developer-provided tools correctly. 
+
+Eventually, I will double the table comparising `std::move` and `std::forward` as it is a very important result:
+
+| COMPARISON PARAMETER | STD::MOVE | STD::FORWARD |
+|:--------------------:|:---------:|:------------:|
+| T | T&& | T&& |
+| T& | T&& | __T&__ |
+| T&& | T&& | T&& |
 
 **LITERATURE AND LINKS**
 ------------------------

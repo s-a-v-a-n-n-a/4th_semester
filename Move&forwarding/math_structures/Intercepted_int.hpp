@@ -100,6 +100,11 @@ public:
     bool operator>(const Intercepted_int &other) const;
     bool operator<=(const Intercepted_int &other) const;
     bool operator>=(const Intercepted_int &other) const;
+
+    // operator int()
+    // {
+    //     return num;
+    // }
 };
 
 // struct Event
