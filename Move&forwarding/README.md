@@ -39,16 +39,22 @@ There are several designations in graphical dump used.
 <li>
   <em><b>Picture 0</b></em> shows the organization of information in rectangle boxes. For reasons of clarity the history shows operations since last change of variable.
 </li>
-<img src="Research/Example.jpg" alt="Picture 0" width="400">
-<em><b>Picture 0</b></em>
-<em>The structure of rectangles.</em>
+
+| STRUCTURE | EXAMPLE |
+|:---------:|:-------:|
+| <img src="Research/Example.jpg" alt="Picture 0" width="400"> | <img src="Research/Rectangle_real.jpg" alt="Picture 1" width="300"> |
+| <em><b>Picture 0</b><br/>The structure of rectangles.</em> | <em><b>Picture 1</b><br/> Example of rectangle structure.</em> |
+
+
+
 <li>
   Hexagons show binary operations.
 </li>
 
-<img src="Research/Hexagon_example.jpg" alt="Picture 1" width="400">
-<em><b>Picture 1</b></em>
-<em>The structure of hexagons.</em>
+| STRUCTURE | EXAMPLE |
+|:---------:|:-------:|
+| <img src="Research/Hexagon_example.jpg" alt="Picture 2" width="400"> | <img src="Research/Hexagon_real.jpg" alt="Picture 3" width="200"> |
+| <em><b>Picture 2</b><br/>The structure of hexagons.</em> | <em><b>Picture 3</b><br/>The structure of hexagons.</em> |
 
 
 To disable copy elision `-fno-elide-constructors` flag is used.
@@ -114,14 +120,14 @@ Now we can observe the results:
 
 | NOTHING WAS USED | MY_MOVE WAS USED |
 |:-----------------------------------------------------------------:|:------------------------------------------------------------:|
-| <img src="Research/Nothing_used.png" alt="Picture 2" width="400"> | <img src="Research/My_move.png" alt="Picture 3" width="400"> |
-| ***Picture 2***<br/>Temporary variable turns into lvalue          | ***Picture 3***<br/>The lvalue is forced to be rvalue        |
+| <img src="Research/Nothing_used.png" alt="Picture 4" width="400"> | <img src="Research/My_move.png" alt="Picture 5" width="400"> |
+| ***Picture 4***<br/>Temporary variable turns into lvalue          | ***Picture 5***<br/>The lvalue is forced to be rvalue        |
 
 **FIRST CONCLUSION**
 --------------------
 It can be seen that `std::move` is used to make everything an rvalue. That is true because it firstly removes any references and then uses static_cast. It is a really useful thing because it calls existing move operators and allows to work with such primitives as containers when there are no default and copy constructors. 
 
-<img src="Research/std_move.jpg" alt="Picture 4" width="500">
+<img src="Research/std_move.jpg" alt="Picture 6" width="500">
 
 **PROBLEM APPEARED**
 --------------------
@@ -215,8 +221,8 @@ Time to see the changes:
 
 | STEALING MOVE | FAIR FORWARD |
 |:-------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-| <img src="Research/Using_move_on_lvalue.png" alt="Picture 5" width="400"> | <img src="Research/Using_forward_on_lvalue.png" alt="Picture 6" width="400"> |
-| ***Picture 5***<br/>In destructor `a` turns into 0, but it never changed intentionally         | ***Picture 6***<br/>Everything is ok        |
+| <img src="Research/Using_move_on_lvalue.png" alt="Picture 7" width="400"> | <img src="Research/Using_forward_on_lvalue.png" alt="Picture 8" width="400"> |
+| ***Picture 7***<br/>In destructor `a` turns into 0, but it never changed intentionally         | ***Picture 8***<br/>Everything is ok        |
 
 Here is significant table to differentiate one operation from another:
 
@@ -233,8 +239,8 @@ Attentive reader may argue: if we pass this argument without `std::forward` the 
 
 | PASSING LVALUE WITH FORWARD | PASSING LVALUE WITHOUT FORWARD |
 |:----------------------------------------------------------------------------:|:-------------------------------------------------------------------:|
-| <img src="Research/Using_forward_on_lvalue.png" alt="Picture 6" width="400"> | <img src="Research/Copying_lvalue.png" alt="Picture 7" width="400"> |
-| ***Picture 6***        | ***Picture 7***       |
+| <img src="Research/Using_forward_on_lvalue.png" alt="Picture 8" width="400"> | <img src="Research/Copying_lvalue.png" alt="Picture 9" width="400"> |
+| ***Picture 8***        | ***Picture 9***       |
 
 The answer is simple: everything is about passed argument. Let us see the example where we pass rvalue as before:
 
@@ -266,14 +272,14 @@ The result is:
 
 | PASSING RVALUE WITH FORWARD | PASSING RVALUE WITHOUT FORWARD |
 |:----------------------------------------------------------------------------:|:-------------------------------------------------------------------:|
-| <img src="Research/Using_forward_on_rvalue.png" alt="Picture 8" width="400"> | <img src="Research/Nothing_used.png" alt="Picture 9" width="400"> |
-| ***Picture 8***<br/>Forward turned into move        | ***Picture 9***<br/>Copy again       |
+| <img src="Research/Using_forward_on_rvalue.png" alt="Picture 10" width="400"> | <img src="Research/Nothing_used.png" alt="Picture 11" width="400"> |
+| ***Picture 10***<br/>Forward turned into move        | ***Picture 11***<br/>Copy again       |
 
 **SECOND CONCLUSION**
 ---------------------
 Now it is clear that if we want to save values in intentionally created variables and avoid copies of one temporary `std::forward` is good enough. It casts lvalue to lvalue and rvalue of any type to rvalue.
 
-<img src="Research/std_forward.jpg" alt="Picture 10" width="500">
+<img src="Research/std_forward.jpg" alt="Picture 12" width="500">
 
 **WHY NOT ONLY STD::FORWARD**
 -----------------------------
