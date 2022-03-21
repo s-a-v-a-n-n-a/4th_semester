@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "cstdarg": "cpp",
+        "cstdio": "cpp",
+        "initializer_list": "cpp"
+    }
+}
