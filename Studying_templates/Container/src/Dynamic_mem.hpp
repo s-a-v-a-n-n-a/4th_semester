@@ -40,7 +40,9 @@ public:
     // Modifiers
     void clear();
 
-    void resize();
+    void resize(size_t new_size);
+    void resize(size_t new_size, const T& value);
+    
     void push_back(const T& value); 
     void push_back(T&& value); 
 

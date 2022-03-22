@@ -41,7 +41,13 @@ void Static_mem<T, Size>::clear()
 }
 
 template <typename T, size_t Size>
-void Static_mem<T, Size>::resize()
+void Static_mem<T, Size>::resize(size_t new_size)
+{
+    std::static_assert(resizeable, "Data can't be resized\n");
+}
+
+template <typename T, size_t Size>
+void Static_mem<T, Size>::resize(size_t new_size, const T& value)
 {
     std::static_assert(resizeable, "Data can't be resized\n");
 }

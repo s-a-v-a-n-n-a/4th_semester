@@ -74,20 +74,35 @@ void Dynamic_mem<T, Size>::clear()
 } 
 
 template <typename T, size_t Size>
-void Dynamic_mem<T, Size>::resize() 
+void Dynamic_mem<T, Size>::resize(size_t new_size) 
 {
-    std::static_assert(resizeable, "Data can't be resized\n");
-    
-    size_t new_capacity = capacity_ * 2;
-    
-    T* new_data = (T*)calloc(new_capacity, sizeof(T));
+    T* new_data = (T*)calloc(new_size, sizeof(T));
     for (size_t idx = 0; idx < size_; ++i) 
     {
         new_data[idx] = new T(std::move(data_[idx]));
     }
 
     data_ = new_data;
-    capacity_ = new_capacity;
+    capacity_ = new_size;
+
+    free(new_data);
+}
+
+template <typename T, size_t Size>
+void Dynamic_mem<T, Size>::resize(size_t new_size, const T& value)
+{
+    T* new_data = (T*)calloc(new_size, sizeof(T));
+    for (size_t idx = 0; idx < size_; ++i) 
+    {
+        new_data[idx] = new T(std::move(data_[idx]));
+    }
+    for (size_t idx = size_; idx < new_size; ++i)
+    {
+        new_data[idx] = new T(value);
+    }
+
+    data_ = new_data;
+    capacity_ = new_size;
 
     free(new_data);
 }

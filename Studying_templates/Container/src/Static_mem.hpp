@@ -21,7 +21,7 @@ public:
     ~Static_mem();
 
     // Size
-    size_t get_capacity() const { return capacity_; }
+    size_t get_capacity() const { return size_; }
 
     // Data
     T &data(size_t index);
@@ -38,7 +38,8 @@ public:
     // Modifiers
     void clear();
 
-    void resize();
+    void resize(size_t new_size);
+    void resize(size_t new_size, const T& value);
     // void push_back(const T& value); 
     // void push_back(T&& value); 
     // void pop_back();
