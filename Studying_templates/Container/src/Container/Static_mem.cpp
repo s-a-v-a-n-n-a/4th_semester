@@ -1,18 +1,15 @@
 #include "Static_mem.hpp"
 
 template <typename T, size_t Size>
-static bool Static_mem<T, Size>::resizeable = false;
-
-template <typename T, size_t Size>
-Static_mem<T, Size>::Static_mem() : size_(Size)
+Static_mem<T, Size>::Static_mem() : size_(Size), resizeable(false)
 {
 }
 
 template <typename T, size_t Size>
 Static_mem<T, Size>::Static_mem(std::initializer_list<T> list) 
-: size_(Size)
+: size_(Size), resizeable(false)
 {
-    std::static_assert(list.size() <= size_, "Invalid size\n");
+    static_assert(list.size() <= size_, "Invalid size\n");
 
     for (auto idx = list.begin(), i = 0; idx != list.end(); idx++, i++)
     {
@@ -43,13 +40,13 @@ void Static_mem<T, Size>::clear()
 template <typename T, size_t Size>
 void Static_mem<T, Size>::resize(size_t new_size)
 {
-    std::static_assert(resizeable, "Data can't be resized\n");
+    static_assert(resizeable, "Data can't be resized\n");
 }
 
 template <typename T, size_t Size>
 void Static_mem<T, Size>::resize(size_t new_size, const T& value)
 {
-    std::static_assert(resizeable, "Data can't be resized\n");
+    static_assert(resizeable, "Data can't be resized\n");
 }
 
 // template <typename T, size_t Size>

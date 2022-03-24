@@ -35,7 +35,7 @@ template
     size_t Size,
     template <typename Storage_type, size_t Storage_size> class Storage
 >
-class Container<bool, Size, Storage> : public Storage<unsigned char, ceil((float)Size/(float)sizeof(unsigned char))>
+class Container<bool, Size, Storage> : public Storage<unsigned char, Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)>
 {
 private:
     size_t bools_amount_;
@@ -63,15 +63,15 @@ private:
         {
             index_ = virtual_index / sizeof(unsigned char);
             bit_ = virtual_index % sizeof(unsigned char);
-            value_ = (data_[index_] << bit_) & 1;
+            value_ = (Storage<bool, Size>::data_[index_] << bit_) & 1;
         }
 
         void operator = (const bool& other)
         {
             value_ = other;
 
-            data_[index_] &= ~(1 << bit_);
-            data_[index_] |= (value_ << bit_);
+            Storage<bool, Size>::data_[index_] &= ~(1 << bit_);
+            Storage<bool, Size>::data_[index_] |= (value_ << bit_);
         }
     };
 
@@ -88,7 +88,7 @@ public:
     // Capacity
     // bool empty() { return (size_ == 0) }
     size_t size() const { return bools_amount_; }
-    size_t capacity() const { return get_capacity() * sizeof(unsigned char); }
+    size_t capacity() const { return capacity() * sizeof(unsigned char); }
     // size_t max_size();
     // void shrink_to_fit(); 
 

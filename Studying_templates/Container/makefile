@@ -19,7 +19,9 @@ OBJ     	= obj/
 EXE     	= main
  
 FILES   	= $(OBJ)main.o \
-			  $(OBJ)src/Container.o \
+			  $(OBJ)src/Container/Static_mem.o \
+ 			  $(OBJ)src/Container/Dynamic_mem.o \
+			  $(OBJ)src/Container/Container.o \
 
           # остальные файлы по правилу a.cpp -> $(OBJ)a.o (a может содержать путь)
  

@@ -1,18 +1,15 @@
 #include "Dynamic_mem.hpp"
 
 template <typename T, size_t Size>
-static bool Dynamic_mem<T, Size>::resizeable = true;
-
-template <typename T, size_t Size>
-Dynamic_mem<T, Size>::Dynamic_mem() : size_(0), capacity_(Size)
+Dynamic_mem<T, Size>::Dynamic_mem() : size_(0), capacity_(Size), resizeable(true)
 {
     data_ = (T*)calloc(Size, sizeof(T));
 }
 
 template <typename T, size_t Size>
-Dynamic_mem<T, Size>::Dynamic_mem(size_t amount, const T& initial_element) : size_(0)
+Dynamic_mem<T, Size>::Dynamic_mem(size_t amount, const T& initial_element) : size_(0), resizeable(true)
 {
-    capacity_ = (amount > Size_ ? amount : Size);
+    capacity_ = (amount > Size ? amount : Size);
     data_ = (T*)calloc(capacity_, sizeof(T));
 
     for (size_t i = 0; i < amount; i++)
@@ -22,9 +19,9 @@ Dynamic_mem<T, Size>::Dynamic_mem(size_t amount, const T& initial_element) : siz
 }
 
 template <typename T, size_t Size>
-Dynamic_mem<T, Size>::Dynamic_mem(std::initializer_list<T> list) : size_(list.size()), capacity_(Size)
+Dynamic_mem<T, Size>::Dynamic_mem(std::initializer_list<T> list) : size_(list.size()), capacity_(Size), resizeable(true)
 {
-    std::static_assert(size_ <= capacity_, "Invalid size\n");
+    static_assert(size_ <= capacity_, "Invalid size\n");
     
     data_ = (T*)calloc(Size, sizeof(T));
 
@@ -51,7 +48,7 @@ void Dynamic_mem<T, Size>::shrink_to_fit()
     size_t new_capacity = size_;
     
     T* new_data = (T*)calloc(new_capacity, sizeof(T));
-    for (size_t idx = 0; idx < size_; ++i) 
+    for (size_t idx = 0; idx < size_; ++idx) 
     {
         new_data[idx] = new T(std::move(data_[idx]));
     }
@@ -65,9 +62,9 @@ void Dynamic_mem<T, Size>::shrink_to_fit()
 template <typename T, size_t Size>
 void Dynamic_mem<T, Size>::clear()
 {
-    for (size_t i = 0; i < size_; ++i)
+    for (size_t idx = 0; idx < size_; ++idx)
     {
-        data_[i].~T();
+        data_[idx].~T();
     }
 
     size_ = 0;
@@ -77,7 +74,7 @@ template <typename T, size_t Size>
 void Dynamic_mem<T, Size>::resize(size_t new_size) 
 {
     T* new_data = (T*)calloc(new_size, sizeof(T));
-    for (size_t idx = 0; idx < size_; ++i) 
+    for (size_t idx = 0; idx < size_; ++idx) 
     {
         new_data[idx] = new T(std::move(data_[idx]));
     }
@@ -92,11 +89,11 @@ template <typename T, size_t Size>
 void Dynamic_mem<T, Size>::resize(size_t new_size, const T& value)
 {
     T* new_data = (T*)calloc(new_size, sizeof(T));
-    for (size_t idx = 0; idx < size_; ++i) 
+    for (size_t idx = 0; idx < size_; ++idx) 
     {
         new_data[idx] = new T(std::move(data_[idx]));
     }
-    for (size_t idx = size_; idx < new_size; ++i)
+    for (size_t idx = size_; idx < new_size; ++idx)
     {
         new_data[idx] = new T(value);
     }
@@ -144,7 +141,7 @@ void Dynamic_mem<T, Size>::emplace_back(Args&&... args)
 template <typename T, size_t Size>
 void Dynamic_mem<T, Size>::pop_back()
 {
-    std::static_assert(size_ >= 0, "Nothing to pop\n");
+    static_assert(size_ >= 0, "Nothing to pop\n");
     
     data_[size_--].~T();
 }

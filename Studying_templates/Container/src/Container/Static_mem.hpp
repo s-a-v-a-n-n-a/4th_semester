@@ -2,6 +2,8 @@
 #define STATIC_MEM_HPP
 
 #include <cstdio>
+#include <cstdlib>
+#include <utility>
 #include <initializer_list>
 
 template <typename T, size_t Size>
@@ -12,7 +14,7 @@ private:
 
     const size_t size_;
 
-    static bool resizeable;
+    const bool resizeable;
 
 public: 
     Static_mem();
@@ -27,9 +29,9 @@ public:
     T &data(size_t index);
 
     // Capacity
-    bool empty() { return (size_ == 0) }
+    bool empty() { return (size_ == 0); }
     size_t size() const { return size_; }
-    size_t capacity() const { return get_capacity(); }
+    size_t capacity() const { return size(); }
     // size_t max_size();
     // void shrink_to_fit() {} 
 
