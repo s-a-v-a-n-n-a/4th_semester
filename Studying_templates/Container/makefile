@@ -7,7 +7,7 @@ else
 ASAN =
 endif
 
-COMPILATOR  = g++ -std=c++17 #clang++ -std=c++17
+COMPILATOR  = clang++-12 -std=c++20 #clang++ -std=c++17
 INC     	= 
 NO_OPT		= -fno-elide-constructors
 SFML    	= -lsfml-graphics -lsfml-window -lsfml-system
@@ -52,8 +52,6 @@ clean:
 
 run: all
 	 ./$(EXE)
-	 dot Dot_dump.txt -Tpng -o Dot_dump.png
-	 fim -a Dot_dump.png
 
 
 # COMPILATOR = g++

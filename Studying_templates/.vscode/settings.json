@@ -3,6 +3,13 @@
         "cstdarg": "cpp",
         "cstdio": "cpp",
         "initializer_list": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "cmath": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "limits": "cpp",
+        "*.tcc": "cpp",
+        "cstdint": "cpp",
+        "typeinfo": "cpp"
     }
 }

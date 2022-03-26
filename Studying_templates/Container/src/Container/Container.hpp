@@ -17,18 +17,39 @@ template
 class Container : public Storage<T, Size>
 {
 private:
+    typedef Storage<T, Size> Base;
 
 public:
-    Container();
-    Container(std::initializer_list<T> list);
+    Container() : Base()
+    {
+    }
+
+    Container(std::initializer_list<T> list) : Base(list) 
+    {
+    }
 
     // Element access
-    T& front();
-    T& back();
-    T &operator [] (const size_t index);
+    T& front()
+    {
+        assert(Base::size_ > 0); // , "Invalid index\n"
+
+        return Base::data_[0];
+    }
+    T& back()
+    {
+        assert(Base::size_ > 0); // , "Invalid index\n"
+        
+        return Base::data_[Storage<bool, Size>::size_ - 1];
+    }
+    T &operator [] (const size_t index)
+    { 
+        assert(index < Base::size_); // , "Invalid index\n"
+        
+        return Base::data_[index]; 
+    }
 };
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template
 <
@@ -38,16 +59,22 @@ template
 class Container<bool, Size, Storage> : public Storage<unsigned char, Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)>
 {
 private:
+    using Bool_base = Storage<unsigned char, Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)>;
+
     size_t bools_amount_;
 
     struct Bool_wrapper
     {
+        Container<bool, Size, Storage> *source_;
+        
         size_t index_;
         unsigned char bit_;
 
         bool value_;
     
-        Bool_wrapper()
+        Bool_wrapper() = delete;
+        
+        Bool_wrapper(Container<bool, Size, Storage> *source) : source_(source)
         {
             update(0);
         }
@@ -63,47 +90,121 @@ private:
         {
             index_ = virtual_index / sizeof(unsigned char);
             bit_ = virtual_index % sizeof(unsigned char);
-            value_ = (Storage<bool, Size>::data_[index_] << bit_) & 1;
+            value_ = (source_->get_value(index_) << bit_) & 1;
         }
 
-        void operator = (const bool& other)
+        void operator = (const bool other)
         {
             value_ = other;
 
-            Storage<bool, Size>::data_[index_] &= ~(1 << bit_);
-            Storage<bool, Size>::data_[index_] |= (value_ << bit_);
+            source_->set_value(index_, (unsigned char)(source_->get_value(index_) & ~(1 << bit_)));
+            source_->set_value(index_, (unsigned char)(source_->get_value(index_) | (value_ << bit_)));
         }
     };
 
     Bool_wrapper wrapper;
 
 public:
-    Container();
+    Container() : Bool_base(), bools_amount_(Size), wrapper(this) {}
 
-    // Element access
-    bool& front();
-    bool& back();
-    bool &operator [] (const size_t index);
+    // ------------ Elements access --------------------------------
+    
+    void set_value(const size_t index, const unsigned char value)
+    {
+        Bool_base::data_[index] = value;
+    }
 
-    // Capacity
-    // bool empty() { return (size_ == 0) }
+    unsigned char get_value(const size_t index)
+    {
+        return Bool_base::data_[index];
+    }
+
+    bool &front()
+    {
+        wrapper.update(0);
+        return wrapper;
+    }
+    
+    bool &back()
+    {
+        wrapper.update(bools_amount_ - 1);
+        return wrapper;
+    }
+
+    Bool_wrapper &operator [] (const size_t index)
+    {
+        wrapper.update(index);
+        return wrapper;
+    }
+
+    // ------------ Capacity --------------------------------
+
     size_t size() const { return bools_amount_; }
     size_t capacity() const { return capacity() * sizeof(unsigned char); }
     // size_t max_size();
     // void shrink_to_fit(); 
 
-    // Modifiers
-    // void clear();
+    // ------------ Modifiers --------------------------------
 
-    void resize(size_t new_size);
-    void resize(size_t new_size, const bool& value);
+    void resize(size_t new_size)
+    {
+        size_t new_size_compressed = new_size / sizeof(unsigned char) + (size_t)(new_size % sizeof(unsigned char) != 0);
+        Bool_base::resize(new_size_compressed);
+    }
 
-    void push_back(const bool& value); 
-    void push_back(bool&& value); 
+    void resize(size_t new_size, const bool& value)
+    {        
+        unsigned char propagated_value = 0;
+        if (value)
+            propagated_value = (unsigned char)(-1);
 
-    void emplace_back(bool arg);
+        size_t new_size_compressed = std::ceil(new_size / sizeof(unsigned char) + (size_t)(new_size % sizeof(unsigned char) != 0));
+
+        Bool_base::resize(new_size_compressed, propagated_value);
+    }
+
+    void push_back(const bool& value)
+    {
+        if (bools_amount_ % sizeof(unsigned char) < sizeof(unsigned char) - 1)
+        {
+            Bool_base::push_back(0);
+        }
+
+        wrapper.update(bools_amount_++); 
+        wrapper = value;
+    }
+
+    void push_back(bool&& value)
+    {
+        assert(Bool_base::resizeable); // , "Data can't be resized\n"
+        
+        if (bools_amount_ % sizeof(unsigned char) == sizeof(unsigned char) - 1)
+        {
+            Bool_base::push_back((unsigned char)0);
+        }
+
+        wrapper.update(bools_amount_++); 
+        wrapper = value;
+    }
+
+    void emplace_back(bool arg)
+    {
+        assert(Bool_base::resizeable); // , "Data can't be resized\n"
+        
+        push_back(arg);
+    }
     
-    void pop_back();
+    void pop_back()
+    {    
+        assert(Bool_base::size_ > 0); // , "Nothing to pop\n"
+        
+        if (bools_amount_ % sizeof(unsigned char) == 0)
+        {
+            Bool_base::pop_back();
+        }
+
+        bools_amount_--;
+    }
 };
 
 #endif // CONTAINER_HPP
