@@ -11,13 +11,12 @@
 template
 <
     typename T,
-    size_t Size,
-    template <typename Storage_type, size_t Storage_size> class Storage
+    template <typename Storage_type> class Storage
 >
-class Container : public Storage<T, Size>
+class Container : public Storage<T>
 {
 private:
-    typedef Storage<T, Size> Base;
+    typedef Storage<T> Base;
 
 public:
     Container() : Base()
@@ -39,7 +38,7 @@ public:
     {
         assert(Base::size_ > 0); // , "Invalid index\n"
         
-        return Base::data_[Storage<bool, Size>::size_ - 1];
+        return Base::data_[Storage<bool>::size_ - 1];
     }
     T &operator [] (const size_t index)
     { 
@@ -53,10 +52,10 @@ public:
 
 template
 <
-    size_t Size,
-    template <typename Storage_type, size_t Storage_size> class Storage
+    // size_t Size,
+    template <typename Storage_type> class Storage
 >
-class Container<bool, Size, Storage> : public Storage<unsigned char, Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)>
+class Container<bool, Storage> : public Storage<unsigned char, Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)>
 {
 private:
     using Bool_base = Storage<unsigned char, Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)>;

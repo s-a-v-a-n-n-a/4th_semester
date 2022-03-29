@@ -8,7 +8,7 @@
 #include <initializer_list>
 
 template <typename T, size_t Size>
-class Static_mem
+class Static_memory
 {
 protected:
     T data_[Size];
@@ -18,8 +18,8 @@ protected:
     const bool resizeablef_{false};
 
 public: 
-    Static_mem() : size_(Size) {}
-    Static_mem(std::initializer_list<T> list)
+    Static_memory() : size_(Size) {}
+    Static_memory(std::initializer_list<T> list)
     : size_(Size)
     {
         // static_assert(list.size() <= size_, "Invalid size\n");
@@ -30,7 +30,7 @@ public:
         }
     }
 
-    ~Static_mem()
+    ~Static_memory()
     {
         for (size_t i = 0; i < size_; ++i)
         {
@@ -80,6 +80,13 @@ public:
             other.data_[idx] = std::move(tmp);
         }
     }
+};
+
+template <size_t Size>
+struct Static_mem
+{
+    template<typename T>
+    using type = Static_memory<T, Size>;
 };
 
 #endif // STATIC_MEM_HPP

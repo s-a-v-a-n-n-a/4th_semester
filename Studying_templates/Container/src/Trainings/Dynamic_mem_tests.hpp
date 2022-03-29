@@ -5,19 +5,20 @@
 
 void dynamic_test_int()
 {
-    Container<int, 10, Dynamic_mem> vector;
+    const size_t size = 10;
+    Container<int, Dynamic_mem> vector;
 
-    for (size_t i = 0; i < 10; ++i)
+    for (size_t i = 0; i < size; ++i)
     {
         vector[i] = i;
     }
 
-    for (size_t i = 0; i < 10; ++i)
+    for (size_t i = 0; i < size; ++i)
     {
-        vector.push_back(i + 10);
+        vector.push_back(i + size);
     }
 
-    for (size_t i = 0; i < 20; ++i)
+    for (size_t i = 0; i < 2 * size; ++i)
     {
         printf("%d ", vector[i]);
     }
@@ -26,9 +27,10 @@ void dynamic_test_int()
 
 void dynamic_test_bool()
 {
-    Container<bool, 10, Dynamic_mem> vector;
+    const size_t size = 10;
+    Container<bool, Dynamic_mem> vector;
 
-    for (size_t i = 0; i < 10; ++i)
+    for (size_t i = 0; i < size; ++i)
     {
         if (i % 2)
             vector[i] = true;
@@ -36,12 +38,12 @@ void dynamic_test_bool()
             vector[i] = false;
     }
 
-    for (size_t i = 0; i < 10; ++i)
+    for (size_t i = 0; i < size; ++i)
     {
         vector.push_back(true);
     }
 
-    for (size_t i = 0; i < 20; ++i)
+    for (size_t i = 0; i < 2 * size; ++i)
     {
         if (vector[i])
             printf("true ");

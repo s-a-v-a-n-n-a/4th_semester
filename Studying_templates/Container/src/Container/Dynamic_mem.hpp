@@ -9,7 +9,7 @@
 
 #include <new>
 
-template <typename T, size_t Size = 25>
+template <typename T> // , size_t Size = 25
 class Dynamic_mem
 {
 protected:
@@ -21,17 +21,17 @@ protected:
     const bool resizeable_{true};
 
 public:
-    Dynamic_mem() : size_(0), capacity_(Size)
+    Dynamic_mem() : data_(0), size_(0), capacity_(0)
     {
         // data_ = (T*)calloc(Size, sizeof(T));
-        data_ = (T*)(new unsigned char[Size * sizeof(T)]);
+        // data_ = (T*)(new unsigned char[capacity_ * sizeof(T)]);
     }
 
-    Dynamic_mem(size_t amount, const T& initial_element) : size_(0)
+    Dynamic_mem(size_t amount, const T& initial_element) : size_(amount), capacity_(2 * amount)
     {
-        capacity_ = (amount > Size ? amount : Size);
+        // capacity_ = (amount > Size ? 2 * amount : 2 * Size);
         // data_ = (T*)calloc(capacity_, sizeof(T));
-        data_ = (T*)(new unsigned char[Size * sizeof(T)]);
+        data_ = (T*)(new unsigned char[capacity_ * sizeof(T)]);
 
         for (size_t i = 0; i < amount; i++)
         {
@@ -39,12 +39,12 @@ public:
         }
     }
 
-    Dynamic_mem(std::initializer_list<T> list) : size_(list.size()), capacity_(Size)
+    Dynamic_mem(std::initializer_list<T> list) : size_(list.size()), capacity_(2 * list.size())
     {
-        static_assert(size_ <= capacity_, "Invalid size\n");
-        
-        // data_ = (T*)calloc(Size, sizeof(T));
-        data_ = static_cast<T*>(new unsigned char[Size * sizeof(T)]);
+        // static_assert(size_ <= Size, "Invalid size\n");
+        // capacity_ = (amount > Size ? 2 * amount : 2 * Size);
+
+        data_ = static_cast<T*>(new unsigned char[capacity_ * sizeof(T)]);
 
         for (auto i = list.begin, j = 0; i != list.end; i++, j++)
         {
@@ -54,12 +54,15 @@ public:
 
     ~Dynamic_mem()
     {
-        for (size_t i = 0; i < size_; ++i)
+        if (data_) 
         {
-            data_[i].~T();
-        }
+            for (size_t i = 0; i < size_; ++i)
+            {
+                data_[i].~T();
+            }
 
-        delete [] data_;
+            delete [] data_;
+        }
     }
 
     // ------------ Size ------------------------------------
@@ -139,8 +142,8 @@ public:
             resize(capacity_ * 2);
         }
         
-        // data_[size_++] = T(value);
         new(data_ + size_) T(value);
+        
         size_++;
     }
 
