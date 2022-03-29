@@ -70,7 +70,7 @@ public:
         assert(resizeable_); // , "Data can't be resized\n"
     }
     
-    void swap(Static_mem<T, Size> &other)
+    void swap(Static_memory<T, Size> &other)
     {
         for (size_t idx = 0; idx < size_; ++idx)
         {

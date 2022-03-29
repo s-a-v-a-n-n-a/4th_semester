@@ -55,16 +55,16 @@ template
     // size_t Size,
     template <typename Storage_type> class Storage
 >
-class Container<bool, Storage> : public Storage<unsigned char, Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)>
+class Container<bool, Storage> : public Storage<unsigned char> // , Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)
 {
 private:
-    using Bool_base = Storage<unsigned char, Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)>;
+    using Bool_base = Storage<unsigned char>; // , Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)
 
     size_t bools_amount_;
 
     struct Bool_wrapper
     {
-        Container<bool, Size, Storage> *source_;
+        Container<bool, Storage> *source_;
         
         size_t index_;
         unsigned char bit_;
@@ -73,7 +73,7 @@ private:
     
         Bool_wrapper() = delete;
         
-        Bool_wrapper(Container<bool, Size, Storage> *source) : source_(source)
+        Bool_wrapper(Container<bool, Storage> *source) : source_(source)
         {
             update(0);
         }
@@ -104,7 +104,19 @@ private:
     Bool_wrapper wrapper;
 
 public:
-    Container() : Bool_base(), bools_amount_(Size), wrapper(this) {}
+    Container() : Bool_base(), bools_amount_(0), wrapper(this) {}
+    Container(size_t amount, const bool value) 
+    : Bool_base(2 * amount / sizeof(unsigned char) + 
+               (size_t)(2 * amount % sizeof(unsigned char) != 0), value), 
+      wrapper(this)
+    {
+        size_t new_size = 2 * amount;
+        bools_amount_ = new_size / sizeof(unsigned char) + (size_t)(new_size % sizeof(unsigned char) != 0);
+    }
+
+    // TODO: find out how to do it
+    // Container(std::initializer_list<T> list)
+    // : Bool_base(list)
 
     // ------------ Elements access --------------------------------
     
@@ -205,5 +217,7 @@ public:
         bools_amount_--;
     }
 };
+
+// TODO: how to make specialization for bools for static memory
 
 #endif // CONTAINER_HPP
