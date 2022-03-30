@@ -11,5 +11,6 @@
         "*.tcc": "cpp",
         "cstdint": "cpp",
         "typeinfo": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }
