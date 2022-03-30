@@ -15,7 +15,7 @@ protected:
 
     const size_t size_;
 
-    const bool resizeablef_{false};
+    const bool resizeable_{false};
 
 public: 
     Static_memory() : size_(Size) {}

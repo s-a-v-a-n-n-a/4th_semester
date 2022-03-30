@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/main.dir/main.cpp.o -o main  libContainer.a libStatic_mem.a libDynamic_mem.a 

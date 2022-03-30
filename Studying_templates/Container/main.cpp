@@ -3,7 +3,7 @@
 
 int main()
 {
-    static_test_bool();
+    test_int();
     // dynamic_test_bool();
     
     return 0;

@@ -114,9 +114,18 @@ public:
         bools_amount_ = new_size / sizeof(unsigned char) + (size_t)(new_size % sizeof(unsigned char) != 0);
     }
 
-    // TODO: find out how to do it
-    // Container(std::initializer_list<T> list)
-    // : Bool_base(list)
+    Container(std::initializer_list<bool> list)
+    : Bool_base()
+    {
+        size_t list_size = list.size()/sizeof(unsigned char) + (size_t)(list.size() % sizeof(unsigned char) != 0);
+        assert(list_size <= Bool_base::size_);
+
+        size_t i = 0;
+        for (auto idx = list.begin(); idx != list.end(); idx++, i++)
+        {
+            Bool_base::data_[i] = idx;
+        }
+    }
 
     // ------------ Elements access --------------------------------
     
@@ -187,7 +196,7 @@ public:
 
     void push_back(bool&& value)
     {
-        assert(Bool_base::resizeable); // , "Data can't be resized\n"
+        assert(Bool_base::resizeable_); // , "Data can't be resized\n"
         
         if (bools_amount_ % sizeof(unsigned char) == sizeof(unsigned char) - 1)
         {
