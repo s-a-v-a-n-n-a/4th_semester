@@ -1,0 +1,2 @@
+/usr/bin/ar qc libStatic_mem.a CMakeFiles/Static_mem.dir/src/Container/Dynamic_mem.cpp.o
+/usr/bin/ranlib libStatic_mem.a
