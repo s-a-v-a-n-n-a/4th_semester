@@ -1,2 +1,0 @@
-/usr/bin/ar qc libContainer.a CMakeFiles/Container.dir/src/Container/Dynamic_mem.cpp.o
-/usr/bin/ranlib libContainer.a

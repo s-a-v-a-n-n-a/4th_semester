@@ -1,6 +1,0 @@
-/home/anna/Repositories/4th_semester/Studying_templates/Container/CMakeFiles/Container.dir
-/home/anna/Repositories/4th_semester/Studying_templates/Container/CMakeFiles/Static_mem.dir
-/home/anna/Repositories/4th_semester/Studying_templates/Container/CMakeFiles/Dynamic_mem.dir
-/home/anna/Repositories/4th_semester/Studying_templates/Container/CMakeFiles/main.dir
-/home/anna/Repositories/4th_semester/Studying_templates/Container/CMakeFiles/edit_cache.dir
-/home/anna/Repositories/4th_semester/Studying_templates/Container/CMakeFiles/rebuild_cache.dir
