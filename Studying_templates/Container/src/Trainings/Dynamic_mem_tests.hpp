@@ -3,7 +3,10 @@
 
 #include "../Container/Container.hpp"
 
-void dynamic_test_int()
+namespace Trainings::dynamic_test
+{
+
+void for_int()
 {
     const size_t size = 10;
     Container<int, Dynamic_mem> vector;
@@ -25,7 +28,7 @@ void dynamic_test_int()
     printf("\n");
 }
 
-void dynamic_test_bool()
+void for_bool()
 {
     const size_t size = 10;
     Container<bool, Dynamic_mem> vector;
@@ -53,5 +56,6 @@ void dynamic_test_bool()
     printf("\n");
 }
 
+} // Trainings/dynamic_test
 
 #endif // DYNAMIC_MEM_TESTS_HPP

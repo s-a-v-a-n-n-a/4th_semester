@@ -3,10 +3,10 @@
 
 #include "../Container/Container.hpp"
 
-// namespace Trainings::static 
-// {
+namespace Trainings::static_test 
+{
 
-void test_bool()
+void for_bool()
 {
     const size_t size = 10;
     Container<bool, Static_mem<2>::type> vector;
@@ -29,7 +29,7 @@ void test_bool()
     printf("\n");
 }
 
-void test_int()
+void for_int()
 {
     const size_t size = 10;
     Container<int, Static_mem<size>::type> vector;
@@ -46,7 +46,12 @@ void test_int()
     printf("\n");
 }
 
+// void test_no_construct()
+// {
+    
+// }
 
-// } // static
+
+} // Trainings::static_test
 
 #endif // STATIC_MEM_TESTS_HPP

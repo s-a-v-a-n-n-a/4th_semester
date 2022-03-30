@@ -3,8 +3,8 @@
 
 int main()
 {
-    test_int();
-    // dynamic_test_bool();
+    Trainings::static_test::for_int();
+    // Trainings::dynamic_test::for_bool();
     
     return 0;
 }

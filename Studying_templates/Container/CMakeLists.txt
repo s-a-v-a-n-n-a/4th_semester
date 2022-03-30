@@ -15,7 +15,8 @@ set(SOURCE_EXE main.cpp)	# Установка переменной со спис
 
 include_directories("src/Container/" 
                     "src/Trainings/"
-                    "src/Types/Intercepted_int/")
+                    "src/Types/Intercepted_int/"
+                    "src/Types/No_default_constructor/")
 
 set(SOURCES src/Container/Container.cpp 
             src/Container/Static_mem.cpp 
