@@ -121,4 +121,6 @@ CMakeFiles/main.dir/main.cpp.o: \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/hash_bytes.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/nested_exception.h \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Static_mem.hpp \
-  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/Dynamic_mem_tests.hpp
+  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/Dynamic_mem_tests.hpp \
+  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/Chunked_mem_tests.hpp \
+  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Chuncked_mem.hpp

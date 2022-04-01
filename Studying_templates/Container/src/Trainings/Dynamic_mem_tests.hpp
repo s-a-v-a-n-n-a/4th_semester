@@ -9,7 +9,7 @@ namespace Trainings::dynamic_test
 void for_int()
 {
     const size_t size = 10;
-    Container<int, Dynamic_mem> vector;
+    Container<int, Dynamic_mem> vector(size, 0);
 
     for (size_t i = 0; i < size; ++i)
     {
@@ -31,7 +31,7 @@ void for_int()
 void for_bool()
 {
     const size_t size = 10;
-    Container<bool, Dynamic_mem> vector;
+    Container<bool, Dynamic_mem> vector(size, false);
 
     for (size_t i = 0; i < size; ++i)
     {

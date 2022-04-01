@@ -10,8 +10,7 @@ public:
     No_default_constructor() = delete;
     No_default_constructor(int value)
     : value_(value)
-    {
-    }
+    {}
 };
 
 #endif // NO_DEFAULT_CONSTRUCTOR_HPP

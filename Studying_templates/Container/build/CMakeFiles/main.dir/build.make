@@ -73,71 +73,71 @@ CMakeFiles/main.dir/main.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/main.cpp.o: ../main.cpp
 CMakeFiles/main.dir/main.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anna/Repositories/4th_semester/Studying_templates/Container/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/main.dir/main.cpp.o"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/main.cpp.o -MF CMakeFiles/main.dir/main.cpp.o.d -o CMakeFiles/main.dir/main.cpp.o -c /home/anna/Repositories/4th_semester/Studying_templates/Container/main.cpp
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/main.cpp.o -MF CMakeFiles/main.dir/main.cpp.o.d -o CMakeFiles/main.dir/main.cpp.o -c /home/anna/Repositories/4th_semester/Studying_templates/Container/main.cpp
 
 CMakeFiles/main.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/main.cpp.i"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anna/Repositories/4th_semester/Studying_templates/Container/main.cpp > CMakeFiles/main.dir/main.cpp.i
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anna/Repositories/4th_semester/Studying_templates/Container/main.cpp > CMakeFiles/main.dir/main.cpp.i
 
 CMakeFiles/main.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/main.cpp.s"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anna/Repositories/4th_semester/Studying_templates/Container/main.cpp -o CMakeFiles/main.dir/main.cpp.s
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anna/Repositories/4th_semester/Studying_templates/Container/main.cpp -o CMakeFiles/main.dir/main.cpp.s
 
 CMakeFiles/main.dir/src/Container/Container.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/Container/Container.cpp.o: ../src/Container/Container.cpp
 CMakeFiles/main.dir/src/Container/Container.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anna/Repositories/4th_semester/Studying_templates/Container/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/src/Container/Container.cpp.o"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/Container/Container.cpp.o -MF CMakeFiles/main.dir/src/Container/Container.cpp.o.d -o CMakeFiles/main.dir/src/Container/Container.cpp.o -c /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Container.cpp
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/Container/Container.cpp.o -MF CMakeFiles/main.dir/src/Container/Container.cpp.o.d -o CMakeFiles/main.dir/src/Container/Container.cpp.o -c /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Container.cpp
 
 CMakeFiles/main.dir/src/Container/Container.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/src/Container/Container.cpp.i"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Container.cpp > CMakeFiles/main.dir/src/Container/Container.cpp.i
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Container.cpp > CMakeFiles/main.dir/src/Container/Container.cpp.i
 
 CMakeFiles/main.dir/src/Container/Container.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/Container/Container.cpp.s"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Container.cpp -o CMakeFiles/main.dir/src/Container/Container.cpp.s
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Container.cpp -o CMakeFiles/main.dir/src/Container/Container.cpp.s
 
 CMakeFiles/main.dir/src/Container/Static_mem.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/Container/Static_mem.cpp.o: ../src/Container/Static_mem.cpp
 CMakeFiles/main.dir/src/Container/Static_mem.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anna/Repositories/4th_semester/Studying_templates/Container/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/src/Container/Static_mem.cpp.o"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/Container/Static_mem.cpp.o -MF CMakeFiles/main.dir/src/Container/Static_mem.cpp.o.d -o CMakeFiles/main.dir/src/Container/Static_mem.cpp.o -c /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Static_mem.cpp
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/Container/Static_mem.cpp.o -MF CMakeFiles/main.dir/src/Container/Static_mem.cpp.o.d -o CMakeFiles/main.dir/src/Container/Static_mem.cpp.o -c /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Static_mem.cpp
 
 CMakeFiles/main.dir/src/Container/Static_mem.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/src/Container/Static_mem.cpp.i"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Static_mem.cpp > CMakeFiles/main.dir/src/Container/Static_mem.cpp.i
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Static_mem.cpp > CMakeFiles/main.dir/src/Container/Static_mem.cpp.i
 
 CMakeFiles/main.dir/src/Container/Static_mem.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/Container/Static_mem.cpp.s"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Static_mem.cpp -o CMakeFiles/main.dir/src/Container/Static_mem.cpp.s
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Static_mem.cpp -o CMakeFiles/main.dir/src/Container/Static_mem.cpp.s
 
 CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o: ../src/Container/Dynamic_mem.cpp
 CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anna/Repositories/4th_semester/Studying_templates/Container/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o -MF CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o.d -o CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o -c /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Dynamic_mem.cpp
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o -MF CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o.d -o CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o -c /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Dynamic_mem.cpp
 
 CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.i"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Dynamic_mem.cpp > CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.i
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Dynamic_mem.cpp > CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.i
 
 CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.s"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Dynamic_mem.cpp -o CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.s
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Dynamic_mem.cpp -o CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.s
 
 CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Types/Intercepted_int/Intercepted_int.cpp
 CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anna/Repositories/4th_semester/Studying_templates/Container/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o -MF CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o.d -o CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o -c /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Types/Intercepted_int/Intercepted_int.cpp
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o -MF CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o.d -o CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o -c /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Types/Intercepted_int/Intercepted_int.cpp
 
 CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.i"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Types/Intercepted_int/Intercepted_int.cpp > CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.i
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Types/Intercepted_int/Intercepted_int.cpp > CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.i
 
 CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.s"
-	/usr/bin/clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Types/Intercepted_int/Intercepted_int.cpp -o CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.s
+	clang++-12 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Types/Intercepted_int/Intercepted_int.cpp -o CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.s
 
 # Object files for target main
 main_OBJECTS = \

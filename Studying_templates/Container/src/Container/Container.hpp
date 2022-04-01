@@ -19,30 +19,41 @@ private:
     typedef Storage<T> Base;
 
 public:
-    Container() : Base()
-    {
-    }
+    Container() : Base() {}
+    Container(std::initializer_list<T> list) : Base(list) {}
 
-    Container(std::initializer_list<T> list) : Base(list) 
+    // -------------------------Element access--------------------------
+    
+    constexpr T &at(size_t position)
     {
+        
     }
-
-    // Element access
-    T& front()
+    
+    constexpr T &front()
     {
-        assert(Base::size_ > 0); // , "Invalid index\n"
+        if (Base::size_ == 0)
+        {
+            throw std::out_of_range();
+        }
 
         return Base::data_[0];
     }
-    T& back()
+    
+    constexpr T &back()
     {
-        assert(Base::size_ > 0); // , "Invalid index\n"
+        if (Base::size_ == 0)
+        {
+            throw std::out_of_range();
+        }
         
         return Base::data_[Storage<bool>::size_ - 1];
     }
-    T &operator [] (const size_t index)
+    T &operator[] (const size_t index)
     { 
-        assert(index < Base::size_); // , "Invalid index\n"
+        if (index >= Base::size_)
+        {
+            throw std::out_of_range(); 
+        }
         
         return Base::data_[index]; 
     }
@@ -92,7 +103,7 @@ private:
             value_ = (source_->get_value(index_) << bit_) & 1;
         }
 
-        void operator = (const bool other)
+        void operator= (const bool other)
         {
             value_ = other;
 
@@ -151,8 +162,8 @@ public:
         return wrapper;
     }
 
-    Bool_wrapper &operator [] (const size_t index)
-    {
+    Bool_wrapper &operator[] (const size_t index)
+    {   
         wrapper.update(index);
         return wrapper;
     }

@@ -19,10 +19,12 @@ protected:
 
 public: 
     Static_memory() : size_(Size) {}
-    Static_memory(std::initializer_list<T> list)
-    : size_(Size)
+    Static_memory(std::initializer_list<T> list) : size_(Size)
     {
-        // static_assert(list.size() <= size_, "Invalid size\n");
+        if (list.size() > size_)
+        {
+            thros std::out_of_range();
+        }
 
         for (auto idx = list.begin(), i = 0; idx != list.end(); idx++, i++)
         {

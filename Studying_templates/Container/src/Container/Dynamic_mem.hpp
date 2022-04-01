@@ -65,17 +65,17 @@ public:
         }
     }
 
-    // ------------ Size ------------------------------------
+    // ------------ Size ----------------------------------------
     size_t get_capacity() const { return capacity_; }
 
-    // ------------ Data ------------------------------------
+    // ------------ Data ----------------------------------------
     T &data(size_t index);
 
     // ------------ Capacity ------------------------------------
     bool empty() { return (size_ == 0); }
     size_t size() const { return size_; }
     size_t capacity() const { return get_capacity(); }
-    size_t max_size();
+    size_t max_size() const { return SIZE_MAX; }
     void shrink_to_fit()
     {
         size_t new_capacity = size_;
@@ -105,8 +105,12 @@ public:
 
     void resize(size_t new_size)
     {
-        T* new_data = (T*)(new unsigned char[new_size * sizeof(T)]);
-        for (size_t idx = 0; idx < size_; ++idx) 
+        size_t new_capacity = new_size * 2;
+        size_t size_to_copy = size_ < new_size ? size_ : new_size;
+        
+        T* new_data = (T*)(new unsigned char[new_capacity * sizeof(T)]);
+        
+        for (size_t idx = 0; idx < size_to_copy; ++idx) 
         {
             new(new_data + idx) T(std::move(data_[idx]));
         }
@@ -114,17 +118,20 @@ public:
         delete [] data_;
 
         data_ = new_data;
-        capacity_ = new_size;
+        capacity_ = new_capacity;
     }
 
     void resize(size_t new_size, const T& value)
     {
-        T* new_data = (T*)(new unsigned char[new_size * sizeof(T)]);
-        for (size_t idx = 0; idx < size_; ++idx) 
+        size_t new_capacity = new_size * 2;
+        size_t size_to_copy = size_ < new_size ? size_ : new_size;
+        
+        T* new_data = (T*)(new unsigned char[new_capacity * sizeof(T)]);
+        for (size_t idx = 0; idx < size_to_copy; ++idx) 
         {
             new(new_data + idx) T(std::move(data_[idx]));
         }
-        for (size_t idx = size_; idx < new_size; ++idx)
+        for (size_t idx = size_to_copy; idx < new_size; ++idx)
         {
             new(new_data + idx) T(value);
         }
@@ -132,7 +139,7 @@ public:
         delete [] data_;
 
         data_ = new_data;
-        capacity_ = new_size;
+        capacity_ = new_capacity;
     }
     
     void push_back(const T& value)
@@ -153,8 +160,6 @@ public:
         {
             resize(capacity_ * 2);
         }
-        
-        // data_[size_++] = T(std::move(value));
         
         new(data_ + size_) T(std::move(value));
         size_++;
