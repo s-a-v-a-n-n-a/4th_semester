@@ -5,9 +5,9 @@
 int main()
 {
     // Trainings::static_test::for_int();
-    // Trainings::dynamic_test::for_bool();
+    Trainings::dynamic_test::test_no_construct();
 
-    Trainings::chunked_test::for_bool(); 
+    // Trainings::chunked_test::for_bool(); 
     
     return 0;
 }

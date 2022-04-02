@@ -183,5 +183,6 @@ CMakeFiles/main.dir/main.cpp.o: \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_relops.h \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Static_mem.hpp \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/Dynamic_mem_tests.hpp \
+  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/../Types/No_default_constructor/No_default_constructor.hpp \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/Chunked_mem_tests.hpp \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/../Container/Chuncked_mem.hpp

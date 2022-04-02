@@ -126,7 +126,10 @@ public:
         }
     }
 
-    // ------------ Data ----------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ Data --------------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     T &data(size_t index)
     {
         if (index >= size_)
@@ -160,14 +163,35 @@ public:
         return data_[chunk_num][index % chunk_size_];
     }
 
-    // ------------ Capacity ------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ Capacity ----------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     bool   empty()              { return (size_ == 0); }
     size_t size()     const     { return size_; }
     size_t capacity() const     { return capacity_; }
-    void shrink_to_fit();
     
-    // ------------ Modifiers -----------------------------------
+    void shrink_to_fit()
+    {
+        size_t used_chunks_amount = size_ / chunk_size_ + (size_ % chunk_size_ != 0);
+        size_t real_chunks_amount = capacity_ / chunk_size_;
+        if (real_chunks_amount > used_chunks_amount)
+        {
+            for (long long idx = real_chunks_amount; idx > used_chunks_amount; --idx)
+            {
+                if (data_[idx])
+                {
+                    // должно хватать, т.к при любом удалении элемента вызывается деструктор
+                    delete data_[idx];
+                }
+            }
+        }
+    }
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ Modifiers ---------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     void clear()
     {
         size_t chunks_amount = capacity_ / chunk_size_;
@@ -186,9 +210,10 @@ public:
         size_ = 0;
     } 
 
+    // TODO: resize downside
     void resize(size_t new_size)
     {        
-        size_t new_capacity = 2 * new_size / chunk_size_ + (2 * new_size % chunk_size_ != 0);
+        size_t new_capacity = new_size / chunk_size_ + (new_size % chunk_size_ != 0);
         // size_t size_to_copy = size_ < new_size ? size_ : new_size;
 
         T** new_data = new T*[new_capacity];
@@ -198,7 +223,13 @@ public:
             new_data[idx] = nullptr;
         }
         
-        size_t old_chunks_amount = size_ / chunk_size_ + (2 * size_ % chunk_size_ != 0);
+        size_t old_chunks_amount = size_ / chunk_size_ + (size_ % chunk_size_ != 0);
+        bool downside = false;
+        if (old_chunks_amount > new_capacity)
+        {
+            downside = true;
+            old_chunks_amount = new_capacity;
+        }
 
         for (size_t idx = 0; idx < old_chunks_amount; ++idx)
         {
@@ -223,7 +254,7 @@ public:
 
     void resize(size_t new_size, const T& value)
     {
-        size_t new_capacity = 2 * new_size / chunk_size_ + ((2 * new_size) % chunk_size_ != 0);
+        size_t new_capacity = new_size / chunk_size_ + ((new_size) % chunk_size_ != 0);
 
         T** new_data = new T*[new_capacity];
 

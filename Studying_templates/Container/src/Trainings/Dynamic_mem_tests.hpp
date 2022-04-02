@@ -3,6 +3,8 @@
 
 #include "../Container/Container.hpp"
 
+#include "../Types/No_default_constructor/No_default_constructor.hpp"
+
 namespace Trainings::dynamic_test
 {
 
@@ -54,6 +56,12 @@ void for_bool()
             printf("false ");
     }
     printf("\n");
+}
+
+void test_no_construct()
+{
+    const size_t size = 10;
+    Container<No_default_constructor, Dynamic_mem> vector(size, 0);
 }
 
 } // Trainings/dynamic_test
