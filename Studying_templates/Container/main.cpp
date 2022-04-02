@@ -7,7 +7,7 @@ int main()
     // Trainings::static_test::for_int();
     // Trainings::dynamic_test::for_bool();
 
-    Trainings::chunked_test::for_int();
+    Trainings::chunked_test::for_bool(); 
     
     return 0;
 }

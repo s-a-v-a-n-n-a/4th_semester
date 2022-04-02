@@ -5,6 +5,8 @@
 #include <initializer_list>
 #include <cmath>
 
+#include <stdexcept>
+
 #include "Dynamic_mem.hpp"
 #include "Static_mem.hpp"
 
@@ -20,20 +22,21 @@ private:
 
 public:
     Container() : Base() {}
+    Container(size_t amount, const T& initial_element) : Base(amount, initial_element) {}
     Container(std::initializer_list<T> list) : Base(list) {}
 
     // -------------------------Element access--------------------------
     
     constexpr T &at(size_t position)
     {
-        
+        ;
     }
     
     constexpr T &front()
     {
         if (Base::size_ == 0)
         {
-            throw std::out_of_range();
+            throw std::out_of_range("No elements available\n");
         }
 
         return Base::data_[0];
@@ -43,7 +46,7 @@ public:
     {
         if (Base::size_ == 0)
         {
-            throw std::out_of_range();
+            throw std::out_of_range("No elements available\n");
         }
         
         return Base::data_[Storage<bool>::size_ - 1];
@@ -52,10 +55,10 @@ public:
     { 
         if (index >= Base::size_)
         {
-            throw std::out_of_range(); 
+            throw std::out_of_range("Array index out of range"); 
         }
         
-        return Base::data_[index]; 
+        return Base::data(index); 
     }
 };
 
@@ -134,7 +137,7 @@ public:
         size_t i = 0;
         for (auto idx = list.begin(); idx != list.end(); idx++, i++)
         {
-            Bool_base::data_[i] = idx;
+            Bool_base::data(i) = idx;
         }
     }
 
@@ -142,12 +145,12 @@ public:
     
     void set_value(const size_t index, const unsigned char value)
     {
-        Bool_base::data_[index] = value;
+        Bool_base::data(index) = value;
     }
 
     unsigned char get_value(const size_t index)
     {
-        return Bool_base::data_[index];
+        return Bool_base::data(index);
     }
 
     bool &front()

@@ -10,7 +10,8 @@
         "limits": "cpp",
         "*.tcc": "cpp",
         "cstdint": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "stdexcept": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

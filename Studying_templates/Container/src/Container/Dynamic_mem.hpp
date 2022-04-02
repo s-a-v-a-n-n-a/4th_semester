@@ -4,7 +4,12 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cassert>
+#include <cstdint>
+
+#include <stdexcept>
+
 #include <utility>
+
 #include <initializer_list>
 
 #include <new>
@@ -69,7 +74,15 @@ public:
     size_t get_capacity() const { return capacity_; }
 
     // ------------ Data ----------------------------------------
-    T &data(size_t index);
+    T &data(size_t index)
+    {
+        if (index >= size_)
+        {
+            throw std::out_of_range("Wrong index range\n");
+        }
+        
+        return data_[index];
+    }
 
     // ------------ Capacity ------------------------------------
     bool empty() { return (size_ == 0); }

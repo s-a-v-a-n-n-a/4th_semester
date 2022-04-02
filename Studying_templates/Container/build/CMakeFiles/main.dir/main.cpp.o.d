@@ -105,13 +105,7 @@ CMakeFiles/main.dir/main.cpp.o: \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/tr1/poly_hermite.tcc \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/tr1/poly_laguerre.tcc \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/tr1/riemann_zeta.tcc \
-  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Dynamic_mem.hpp \
-  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cstdlib \
-  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cassert \
-  /usr/include/assert.h \
-  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/utility \
-  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_relops.h \
-  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/new \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/stdexcept \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/exception \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/exception.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/exception_ptr.h \
@@ -119,8 +113,75 @@ CMakeFiles/main.dir/main.cpp.o: \
   /usr/lib/llvm-12/lib/clang/12.0.0/include/__stddef_max_align_t.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/typeinfo \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/hash_bytes.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/new \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/nested_exception.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/string \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stringfwd.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/memoryfwd.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/char_traits.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/postypes.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cwchar \
+  /usr/include/wchar.h /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cstdint \
+  /usr/lib/llvm-12/lib/clang/12.0.0/include/stdint.h \
+  /usr/include/stdint.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/allocator.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/c++allocator.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/new_allocator.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/localefwd.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/c++locale.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/clocale \
+  /usr/include/locale.h /usr/include/x86_64-linux-gnu/bits/locale.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/iosfwd \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cctype \
+  /usr/include/ctype.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/ostream_insert.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/cxxabi_forced.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_function.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/backward/binders.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_algo.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cstdlib \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/algorithmfwd.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_heap.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_tempbuf.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_construct.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/alloc_traits.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/alloc_traits.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/uniform_int_dist.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/range_access.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/basic_string.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/atomicity.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/gthr.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/gthr-default.h \
+  /usr/include/pthread.h /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+  /usr/include/x86_64-linux-gnu/bits/cpu-set.h /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/atomic_word.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/string_view \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/functional_hash.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/string_view.tcc \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/string_conversions.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cerrno \
+  /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
+  /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
+  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
+  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/basic_string.tcc \
+  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Dynamic_mem.hpp \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cassert \
+  /usr/include/assert.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/utility \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_relops.h \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Static_mem.hpp \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/Dynamic_mem_tests.hpp \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/Chunked_mem_tests.hpp \
-  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Chuncked_mem.hpp
+  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/../Container/Chuncked_mem.hpp

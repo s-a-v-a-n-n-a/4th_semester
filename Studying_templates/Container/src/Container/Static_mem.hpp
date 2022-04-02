@@ -3,7 +3,11 @@
 
 #include <cstdio>
 #include <cstdlib>
+
 #include <cassert>
+
+#include <stdexcept>
+
 #include <utility>
 #include <initializer_list>
 
@@ -23,7 +27,7 @@ public:
     {
         if (list.size() > size_)
         {
-            thros std::out_of_range();
+            throw std::out_of_range("Wrong initializer list size\n");
         }
 
         for (auto idx = list.begin(), i = 0; idx != list.end(); idx++, i++)
@@ -44,7 +48,15 @@ public:
     size_t get_capacity() const { return size_; }
 
     // ------------ Data ------------------------------------
-    T &data(size_t index);
+    T &data(size_t index)
+    {
+        if (index >= size_)
+        {
+            throw std::out_of_range("Wrong index range\n");
+        }
+
+        return data_[index];
+    }
 
     // ------------ Capacity --------------------------------
     bool empty() const { return (size_ == 0); }

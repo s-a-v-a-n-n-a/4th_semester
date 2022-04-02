@@ -1,7 +1,7 @@
 #ifndef CHUNKED_MEM_TESTS_HPP
 #define CHUNKED_MEM_TESTS_HPP
 
-#include "../Chuncked_mem.hpp"
+#include "../Container/Chuncked_mem.hpp"
 
 namespace Trainings::chunked_test 
 {
