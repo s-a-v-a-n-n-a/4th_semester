@@ -91,10 +91,11 @@ public:
     }
 
     // ------------ Capacity ------------------------------------
-    bool empty() { return (size_ == 0); }
-    size_t size() const { return size_; }
-    size_t capacity() const { return get_capacity(); }
-    size_t max_size() const { return SIZE_MAX; }
+    bool empty()                { return (size_ == 0); }
+    size_t size()       const   { return size_; }
+    size_t capacity()   const   { return get_capacity(); }
+    size_t max_size()   const   { return SIZE_MAX; }
+    
     void shrink_to_fit()
     {
         size_t new_capacity = size_;
@@ -137,9 +138,18 @@ public:
             new(new_data + idx) T(std::move(data_[idx]));
         }
 
+        if (new_size < size_)
+        {
+            for (size_t idx = size_; idx < new_size; ++idx)
+            {
+                data_[idx].~T();
+            }
+        }
+
         delete [] data_;
 
         data_ = new_data;
+        size_ = new_size;
         capacity_ = new_capacity;
     }
 
@@ -158,9 +168,18 @@ public:
             new(new_data + idx) T(value);
         }
 
+        if (new_size < size_)
+        {
+            for (size_t idx = size_; idx < new_size; ++idx)
+            {
+                data_[idx].~T();
+            }
+        }
+
         delete [] data_;
 
         data_ = new_data;
+        size_ = new_size;
         capacity_ = new_capacity;
     }
     
@@ -202,7 +221,10 @@ public:
     
     void pop_back()
     {
-        assert(size_ >= 0); // , "Nothing to pop\n"
+        if (size_ == 0)
+        {
+            throw std::out_of_range("Nothing to pop\n");
+        }
         
         data_[size_--].~T();
     }

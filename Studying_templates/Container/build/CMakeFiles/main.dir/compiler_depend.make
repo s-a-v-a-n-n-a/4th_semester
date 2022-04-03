@@ -196,6 +196,7 @@ CMakeFiles/main.dir/main.cpp.o: ../main.cpp \
   /usr/include/c++/9/bits/stl_relops.h \
   ../src/Container/Static_mem.hpp \
   ../src/Trainings/Dynamic_mem_tests.hpp \
+  ../src/Types/No_default_constructor/No_default_constructor.hpp \
   ../src/Trainings/Chunked_mem_tests.hpp \
   ../src/Container/Chuncked_mem.hpp
 
@@ -915,6 +916,8 @@ CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Type
 ../src/Container/Dynamic_mem.cpp:
 
 ../src/Trainings/Chunked_mem_tests.hpp:
+
+../src/Types/No_default_constructor/No_default_constructor.hpp:
 
 ../src/Container/Static_mem.hpp:
 
