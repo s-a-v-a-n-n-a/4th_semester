@@ -46,11 +46,6 @@ void for_int()
     printf("\n");
 }
 
-// void test_no_construct()
-// {
-    
-// }
-
 
 } // Trainings::static_test
 

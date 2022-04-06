@@ -10,6 +10,8 @@ namespace Trainings::dynamic_test
 
 void for_int()
 {
+    printf("\nTesting dynamic int storage\n\n\n");
+    
     const size_t size = 10;
     Container<int, Dynamic_mem> vector(size, 0);
 
@@ -30,8 +32,24 @@ void for_int()
     printf("\n");
 }
 
+void for_initializer_list()
+{
+    printf("\nTesting dynamic int storage: initializer_list\n\n\n");
+    
+    const size_t size = 10;
+    Container<int, Dynamic_mem> vector{0, 1, 2, 4, 8, 16, 32};
+
+    for (size_t i = 0; i < vector.size(); ++i)
+    {
+        printf("%d ", vector[i]);
+    }
+    printf("\n");
+}
+
 void for_bool()
 {
+    printf("\nTesting dynamic bool storage\n\n\n");
+    
     const size_t size = 10;
     Container<bool, Dynamic_mem> vector(size, false);
 
@@ -60,12 +78,16 @@ void for_bool()
 
 void test_no_construct()
 {
+    printf("\nTesting dynamic storage for type without default constructor\n\n\n");
+    
     const size_t size = 10;
     Container<No_default_constructor, Dynamic_mem> vector(size, 0);
 }
 
 void for_resize()
 {
+    printf("\nTesting dynamic double storage resizing\n\n\n");
+    
     const size_t size = 100;
     Container<double, Dynamic_mem> vector(size, 0.0);
 
@@ -97,6 +119,19 @@ void for_resize()
         printf("%f ", vector[idx]);
     }
     printf("\n");
+}
+
+void for_iterator()
+{
+    printf("\nTesting dynamic int storage for iterator\n\n\n");
+
+    const size_t size = 10;
+    Container<int, Dynamic_mem> vector(size, 0);
+    
+    for (auto i = vector.begin(); i < vector.end(); ++i)
+    {
+        printf("%d ", *i);
+    }
 }
 
 } // Trainings/dynamic_test

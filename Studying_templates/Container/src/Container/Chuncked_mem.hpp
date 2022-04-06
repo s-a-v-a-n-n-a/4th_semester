@@ -102,14 +102,14 @@ public:
         size_t current_idx = 0;
         try
         {
-            for (auto element = list.begin; element != list.end; element++, current_idx++)
+            for (auto element = list.begin(); element != list.end(); element++, current_idx++)
             {
                 if (current_idx % chunk_size_ == 0)
                 {
                     data_[current_idx / chunk_size_] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
                 }
 
-                new(data_ + current_idx / chunk_size_) T(element);
+                new(data_ + current_idx / chunk_size_) T(*element);
             }
         }
         catch(const std::exception& exception)

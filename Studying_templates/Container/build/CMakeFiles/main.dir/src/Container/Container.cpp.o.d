@@ -180,4 +180,28 @@ CMakeFiles/main.dir/src/Container/Container.cpp.o: \
   /usr/include/assert.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/utility \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_relops.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/iterator \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ostream \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ios \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/ios_base.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/locale_classes.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/locale_classes.tcc \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/system_error \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/error_constants.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/streambuf \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/streambuf.tcc \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/basic_ios.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/locale_facets.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/ctype_base.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/streambuf_iterator.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/ctype_inline.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/locale_facets.tcc \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/basic_ios.tcc \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/ostream.tcc \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/istream \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/istream.tcc \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stream_iterator.h \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Static_mem.hpp

@@ -194,6 +194,30 @@ CMakeFiles/main.dir/main.cpp.o: ../main.cpp \
   /usr/include/assert.h \
   /usr/include/c++/9/utility \
   /usr/include/c++/9/bits/stl_relops.h \
+  /usr/include/c++/9/iterator \
+  /usr/include/c++/9/ostream \
+  /usr/include/c++/9/ios \
+  /usr/include/c++/9/bits/ios_base.h \
+  /usr/include/c++/9/bits/locale_classes.h \
+  /usr/include/c++/9/bits/locale_classes.tcc \
+  /usr/include/c++/9/system_error \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/error_constants.h \
+  /usr/include/c++/9/streambuf \
+  /usr/include/c++/9/bits/streambuf.tcc \
+  /usr/include/c++/9/bits/basic_ios.h \
+  /usr/include/c++/9/bits/locale_facets.h \
+  /usr/include/c++/9/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/ctype_base.h \
+  /usr/include/c++/9/bits/streambuf_iterator.h \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/ctype_inline.h \
+  /usr/include/c++/9/bits/locale_facets.tcc \
+  /usr/include/c++/9/bits/basic_ios.tcc \
+  /usr/include/c++/9/bits/ostream.tcc \
+  /usr/include/c++/9/istream \
+  /usr/include/c++/9/bits/istream.tcc \
+  /usr/include/c++/9/bits/stream_iterator.h \
   ../src/Container/Static_mem.hpp \
   ../src/Trainings/Dynamic_mem_tests.hpp \
   ../src/Types/No_default_constructor/No_default_constructor.hpp \
@@ -392,6 +416,30 @@ CMakeFiles/main.dir/src/Container/Container.cpp.o: ../src/Container/Container.cp
   /usr/include/assert.h \
   /usr/include/c++/9/utility \
   /usr/include/c++/9/bits/stl_relops.h \
+  /usr/include/c++/9/iterator \
+  /usr/include/c++/9/ostream \
+  /usr/include/c++/9/ios \
+  /usr/include/c++/9/bits/ios_base.h \
+  /usr/include/c++/9/bits/locale_classes.h \
+  /usr/include/c++/9/bits/locale_classes.tcc \
+  /usr/include/c++/9/system_error \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/error_constants.h \
+  /usr/include/c++/9/streambuf \
+  /usr/include/c++/9/bits/streambuf.tcc \
+  /usr/include/c++/9/bits/basic_ios.h \
+  /usr/include/c++/9/bits/locale_facets.h \
+  /usr/include/c++/9/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/ctype_base.h \
+  /usr/include/c++/9/bits/streambuf_iterator.h \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/ctype_inline.h \
+  /usr/include/c++/9/bits/locale_facets.tcc \
+  /usr/include/c++/9/bits/basic_ios.tcc \
+  /usr/include/c++/9/bits/ostream.tcc \
+  /usr/include/c++/9/istream \
+  /usr/include/c++/9/bits/istream.tcc \
+  /usr/include/c++/9/bits/stream_iterator.h \
   ../src/Container/Static_mem.hpp
 
 CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o: ../src/Container/Dynamic_mem.cpp \
@@ -559,7 +607,31 @@ CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o: ../src/Container/Dynamic_me
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/9/bits/basic_string.tcc \
   /usr/include/c++/9/utility \
-  /usr/include/c++/9/bits/stl_relops.h
+  /usr/include/c++/9/bits/stl_relops.h \
+  /usr/include/c++/9/iterator \
+  /usr/include/c++/9/ostream \
+  /usr/include/c++/9/ios \
+  /usr/include/c++/9/bits/ios_base.h \
+  /usr/include/c++/9/bits/locale_classes.h \
+  /usr/include/c++/9/bits/locale_classes.tcc \
+  /usr/include/c++/9/system_error \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/error_constants.h \
+  /usr/include/c++/9/streambuf \
+  /usr/include/c++/9/bits/streambuf.tcc \
+  /usr/include/c++/9/bits/basic_ios.h \
+  /usr/include/c++/9/bits/locale_facets.h \
+  /usr/include/c++/9/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/ctype_base.h \
+  /usr/include/c++/9/bits/streambuf_iterator.h \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/ctype_inline.h \
+  /usr/include/c++/9/bits/locale_facets.tcc \
+  /usr/include/c++/9/bits/basic_ios.tcc \
+  /usr/include/c++/9/bits/ostream.tcc \
+  /usr/include/c++/9/istream \
+  /usr/include/c++/9/bits/istream.tcc \
+  /usr/include/c++/9/bits/stream_iterator.h
 
 CMakeFiles/main.dir/src/Container/Static_mem.cpp.o: ../src/Container/Static_mem.cpp \
   ../src/Container/Static_mem.hpp \
@@ -921,6 +993,34 @@ CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Type
 
 ../src/Container/Static_mem.hpp:
 
+/usr/include/c++/9/bits/stream_iterator.h:
+
+/usr/include/c++/9/istream:
+
+/usr/include/c++/9/bits/streambuf_iterator.h:
+
+/usr/include/x86_64-linux-gnu/c++/9/bits/ctype_base.h:
+
+/usr/include/c++/9/streambuf:
+
+/usr/include/x86_64-linux-gnu/c++/9/bits/error_constants.h:
+
+/usr/include/c++/9/system_error:
+
+/usr/include/c++/9/bits/locale_classes.tcc:
+
+/usr/include/x86_64-linux-gnu/c++/9/bits/ctype_inline.h:
+
+/usr/include/c++/9/bits/locale_classes.h:
+
+/usr/include/c++/9/bits/ios_base.h:
+
+/usr/include/c++/9/bits/basic_ios.tcc:
+
+/usr/include/c++/9/ios:
+
+/usr/include/c++/9/ostream:
+
 /usr/include/c++/9/bits/stl_relops.h:
 
 /usr/include/assert.h:
@@ -942,6 +1042,8 @@ CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Type
 /usr/include/x86_64-linux-gnu/bits/timex.h:
 
 ../src/Trainings/Dynamic_mem_tests.hpp:
+
+/usr/include/c++/9/bits/basic_ios.h:
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
@@ -984,6 +1086,8 @@ CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Type
 /usr/include/c++/9/bits/ostream_insert.h:
 
 /usr/include/ctype.h:
+
+/usr/include/c++/9/cwctype:
 
 /usr/include/c++/9/cctype:
 
@@ -1045,6 +1149,8 @@ CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Type
 
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
 
+/usr/include/c++/9/bits/locale_facets.h:
+
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
@@ -1099,6 +1205,8 @@ CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Type
 
 /usr/include/c++/9/cmath:
 
+/usr/include/x86_64-linux-gnu/bits/wctype-wchar.h:
+
 /usr/include/c++/9/iosfwd:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
@@ -1121,11 +1229,15 @@ CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Type
 
 ../src/Container/Chuncked_mem.hpp:
 
+/usr/include/c++/9/bits/ostream.tcc:
+
 /usr/include/c++/9/bits/stl_iterator_base_types.h:
 
 /usr/include/c++/9/tr1/special_function_util.h:
 
 /usr/include/c++/9/tr1/bessel_function.tcc:
+
+/usr/include/c++/9/bits/istream.tcc:
 
 /usr/include/wchar.h:
 
@@ -1167,6 +1279,8 @@ CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Type
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
 
+/usr/include/c++/9/iterator:
+
 /usr/include/c++/9/cstdio:
 
 /usr/include/c++/9/bits/cxxabi_init_exception.h:
@@ -1180,6 +1294,8 @@ CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Type
 ../src/Container/Static_mem.cpp:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+
+/usr/include/wctype.h:
 
 /usr/include/x86_64-linux-gnu/bits/errno.h:
 
@@ -1243,6 +1359,8 @@ CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Type
 
 /usr/include/c++/9/bits/concept_check.h:
 
+/usr/include/c++/9/bits/locale_facets.tcc:
+
 /usr/include/c++/9/bits/cpp_type_traits.h:
 
 ../src/Container/Container.hpp:
@@ -1280,6 +1398,8 @@ CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o: ../src/Type
 /usr/include/c++/9/ext/new_allocator.h:
 
 /usr/include/c++/9/tr1/modified_bessel_func.tcc:
+
+/usr/include/c++/9/bits/streambuf.tcc:
 
 /usr/include/c++/9/backward/binders.h:
 

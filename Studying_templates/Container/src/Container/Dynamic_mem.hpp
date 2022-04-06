@@ -9,14 +9,127 @@
 #include <stdexcept>
 
 #include <utility>
-
 #include <initializer_list>
+#include <iterator>
 
 #include <new>
 
-template <typename T> // , size_t Size = 25
+template <typename T>
 class Dynamic_mem
 {
+public:
+    template <typename Iter_type>
+    class Iterator
+    {
+    protected:
+        Iter_type *current_;
+
+    public:
+        Iterator() : current_(nullptr) {}
+        Iterator(Iter_type *initial) : current_(initial) {}
+        Iterator(const Iterator &other)
+        {
+            current_ = other.current_;
+        }
+
+        Iter_type &operator*()
+        {
+            return *current_;
+        }
+
+        Iter_type *operator->() 
+        {
+            return current_;
+        }
+
+        Iterator &operator++()
+        {
+            ++current_;
+
+            return *this;
+        }
+
+        Iterator operator++(int tmp)
+        {
+            Iterator copy(*this);
+            ++current_;
+
+            return copy;
+        }
+
+        Iterator &operator--()
+        {
+            --current_;
+
+            return *this;
+        }
+
+        Iterator operator--(int tmp)
+        {
+            Iterator copy(*this);
+            --current_;
+
+            return copy;
+        }
+
+        
+    };
+
+    template <typename RIter_type>
+    class Reversed_iterator
+    {
+    protected:
+        RIter_type *current_;
+
+    public:
+        Reversed_iterator() : current_(nullptr) {}
+        Reversed_iterator(RIter_type *initial) : current_(initial) {}
+        Reversed_iterator(const Reversed_iterator &other)
+        {
+            current_ = other.current_;
+        }
+
+        RIter_type &operator*()
+        {
+            return *current_;
+        }
+
+        RIter_type *operator->() 
+        {
+            return current_;
+        }
+
+        Reversed_iterator &operator++()
+        {
+            --current_;
+
+            return *this;
+        }
+
+        Reversed_iterator operator++(int tmp)
+        {
+            Reversed_iterator copy(*this);
+            --current_;
+
+            return copy;
+        }
+
+        Reversed_iterator &operator--()
+        {
+            ++current_;
+
+            return *this;
+        }
+
+        Reversed_iterator operator--(int tmp)
+        {
+            Reversed_iterator copy(*this);
+            ++current_;
+
+            return copy;
+        }
+    };
+
 protected:
     T *data_;
     
@@ -26,34 +139,26 @@ protected:
     const bool resizeable_{true};
 
 public:
-    Dynamic_mem() : data_(0), size_(0), capacity_(0)
-    {
-        // data_ = (T*)calloc(Size, sizeof(T));
-        // data_ = (T*)(new unsigned char[capacity_ * sizeof(T)]);
-    }
+    Dynamic_mem() : data_(0), size_(0), capacity_(0) {}
 
     Dynamic_mem(size_t amount, const T& initial_element) : size_(amount), capacity_(2 * amount)
     {
-        // capacity_ = (amount > Size ? 2 * amount : 2 * Size);
-        // data_ = (T*)calloc(capacity_, sizeof(T));
         data_ = (T*)(new unsigned char[capacity_ * sizeof(T)]);
 
         for (size_t i = 0; i < amount; i++)
         {
-            new(data_ + i * sizeof(T)) T(initial_element);
+            new(data_ + i) T(initial_element);
         }
     }
 
     Dynamic_mem(std::initializer_list<T> list) : size_(list.size()), capacity_(2 * list.size())
     {
-        // static_assert(size_ <= Size, "Invalid size\n");
-        // capacity_ = (amount > Size ? 2 * amount : 2 * Size);
+        data_ = (T*)(new unsigned char[capacity_ * sizeof(T)]);
 
-        data_ = static_cast<T*>(new unsigned char[capacity_ * sizeof(T)]);
-
-        for (auto i = list.begin, j = 0; i != list.end; i++, j++)
+        size_t j = 0;
+        for (auto i = list.begin(); i != list.end(); i++, j++)
         {
-            new(data_ + j * sizeof(T)) T(i);
+            new(data_ + j) T(*i);
         }
     }
 
@@ -242,6 +347,29 @@ public:
         size_t tmp_size = size_;
         size_ = other.size_;
         other.size_ = tmp_size; 
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ For iterator ---------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Iterator<T> begin()
+    {
+        return Iterator<T>(data_);
+    }
+
+    Iterator<T> end()
+    {
+        return Iterator<T>(data_ + size_);
+    }
+
+    Reversed_iterator<T> rbegin()
+    {
+        return Iterator<T>(data_ + size_ - 1);
+    }
+
+    Reversed_iterator<T> rend()
+    {
+        return Iterator<T>(data_ - 1);
     }
 };
 

@@ -46,6 +46,12 @@ void for_int()
     printf("\n");
 }
 
+void test_no_construct()
+{
+    const size_t size = 10;
+    Container<No_default_constructor, Chunked_mem<16>::type> vector(size, 0);
+}
+
 void for_resize()
 {
     const size_t size = 100;
