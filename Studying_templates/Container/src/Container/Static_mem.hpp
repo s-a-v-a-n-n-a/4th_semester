@@ -5,7 +5,6 @@
 #include <cstdlib>
 
 #include <cassert>
-
 #include <stdexcept>
 
 #include <utility>

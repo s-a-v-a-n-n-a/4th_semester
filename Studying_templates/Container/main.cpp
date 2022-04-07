@@ -5,7 +5,7 @@
 int main()
 {
     // Trainings::static_test::for_int();
-    Trainings::dynamic_test::for_iterator();
+    Trainings::dynamic_test::for_range_based_for();
 
     // Trainings::chunked_test::for_resize(); 
 

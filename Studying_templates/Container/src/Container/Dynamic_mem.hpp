@@ -7,12 +7,12 @@
 #include <cstdint>
 
 #include <stdexcept>
+#include <new>
 
 #include <utility>
 #include <initializer_list>
 #include <iterator>
 
-#include <new>
 
 template <typename T>
 class Dynamic_mem
@@ -22,14 +22,22 @@ public:
     class Iterator
     {
     protected:
+        long long index_;
         Iter_type *current_;
 
     public:
-        Iterator() : current_(nullptr) {}
-        Iterator(Iter_type *initial) : current_(initial) {}
+        using difference_type	= ptrdiff_t;
+		using value_type		= Iter_type;
+		using pointer			= Iter_type*;
+		using reference			= Iter_type&;
+		using iterator_category	= std::bidirectional_iterator_tag;
+
+        Iterator() : current_(nullptr), index_(0) {}
+        Iterator(Iter_type *initial, const long long index) : index_(index), current_(initial) {}
         Iterator(const Iterator &other)
         {
             current_ = other.current_;
+            index_ = other.index_;
         }
 
         Iter_type &operator*()
@@ -45,6 +53,7 @@ public:
         Iterator &operator++()
         {
             ++current_;
+            ++index_;
 
             return *this;
         }
@@ -53,6 +62,7 @@ public:
         {
             Iterator copy(*this);
             ++current_;
+            ++index_;
 
             return copy;
         }
@@ -60,6 +70,7 @@ public:
         Iterator &operator--()
         {
             --current_;
+            --index_;
 
             return *this;
         }
@@ -68,25 +79,57 @@ public:
         {
             Iterator copy(*this);
             --current_;
+            --index_;
 
             return copy;
         }
 
-        
+        bool operator==(const Iterator<Iter_type> &other) const
+        {
+            return index_ == other.index_;
+        }
+        bool operator!=(const Iterator<Iter_type> &other) const
+        {
+            return index_ != other.index_;
+        }
+        bool operator<=(const Iterator<Iter_type> &other) const
+        {
+            return index_ <= other.index_;
+        }
+        bool operator>=(const Iterator<Iter_type> &other) const
+        {
+            return index_ >= other.index_;
+        }
+        bool operator<(const Iterator<Iter_type> &other) const
+        {
+            return index_ < other.index_;
+        }
+        bool operator>(const Iterator<Iter_type> &other) const
+        {
+            return index_ > other.index_;
+        }
     };
 
     template <typename RIter_type>
     class Reversed_iterator
     {
     protected:
+        long long index_;
         RIter_type *current_;
 
     public:
-        Reversed_iterator() : current_(nullptr) {}
-        Reversed_iterator(RIter_type *initial) : current_(initial) {}
+        using difference_type	= ptrdiff_t;
+		using value_type		= RIter_type;
+		using pointer			= RIter_type*;
+		using reference			= RIter_type&;
+		using iterator_category	= std::bidirectional_iterator_tag;
+
+        Reversed_iterator() : current_(nullptr), index_(0) {}
+        Reversed_iterator(RIter_type *initial, const long long index) : index_(index), current_(initial) {}
         Reversed_iterator(const Reversed_iterator &other)
         {
             current_ = other.current_;
+            index_ = other.index_;
         }
 
         RIter_type &operator*()
@@ -102,6 +145,7 @@ public:
         Reversed_iterator &operator++()
         {
             --current_;
+            --index_;
 
             return *this;
         }
@@ -110,6 +154,7 @@ public:
         {
             Reversed_iterator copy(*this);
             --current_;
+            --index_;
 
             return copy;
         }
@@ -117,6 +162,7 @@ public:
         Reversed_iterator &operator--()
         {
             ++current_;
+            ++index_;
 
             return *this;
         }
@@ -125,8 +171,34 @@ public:
         {
             Reversed_iterator copy(*this);
             ++current_;
+            ++index_;
 
             return copy;
+        }
+
+        bool operator==(const Reversed_iterator<RIter_type> &other) const
+        {
+            return index_ == other.index_;
+        }
+        bool operator!=(const Reversed_iterator<RIter_type> &other) const
+        {
+            return index_ != other.index_;
+        }
+        bool operator<=(const Reversed_iterator<RIter_type> &other) const
+        {
+            return index_ >= other.index_;
+        }
+        bool operator>=(const Reversed_iterator<RIter_type> &other) const
+        {
+            return index_ <= other.index_;
+        }
+        bool operator<(const Reversed_iterator<RIter_type> &other) const
+        {
+            return index_ > other.index_;
+        }
+        bool operator>(const Reversed_iterator<RIter_type> &other) const
+        {
+            return index_ < other.index_;
         }
     };
 
@@ -319,7 +391,6 @@ public:
             resize();
         }
 
-        // data_[size_++] = new T(std::forward<Args>(args)...);
         new(data_ + size_) T(std::forward<Args>(args)...);
         size_++;
     }
@@ -354,22 +425,22 @@ public:
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     Iterator<T> begin()
     {
-        return Iterator<T>(data_);
+        return Iterator<T>(data_, 0);
     }
 
     Iterator<T> end()
     {
-        return Iterator<T>(data_ + size_);
+        return Iterator<T>(data_ + size_, size_);
     }
 
     Reversed_iterator<T> rbegin()
     {
-        return Iterator<T>(data_ + size_ - 1);
+        return Reversed_iterator<T>(data_ + size_ - 1, size_ - 1);
     }
 
     Reversed_iterator<T> rend()
     {
-        return Iterator<T>(data_ - 1);
+        return Reversed_iterator<T>(data_ - 1, -1);
     }
 };
 

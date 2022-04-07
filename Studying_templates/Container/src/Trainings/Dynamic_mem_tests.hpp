@@ -36,7 +36,6 @@ void for_initializer_list()
 {
     printf("\nTesting dynamic int storage: initializer_list\n\n\n");
     
-    const size_t size = 10;
     Container<int, Dynamic_mem> vector{0, 1, 2, 4, 8, 16, 32};
 
     for (size_t i = 0; i < vector.size(); ++i)
@@ -132,6 +131,58 @@ void for_iterator()
     {
         printf("%d ", *i);
     }
+    printf("\n");
+}
+
+void for_range_based_for()
+{
+    printf("\nTesting dynamic int storage for iterator\n\n\n");
+
+    Container<int, Dynamic_mem> vector{0, 1, 2, 4, 8, 16, 32};
+    
+    for (auto i : vector)
+    {
+        printf("%d ", i);
+    }
+    printf("\n");
+}
+
+void for_reversed_iterator()
+{
+    printf("\nTesting dynamic int storage for reversed iterator\n\n\n");
+
+    Container<int, Dynamic_mem> vector = {0, 1, 2, 4, 8, 16, 32};
+    
+    for (auto i = vector.rbegin(); i < vector.rend(); ++i)
+    {
+        printf("%d ", *i);
+    }
+    printf("\n");
+}
+
+void for_std_find()
+{
+    printf("\nTesting dynamic int storage for std::find\n\n\n");
+
+    Container<int, Dynamic_mem> vector{0, 1, 2, 4, 8, 16, 32};
+
+    printf("found %d\n", *(std::find(vector.begin(), vector.end(), 16)));
+}
+
+void for_std_copy()
+{
+    printf("\nTesting dynamic int storage for std::find\n\n\n");
+
+    Container<int, Dynamic_mem> vector_from{0, 1, 2, 4, 8, 16, 32};
+    Container<int, Dynamic_mem> vector_to(vector_from.size(), 0);
+
+    std::copy(vector_from.begin(), vector_from.end(), vector_to.begin());
+
+    for (auto i = vector_to.begin(); i < vector_to.end(); ++i)
+    {
+        printf("%d ", *i);
+    }
+    printf("\n");
 }
 
 } // Trainings/dynamic_test
