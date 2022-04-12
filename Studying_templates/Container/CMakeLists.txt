@@ -14,13 +14,11 @@ set(CMAKE_CXX_FLAGS "-O3 -std=c++20 -Wall -fdeclspec -march=native") #-fsanitize
 set(SOURCE_EXE main.cpp)	# Установка переменной со списком исходников для исполняемого файла
 
 include_directories("src/Container/" 
+                    "src/Storages/" 
                     "src/Trainings/"
                     "src/Types/Intercepted_int/"
                     "src/Types/No_default_constructor/")
 
-set(SOURCES src/Container/Container.cpp 
-            src/Container/Static_mem.cpp 
-            src/Container/Dynamic_mem.cpp
-            src/Types/Intercepted_int/Intercepted_int.cpp)
+set(SOURCES src/Types/Intercepted_int/Intercepted_int.cpp)
 
 add_executable(main ${SOURCE_EXE} ${SOURCES})

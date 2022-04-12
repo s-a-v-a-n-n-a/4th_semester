@@ -3,12 +3,11 @@
 
 #include <cstdio>
 #include <initializer_list>
+#include <cassert>
 #include <cmath>
 
 #include <stdexcept>
-
-#include "Dynamic_mem.hpp"
-#include "Static_mem.hpp"
+#include <iterator>
 
 template
 <
@@ -19,6 +18,98 @@ class Container : public Storage<T>
 {
 private:
     typedef Storage<T> Base;
+
+public:
+    template <typename Iter_type>
+    class Iterator
+    {
+    protected:
+        long long index_;
+        Container *array_;
+
+    public:
+        using difference_type	= ptrdiff_t;
+		using value_type		= Iter_type;
+		using pointer			= Iter_type*;
+		using reference			= Iter_type&;
+		using iterator_category	= std::bidirectional_iterator_tag;
+
+        Iterator() : index_(0), array_(nullptr) {}
+        Iterator(Container *array, const long long index) 
+        : index_(index),
+          array_(array) {}
+        Iterator(const Iterator &other)
+        {
+            index_ = other.index_;
+            array_ = other.array_;
+        }
+
+        Iter_type &operator*()
+        {
+            return (*array_)[index_];
+        }
+
+        Iter_type *operator->() 
+        {
+            return &array_[0] + index_;
+        }
+
+        Iterator &operator++()
+        {
+            ++index_;
+
+            return *this;
+        }
+
+        Iterator operator++(int)
+        {
+            Iterator copy(*this);
+            ++index_;
+
+            return copy;
+        }
+
+        Iterator &operator--()
+        {
+            --index_;
+
+            return *this;
+        }
+
+        Iterator operator--(int)
+        {
+            Iterator copy(*this);
+            --index_;
+
+            return copy;
+        }
+
+        bool operator==(const Iterator<Iter_type> &other) const
+        {
+            return index_ == other.index_;
+        }
+        bool operator!=(const Iterator<Iter_type> &other) const
+        {
+            return index_ != other.index_;
+        }
+        bool operator<=(const Iterator<Iter_type> &other) const
+        {
+            return index_ <= other.index_;
+        }
+        bool operator>=(const Iterator<Iter_type> &other) const
+        {
+            return index_ >= other.index_;
+        }
+        bool operator<(const Iterator<Iter_type> &other) const
+        {
+            return index_ < other.index_;
+        }
+        bool operator>(const Iterator<Iter_type> &other) const
+        {
+            return index_ > other.index_;
+        }
+    };
+
 
 public:
     Container() : Base() {}
@@ -67,8 +158,25 @@ public:
         
         return Base::data(index); 
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ For iterator ------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Iterator<T> begin()
+    {
+        return Iterator<T>(this, 0);
+    }
+
+    Iterator<T> end()
+    {
+        return Iterator<T>(this, Base::size_);
+    }
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ------------------------------------------------------------------------------------------------------------------
+// ---------------- Bool specialization -----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template

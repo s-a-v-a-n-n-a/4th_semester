@@ -2,6 +2,7 @@
 #define DYNAMIC_MEM_TESTS_HPP
 
 #include "../Container/Container.hpp"
+#include "../Storages/Dynamic_mem.hpp"
 
 #include "../Types/No_default_constructor/No_default_constructor.hpp"
 
@@ -124,7 +125,7 @@ void for_iterator()
 {
     printf("\nTesting dynamic int storage for iterator\n\n\n");
 
-    const size_t size = 10;
+    const size_t size = 30;
     Container<int, Dynamic_mem> vector(size, 0);
     
     for (auto i = vector.begin(); i < vector.end(); ++i)
@@ -136,26 +137,13 @@ void for_iterator()
 
 void for_range_based_for()
 {
-    printf("\nTesting dynamic int storage for iterator\n\n\n");
+    printf("\nTesting dynamic int storage for range based for\n\n\n");
 
     Container<int, Dynamic_mem> vector{0, 1, 2, 4, 8, 16, 32};
     
     for (auto i : vector)
     {
         printf("%d ", i);
-    }
-    printf("\n");
-}
-
-void for_reversed_iterator()
-{
-    printf("\nTesting dynamic int storage for reversed iterator\n\n\n");
-
-    Container<int, Dynamic_mem> vector = {0, 1, 2, 4, 8, 16, 32};
-    
-    for (auto i = vector.rbegin(); i < vector.rend(); ++i)
-    {
-        printf("%d ", *i);
     }
     printf("\n");
 }
@@ -171,7 +159,7 @@ void for_std_find()
 
 void for_std_copy()
 {
-    printf("\nTesting dynamic int storage for std::find\n\n\n");
+    printf("\nTesting dynamic int storage for std::copy\n\n\n");
 
     Container<int, Dynamic_mem> vector_from{0, 1, 2, 4, 8, 16, 32};
     Container<int, Dynamic_mem> vector_to(vector_from.size(), 0);

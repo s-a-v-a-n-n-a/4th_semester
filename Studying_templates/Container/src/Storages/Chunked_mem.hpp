@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cassert>
 #include <cstdint>
+#include <cstring>
 
 #include <stdexcept>
 
@@ -18,48 +19,6 @@ template <typename T, size_t Chunk_size>
 class Chunked_memory
 {
 protected:
-    // template <typename T, size_t Chunk_size>
-    // class Chunk
-    // {
-    // protected:        
-    //     T *data_;
-
-    //     size_t size_;
-
-    //     bool has_initial_element_;
-    //     T initial_element_;
-    // public:
-    //     Chunk()
-    //     : data_(nullptr), size_(Chunk_size), has_initial_element(false) {}
-
-    //     Chunk(const T &initial_element)
-    //     : data_(nullptr), size_(Chunk_size), has_initial_element_(true), initial_element_(initial_element)
-    //     {
-    //     }
-
-    //     T& operator[] (size_t index) 
-    //     {
-    //         if (!data_)
-    //         {
-    //             data_ = new unsigned char[size_ * sizeof(T)];
-    //             if (has_initial_element_)
-    //             {
-    //                 for (size_t idx = 0; idx < size_; ++idx)
-    //                 {
-    //                     new(data_ + idx) T(initial_element_);
-    //                 }
-    //             }
-    //         }
-    //         return data_[index];
-    //     }
-
-    //     void operator= (const T& other)
-    //     {
-            
-    //     }
-    // };
-
-protected:
     T **data_;
     
     size_t chunk_size_;
@@ -72,18 +31,157 @@ protected:
     bool with_initial_element_;
     T initial_element_;
 
+private:
+    void copy_elements(T** copy_to, size_t copy_size)
+    {
+        size_t chunks_to_copy = copy_size / chunk_size_;
+        for (size_t chunk_idx = 0; chunk_idx < chunks_to_copy; ++chunk_idx)
+        {
+            if (data_[chunk_idx] != nullptr)
+            {
+                copy_to[chunk_idx] = data_[chunk_idx];
+            }
+            else if (with_initial_element_)
+            {
+                copy_to[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
+                for (size_t idx = 0; idx < chunk_size_; ++idx)
+                {
+                    new(copy_to[chunk_idx] + idx) T(initial_element_);
+                }
+            }
+        }
+
+        if (copy_size % chunk_size_ != 0)
+        {
+            size_t last_chunk = chunks_to_copy + 1;
+            for (size_t idx = 0; idx < copy_size % chunk_size_; ++idx)
+            {
+                new(copy_to[last_chunk] + idx) T(initial_element_);
+            }
+        }
+    }
+
+    void init_new_elements(T** where, size_t start_idx, size_t amount)
+    {
+        size_t start_chunk = start_idx / chunk_size_;
+        size_t elements_to_end_initializing = amount - (chunk_size_ - start_idx + 1);
+        
+        size_t last_chunk = start_chunk + (elements_to_end_initializing / chunk_size_) + (elements_to_end_initializing % chunk_size_ != 0);
+
+        for (size_t chunk_idx = start_chunk; chunk_idx < last_chunk; ++chunk_idx)
+        {
+            if (where[chunk_idx] == nullptr)
+            {
+                where[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
+            }
+            
+            size_t start = ((chunk_idx == start_chunk) ? start_idx % chunk_size_ : 0);
+            for (size_t idx = start; idx < chunk_size_; ++idx)
+            {
+                if (chunk_idx * chunk_size_ + idx >= amount + start_idx)
+                    break;
+
+                new(where[chunk_idx] + idx) T(); 
+            }
+        }
+    }
+
+    void init_new_elements(T** where, size_t start_idx, size_t amount, const T &value)
+    {
+        size_t start_chunk = start_idx / chunk_size_ + (start_idx % chunk_size_ != 0);
+        size_t elements_to_end_initializing = amount - start_idx;
+        
+        size_t last_chunk = start_chunk + (elements_to_end_initializing / chunk_size_) + (elements_to_end_initializing % chunk_size_ != 0);
+
+        for (size_t chunk_idx = start_chunk; chunk_idx < last_chunk; ++chunk_idx)
+        {
+            if (where[chunk_idx] == nullptr)
+            {
+                where[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
+            }
+            
+            size_t start = ((chunk_idx == start_chunk) ? start_idx % chunk_size_ : 0);
+            for (size_t idx = start; idx < chunk_size_; ++idx)
+            {
+                if (chunk_idx * chunk_size_ + idx >= amount + start_idx)
+                    break;
+
+                new(where[chunk_idx] + idx) T(value); 
+            }
+        }
+    }
+
+    void free_extra_elements(size_t start_index)
+    {
+        size_t start_chunk = start_index / chunk_size_;
+        size_t last_chunk  = size_ / chunk_size_;
+        
+        for (size_t chunk_idx = start_chunk; chunk_idx < last_chunk; ++chunk_idx)
+        {
+            if (data_[chunk_idx] != nullptr)
+            {
+                size_t to_start = ((chunk_idx == start_chunk) ? (size_ % chunk_size_) : 0);
+                for (size_t idx = to_start; idx < chunk_size_; ++idx)
+                {
+                    data_[chunk_idx][idx].~T();
+                }
+            }
+        }
+    }
+    
+    void resize_empty_data_with_initial_to_other_initial(size_t new_size, const T &value)
+    {
+        size_t new_capacity = new_size / chunk_size_ + (new_size % chunk_size_ != 0);
+        
+        size_t to_copy = size_;
+        if (new_size < size_)
+        {
+            to_copy = new_size;
+        }
+        
+        data_ = new T*[new_capacity];
+        memset(data_, 0, new_capacity);
+        
+        size_t copyable_chunks_amount = to_copy / chunk_size_ + (to_copy % chunk_size_ != 0);
+        for (size_t chunk_idx = 0; chunk_idx < copyable_chunks_amount; ++chunk_idx)
+        {
+            data_[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
+            for (size_t idx = 0; idx < chunk_size_; ++idx)
+            {
+                if (chunk_idx * chunk_size_ + idx >= new_size)
+                    break;
+                
+                if (chunk_idx * chunk_size_ + idx >= to_copy)
+                {
+                    new(data_[chunk_idx] + idx) T(value);
+                    continue;
+                }
+
+                new(data_[chunk_idx] + idx) T(initial_element_);
+            }
+        }
+
+        size_     = new_size;
+        capacity_ = new_capacity;
+
+        initial_element_      = value;
+        with_initial_element_ = true;
+    }
+  
 public:
     Chunked_memory()
     : data_(nullptr), 
       chunk_size_(Chunk_size), 
       size_(0), 
-      capacity_(0) {}
+      capacity_(0),
+      with_initial_element_(false) 
+    {}
 
     Chunked_memory(size_t amount, const T &initial_element)
     : data_(nullptr), 
       chunk_size_(Chunk_size), 
       size_(amount), 
-      capacity_(2 * amount / chunk_size_ + (2 * amount % chunk_size_ != 0 )), 
+      capacity_(amount / chunk_size_ + (amount % chunk_size_ != 0 )), 
       with_initial_element_(true), 
       initial_element_(initial_element)
     {}
@@ -158,10 +256,6 @@ public:
                     new(data_[chunk_num] + idx) T(initial_element_);
                 }
             }
-            else
-            {
-                assert(with_initial_element_);
-            }
         }
 
         return data_[chunk_num][index % chunk_size_];
@@ -214,7 +308,6 @@ public:
         size_ = 0;
     } 
 
-    // TODO: resize downside
     void resize(size_t new_size)
     {        
         size_t new_capacity = new_size / chunk_size_ + (new_size % chunk_size_ != 0);
@@ -222,11 +315,11 @@ public:
         if (!data_)
         {
             capacity_ = new_capacity;
-            size_     = new_size;
             return;
         }
 
         T** new_data = new T*[new_capacity];
+        memset(new_data, 0, new_capacity);
         
         size_t old_chunks_amount = size_ / chunk_size_ + (size_ % chunk_size_ != 0);
 
@@ -237,74 +330,37 @@ public:
             downside = true;
             chunks_to_copy = new_capacity;
         }
-
-        if (!downside)
-        {
-            for (size_t idx = capacity_ + 1; idx < new_capacity; ++idx)
-            {
-                new_data[idx] = nullptr;
-            }
-        }
+        size_t elements_to_copy = std::min(new_size, size_);
             
-        for (size_t idx = 0; idx < chunks_to_copy; ++idx)
-        {
-            if (data_[idx] != nullptr)
-            {
-                new_data[idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
-                for (size_t chunk_idx = 0; chunk_idx < chunk_size_; ++chunk_idx)
-                {
-                    if (chunk_size_ * idx + chunk_idx >= size_)
-                    {
-                        break;
-                    }
-
-                    new(new_data[idx] + chunk_idx) T(std::move(data_[idx][chunk_idx]));
-                }
-            }
-            else
-            {
-                new_data[idx] = nullptr;
-            }
-        }
+        copy_elements(new_data, elements_to_copy);
+        if (!downside)
+            init_new_elements(new_data, elements_to_copy + 1, new_size - size_);
 
         if (downside)
         {
-            for (size_t idx = new_capacity; idx < old_chunks_amount; ++idx)
-            {
-                if (data_[idx] != nullptr)
-                {
-                    size_t to_start = idx == old_chunks_amount ? size_ % chunk_size_ : 0;
-                    for (size_t chunk_idx = to_start; chunk_idx < chunk_size_; ++chunk_idx)
-                    {
-                        data_[idx][chunk_idx].~T();
-                    }
-                }
-            }
+            free_extra_elements(new_size);
         }
 
-        // delete [] data_;
         std::swap(data_, new_data);
-
         delete [] new_data;
-        // data_     = new_data;
+        
         capacity_ = new_capacity;
-        size_     = new_size;
     }
 
     void resize(size_t new_size, const T& value)
     {
-        size_t new_capacity = new_size / chunk_size_ + ((new_size) % chunk_size_ != 0);
+        size_t new_capacity = new_size / chunk_size_ + (new_size % chunk_size_ != 0);
 
         if (!data_)
         {
-            capacity_ = new_capacity;
-            size_     = new_size;
+            resize_empty_data_with_initial_to_other_initial(new_size, value);
             return;
         }
 
         T** new_data = new T*[new_capacity];
+        memset(new_data, 0, new_capacity);
         
-        size_t old_chunks_amount = size_ / chunk_size_ + (size_ % chunk_size_ != 0);
+        size_t old_chunks_amount = size_ / chunk_size_;
         size_t chunks_to_copy = old_chunks_amount;
         bool downside = false;
         if (old_chunks_amount >= new_capacity)
@@ -312,70 +368,19 @@ public:
             downside = true;
             chunks_to_copy = new_capacity;
         }
+        size_t elements_to_copy = std::min(new_size, size_);
 
+        copy_elements(new_data, elements_to_copy);
         if (!downside)
-        {
-            for (size_t idx = capacity_ / chunk_size_ + 1; idx < new_capacity; ++idx)
-            {
-                new_data[idx] = nullptr;
-            }
-        }
-
-        for (size_t idx = 0; idx < old_chunks_amount; ++idx)
-        {
-            if (data_[idx] != nullptr)
-            {
-                new_data[idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
-                for (size_t chunk_idx = 0; chunk_idx < chunk_size_; ++chunk_idx)
-                {
-                    if (chunk_size_ * idx + chunk_idx >= size_)
-                    {
-                        new(new_data[idx] + chunk_idx) T(value);
-                    }
-                    else
-                    {
-                        new(new_data[idx] + chunk_idx) T(std::move(data_[idx][chunk_idx]));
-                    }
-                }
-            }
-            else if (with_initial_element_)
-            {
-                new_data[idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
-                for (size_t chunk_idx = 0; chunk_idx < chunk_size_; ++chunk_idx)
-                {
-                    if (chunk_idx * idx >= size_)
-                    {
-                        new(new_data[idx] + chunk_idx) T(value);
-                    }
-                    else
-                    {
-                        new(new_data[idx] + chunk_idx) T(initial_element_);
-                    }
-                }
-            }
-            else
-            {
-                new_data[idx] = nullptr;
-            }
-        }
+            init_new_elements(new_data, elements_to_copy + 1, new_size - size_, value);
 
         if (downside)
         {
-            for (size_t idx = old_chunks_amount; idx < new_capacity; ++idx)
-            {
-                if (data_[idx] != nullptr)
-                {
-                    size_t to_start = idx == old_chunks_amount ? size_ % chunk_size_ : 0;
-                    for (size_t chunk_idx = to_start; chunk_idx < chunk_size_; ++chunk_idx)
-                    {
-                        data_[idx][chunk_idx].~T();
-                    }
-                }
-            }
+            free_extra_elements(new_size);
         }
 
         with_initial_element_ = true;
-        initial_element_ = value;
+        initial_element_      = value;
 
         delete [] data_;
 
@@ -386,12 +391,25 @@ public:
     
     void push_back(const T& value)
     {
-        if (size_ >= capacity_)
+        if (size_ >= capacity_ * chunk_size_)
         {
-            resize(capacity_ * 2);
+            if (capacity_)
+            {
+                resize(capacity_ * chunk_size_ * 2);
+            }
+            else
+            {
+                resize(chunk_size_);
+            }
         }
 
-        size_t needed_chunk = size_ / chunk_size_ + (size_ % chunk_size_ != 0);
+        if (!data_)
+        {
+            data_ = new T*[capacity_];
+            memset(data_, 0, capacity_);
+        }
+        
+        size_t needed_chunk = size_ / chunk_size_;
         if (!data_[needed_chunk])
         {
             data_[needed_chunk] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]); 
@@ -403,7 +421,7 @@ public:
                 
                 for (size_t idx = 0; idx < size_ % chunk_size_; ++idx)
                 {
-                    new(data_[needed_chunk] + size_ % chunk_size_) T(initial_element_);
+                    new(data_[needed_chunk] + idx) T(initial_element_);
                 }
             }
         }
@@ -414,12 +432,25 @@ public:
 
     void push_back(T&& value)
     {
-        if (size_ >= capacity_)
+        if (size_ >= capacity_ * chunk_size_)
         {
-            resize(capacity_ * 2);
+            if (capacity_)
+            {
+                resize(capacity_ * chunk_size_ * 2);
+            }
+            else
+            {
+                resize(chunk_size_);
+            }
         }
 
-        size_t needed_chunk = size_ / chunk_size_ + (size_ % chunk_size_ != 0);
+        if (!data_)
+        {
+            data_ = new T*[capacity_];
+            memset(data_, 0, capacity_);
+        }
+
+        size_t needed_chunk = size_ / chunk_size_;
         if (!data_[needed_chunk])
         {
             data_[needed_chunk] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]); 
@@ -431,7 +462,7 @@ public:
                 
                 for (size_t idx = 0; idx < size_ % chunk_size_; ++idx)
                 {
-                    new(data_[needed_chunk] + size_ % chunk_size_) T(initial_element_);
+                    new(data_[needed_chunk] + idx) T(initial_element_);
                 }
             }
         }
@@ -445,10 +476,17 @@ public:
     {
         if (size_ >= capacity_)
         {
-            resize(capacity_ * 2);
+            if (capacity_)
+            {
+                resize(capacity_ * 2);
+            }
+            else
+            {
+                resize(1);
+            }
         }
 
-        size_t needed_chunk = size_ / chunk_size_ + (size_ % chunk_size_ != 0);
+        size_t needed_chunk = size_ / chunk_size_;
         if (!data_[needed_chunk])
         {
             data_[needed_chunk] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
@@ -482,6 +520,19 @@ public:
         std::swap(with_initial_element_, other.with_initial_element_);
         std::swap(initial_element_, other.initial_element);
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ For iterator ---------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Iterator<T> begin()
+    // {
+    //     return Iterator<T>(data_, 0, chunk_size_);
+    // }
+
+    // Iterator<T> end()
+    // {
+    //     return Iterator<T>(data_, size_, chunk_size_);
+    // }
 };
 
 template <size_t Chunk_size>

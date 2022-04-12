@@ -32,6 +32,8 @@ CMakeFiles/main.dir/main.cpp.o: \
   /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
   /usr/include/x86_64-linux-gnu/bits/stdio.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/initializer_list \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cassert \
+  /usr/include/assert.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cmath \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/cpp_type_traits.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ext/type_traits.h \
@@ -176,11 +178,6 @@ CMakeFiles/main.dir/main.cpp.o: \
   /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/basic_string.tcc \
-  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Dynamic_mem.hpp \
-  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cassert \
-  /usr/include/assert.h \
-  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/utility \
-  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_relops.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/iterator \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ostream \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/ios \
@@ -205,8 +202,13 @@ CMakeFiles/main.dir/main.cpp.o: \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/istream \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/istream.tcc \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stream_iterator.h \
-  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container/Static_mem.hpp \
+  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/../Storages/Static_mem.hpp \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/utility \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_relops.h \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/Dynamic_mem_tests.hpp \
+  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/../Storages/Dynamic_mem.hpp \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/../Types/No_default_constructor/No_default_constructor.hpp \
   /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/Chunked_mem_tests.hpp \
-  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/../Container/Chuncked_mem.hpp
+  /home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings/../Storages/Chunked_mem.hpp \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cstring \
+  /usr/include/string.h /usr/include/strings.h

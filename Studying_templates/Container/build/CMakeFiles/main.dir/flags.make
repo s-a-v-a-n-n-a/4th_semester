@@ -4,7 +4,7 @@
 # compile CXX with clang++-12
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container -I/home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings -I/home/anna/Repositories/4th_semester/Studying_templates/Container/src/Types/Intercepted_int -I/home/anna/Repositories/4th_semester/Studying_templates/Container/src/Types/No_default_constructor
+CXX_INCLUDES = -I/home/anna/Repositories/4th_semester/Studying_templates/Container/src/Container -I/home/anna/Repositories/4th_semester/Studying_templates/Container/src/Storages -I/home/anna/Repositories/4th_semester/Studying_templates/Container/src/Trainings -I/home/anna/Repositories/4th_semester/Studying_templates/Container/src/Types/Intercepted_int -I/home/anna/Repositories/4th_semester/Studying_templates/Container/src/Types/No_default_constructor
 
 CXX_FLAGS = -O3 -std=c++20 -Wall -fdeclspec -march=native -std=gnu++20
 

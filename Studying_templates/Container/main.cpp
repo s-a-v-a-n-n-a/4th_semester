@@ -4,10 +4,14 @@
 
 int main()
 {
-    // Trainings::static_test::for_int();
-    Trainings::dynamic_test::for_range_based_for();
+    // Trainings::static_test::for_std_find();
+    // Trainings::static_test::for_std_copy();
+    // Trainings::dynamic_test::for_range_based_for();
 
-    // Trainings::chunked_test::for_resize(); 
+    // Trainings::chunked_test::for_iterator(); 
+    Trainings::chunked_test::for_resize_down(); 
+    // Trainings::chunked_test::for_std_find(); 
+    // Trainings::chunked_test::for_std_copy(); 
 
     return 0;
 }

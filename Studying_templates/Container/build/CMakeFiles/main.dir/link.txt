@@ -1,1 +1,1 @@
-clang++-12 -O3 -std=c++20 -Wall -fdeclspec -march=native CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/src/Container/Container.cpp.o CMakeFiles/main.dir/src/Container/Static_mem.cpp.o CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o -o main 
+clang++-12 -O3 -std=c++20 -Wall -fdeclspec -march=native CMakeFiles/main.dir/main.cpp.o CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o -o main 

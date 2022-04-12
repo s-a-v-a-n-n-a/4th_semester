@@ -29,9 +29,10 @@ public:
             throw std::out_of_range("Wrong initializer list size\n");
         }
 
-        for (auto idx = list.begin(), i = 0; idx != list.end(); idx++, i++)
+        size_t i = 0;
+        for (auto idx = list.begin(); idx != list.end(); idx++, i++)
         {
-            data_[i] = idx;
+            data_[i] = *idx;
         }
     }
 
@@ -105,6 +106,19 @@ public:
             other.data_[idx] = std::move(tmp);
         }
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ For iterator ---------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Iterator<T> begin()
+    // {
+    //     return Iterator<T>(data_, 0);
+    // }
+
+    // Iterator<T> end()
+    // {
+    //     return Iterator<T>(data_ + size_, size_);
+    // }
 };
 
 template <size_t Size>

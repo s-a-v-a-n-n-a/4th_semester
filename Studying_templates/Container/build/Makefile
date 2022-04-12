@@ -153,78 +153,6 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-src/Container/Container.o: src/Container/Container.cpp.o
-.PHONY : src/Container/Container.o
-
-# target to build an object file
-src/Container/Container.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Container/Container.cpp.o
-.PHONY : src/Container/Container.cpp.o
-
-src/Container/Container.i: src/Container/Container.cpp.i
-.PHONY : src/Container/Container.i
-
-# target to preprocess a source file
-src/Container/Container.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Container/Container.cpp.i
-.PHONY : src/Container/Container.cpp.i
-
-src/Container/Container.s: src/Container/Container.cpp.s
-.PHONY : src/Container/Container.s
-
-# target to generate assembly for a file
-src/Container/Container.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Container/Container.cpp.s
-.PHONY : src/Container/Container.cpp.s
-
-src/Container/Dynamic_mem.o: src/Container/Dynamic_mem.cpp.o
-.PHONY : src/Container/Dynamic_mem.o
-
-# target to build an object file
-src/Container/Dynamic_mem.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.o
-.PHONY : src/Container/Dynamic_mem.cpp.o
-
-src/Container/Dynamic_mem.i: src/Container/Dynamic_mem.cpp.i
-.PHONY : src/Container/Dynamic_mem.i
-
-# target to preprocess a source file
-src/Container/Dynamic_mem.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.i
-.PHONY : src/Container/Dynamic_mem.cpp.i
-
-src/Container/Dynamic_mem.s: src/Container/Dynamic_mem.cpp.s
-.PHONY : src/Container/Dynamic_mem.s
-
-# target to generate assembly for a file
-src/Container/Dynamic_mem.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Container/Dynamic_mem.cpp.s
-.PHONY : src/Container/Dynamic_mem.cpp.s
-
-src/Container/Static_mem.o: src/Container/Static_mem.cpp.o
-.PHONY : src/Container/Static_mem.o
-
-# target to build an object file
-src/Container/Static_mem.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Container/Static_mem.cpp.o
-.PHONY : src/Container/Static_mem.cpp.o
-
-src/Container/Static_mem.i: src/Container/Static_mem.cpp.i
-.PHONY : src/Container/Static_mem.i
-
-# target to preprocess a source file
-src/Container/Static_mem.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Container/Static_mem.cpp.i
-.PHONY : src/Container/Static_mem.cpp.i
-
-src/Container/Static_mem.s: src/Container/Static_mem.cpp.s
-.PHONY : src/Container/Static_mem.s
-
-# target to generate assembly for a file
-src/Container/Static_mem.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Container/Static_mem.cpp.s
-.PHONY : src/Container/Static_mem.cpp.s
-
 src/Types/Intercepted_int/Intercepted_int.o: src/Types/Intercepted_int/Intercepted_int.cpp.o
 .PHONY : src/Types/Intercepted_int/Intercepted_int.o
 
@@ -261,15 +189,6 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... src/Container/Container.o"
-	@echo "... src/Container/Container.i"
-	@echo "... src/Container/Container.s"
-	@echo "... src/Container/Dynamic_mem.o"
-	@echo "... src/Container/Dynamic_mem.i"
-	@echo "... src/Container/Dynamic_mem.s"
-	@echo "... src/Container/Static_mem.o"
-	@echo "... src/Container/Static_mem.i"
-	@echo "... src/Container/Static_mem.s"
 	@echo "... src/Types/Intercepted_int/Intercepted_int.o"
 	@echo "... src/Types/Intercepted_int/Intercepted_int.i"
 	@echo "... src/Types/Intercepted_int/Intercepted_int.s"
