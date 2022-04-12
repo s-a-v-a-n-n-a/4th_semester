@@ -84,32 +84,229 @@ public:
             return copy;
         }
 
-        bool operator==(const Iterator<Iter_type> &other) const
-        {
-            return index_ == other.index_;
-        }
-        bool operator!=(const Iterator<Iter_type> &other) const
-        {
-            return index_ != other.index_;
-        }
-        bool operator<=(const Iterator<Iter_type> &other) const
-        {
-            return index_ <= other.index_;
-        }
-        bool operator>=(const Iterator<Iter_type> &other) const
-        {
-            return index_ >= other.index_;
-        }
-        bool operator<(const Iterator<Iter_type> &other) const
-        {
-            return index_ < other.index_;
-        }
-        bool operator>(const Iterator<Iter_type> &other) const
-        {
-            return index_ > other.index_;
-        }
+        bool operator==(const Iterator<Iter_type> &other) const { return index_ == other.index_; }
+        bool operator!=(const Iterator<Iter_type> &other) const { return index_ != other.index_; }
+        bool operator<=(const Iterator<Iter_type> &other) const { return index_ <= other.index_; }
+        bool operator>=(const Iterator<Iter_type> &other) const { return index_ >= other.index_; }
+        bool operator<(const Iterator<Iter_type> &other) const { return index_ < other.index_; }
+        bool operator>(const Iterator<Iter_type> &other) const { return index_ > other.index_; }
     };
 
+    template <typename CIter_type>
+    class Const_iterator
+    {
+    protected:
+        long long index_;
+        Container *array_;
+
+    public:
+        using difference_type	= ptrdiff_t;
+		using value_type		= CIter_type;
+		using pointer			= CIter_type*;
+		using reference			= CIter_type&;
+		using iterator_category	= std::bidirectional_iterator_tag;
+
+        Const_iterator() : index_(0), array_(nullptr) {}
+        Const_iterator(Container *array, const long long index) 
+        : index_(index),
+          array_(array) {}
+        Const_iterator(const Const_iterator &other)
+        {
+            index_ = other.index_;
+            array_ = other.array_;
+        }
+
+        CIter_type const &operator*()
+        {
+            return (*array_)[index_];
+        }
+
+        CIter_type * const operator->() 
+        {
+            return &array_[0] + index_;
+        }
+
+        Const_iterator &operator++()
+        {
+            ++index_;
+
+            return *this;
+        }
+
+        Const_iterator operator++(int)
+        {
+            Iterator copy(*this);
+            ++index_;
+
+            return copy;
+        }
+
+        Const_iterator &operator--()
+        {
+            --index_;
+
+            return *this;
+        }
+
+        Const_iterator operator--(int)
+        {
+            Const_iterator copy(*this);
+            --index_;
+
+            return copy;
+        }
+
+        bool operator==(const Const_iterator<CIter_type> &other) const { return index_ == other.index_; }
+        bool operator!=(const Const_iterator<CIter_type> &other) const { return index_ != other.index_; }
+        bool operator<=(const Const_iterator<CIter_type> &other) const { return index_ <= other.index_; }
+        bool operator>=(const Const_iterator<CIter_type> &other) const { return index_ >= other.index_; }
+        bool operator<(const Const_iterator<CIter_type> &other) const { return index_ < other.index_; }
+        bool operator>(const Const_iterator<CIter_type> &other) const { return index_ > other.index_; }
+    };
+
+    template <typename RIter_type>
+    class Reversed_iterator
+    {
+    protected:
+        long long index_;
+        Container *array_;
+
+    public:
+        using difference_type	= ptrdiff_t;
+		using value_type		= RIter_type;
+		using pointer			= RIter_type*;
+		using reference			= RIter_type&;
+		using iterator_category	= std::bidirectional_iterator_tag;
+
+        Reversed_iterator() : index_(0), array_(nullptr) {}
+        Reversed_iterator(Container *array, const long long index) 
+        : index_(index),
+          array_(array) {}
+        Reversed_iterator(const Reversed_iterator &other)
+        {
+            index_ = other.index_;
+            array_ = other.array_;
+        }
+
+        RIter_type &operator*()
+        {
+            return (*array_)[index_];
+        }
+
+        RIter_type *operator->() 
+        {
+            return &array_[0] + index_;
+        }
+
+        Reversed_iterator &operator++()
+        {
+            --index_;
+
+            return *this;
+        }
+
+        Reversed_iterator operator++(int)
+        {
+            Reversed_iterator copy(*this);
+            --index_;
+
+            return copy;
+        }
+
+        Reversed_iterator &operator--()
+        {
+            ++index_;
+
+            return *this;
+        }
+
+        Reversed_iterator operator--(int)
+        {
+            Reversed_iterator copy(*this);
+            ++index_;
+
+            return copy;
+        }
+
+        bool operator==(const Reversed_iterator<RIter_type> &other) const { return index_ == other.index_; }
+        bool operator!=(const Reversed_iterator<RIter_type> &other) const { return index_ != other.index_; }
+        bool operator<=(const Reversed_iterator<RIter_type> &other) const { return index_ >= other.index_; }
+        bool operator>=(const Reversed_iterator<RIter_type> &other) const { return index_ <= other.index_; }
+        bool operator<(const Reversed_iterator<RIter_type> &other) const { return index_ > other.index_; }
+        bool operator>(const Reversed_iterator<RIter_type> &other) const { return index_ < other.index_; }
+    };
+
+    template <typename CRIter_type>
+    class Const_reversed_iterator
+    {
+    protected:
+        long long index_;
+        Container *array_;
+
+    public:
+        using difference_type	= ptrdiff_t;
+		using value_type		= CRIter_type;
+		using pointer			= CRIter_type*;
+		using reference			= CRIter_type&;
+		using iterator_category	= std::bidirectional_iterator_tag;
+
+        Const_reversed_iterator() : index_(0), array_(nullptr) {}
+        Const_reversed_iterator(Container *array, const long long index) 
+        : index_(index),
+          array_(array) {}
+        Const_reversed_iterator(const Const_reversed_iterator &other)
+        {
+            index_ = other.index_;
+            array_ = other.array_;
+        }
+
+        CRIter_type const &operator*()
+        {
+            return (*array_)[index_];
+        }
+
+        CRIter_type * const operator->() 
+        {
+            return &array_[0] + index_;
+        }
+
+        Const_reversed_iterator &operator++()
+        {
+            --index_;
+
+            return *this;
+        }
+
+        Const_reversed_iterator operator++(int)
+        {
+            Const_reversed_iterator copy(*this);
+            --index_;
+
+            return copy;
+        }
+
+        Const_reversed_iterator &operator--()
+        {
+            ++index_;
+
+            return *this;
+        }
+
+        Const_reversed_iterator operator--(int)
+        {
+            Reversed_iterator copy(*this);
+            ++index_;
+
+            return copy;
+        }
+
+        bool operator==(const Const_reversed_iterator<CRIter_type> &other) const { return index_ == other.index_; }
+        bool operator!=(const Const_reversed_iterator<CRIter_type> &other) const { return index_ != other.index_; }
+        bool operator<=(const Const_reversed_iterator<CRIter_type> &other) const { return index_ >= other.index_; }
+        bool operator>=(const Const_reversed_iterator<CRIter_type> &other) const { return index_ <= other.index_; }
+        bool operator<(const Const_reversed_iterator<CRIter_type> &other) const { return index_ > other.index_; }
+        bool operator>(const Const_reversed_iterator<CRIter_type> &other) const { return index_ < other.index_; }
+    };
 
 public:
     Container() : Base() {}
@@ -171,6 +368,47 @@ public:
     {
         return Iterator<T>(this, Base::size_);
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ For const iterator ------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Const_iterator<T> cbegin()
+    {
+        return Const_iterator<T>(this, 0);
+    }
+
+    Const_iterator<T> cend()
+    {
+        return Const_iterator<T>(this, Base::size_);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ For reversed iterator ---------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    Reversed_iterator<T> rbegin()
+    {
+        return Reversed_iterator<T>(this, Base::size_ - 1);
+    }
+
+    Reversed_iterator<T> rend()
+    {
+        return Reversed_iterator<T>(this, -1);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ For const reversed iterator ---------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    Const_reversed_iterator<T> crbegin()
+    {
+        return Const_reversed_iterator<T>(this, Base::size_ - 1);
+    }
+
+    Const_reversed_iterator<T> crend()
+    {
+        return Const_reversed_iterator<T>(this, -1);
+    }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -184,10 +422,10 @@ template
     // size_t Size,
     template <typename Storage_type> class Storage
 >
-class Container<bool, Storage> : public Storage<unsigned char> // , Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)
+class Container<bool, Storage> : public Storage<unsigned char>
 {
 private:
-    using Bool_base = Storage<unsigned char>; // , Size/sizeof(unsigned char) + (size_t)(Size % sizeof(unsigned char) != 0)
+    using Bool_base = Storage<unsigned char>;
 
     size_t bools_amount_;
 

@@ -135,6 +135,19 @@ void for_iterator()
     printf("\n");
 }
 
+void for_reversed_iterator()
+{
+    printf("\nTesting dynamic int storage for reversed iterator\n\n\n");
+
+    Container<int, Dynamic_mem> vector{0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
+    
+    for (auto i = vector.rbegin(); i < vector.rend(); ++i)
+    {
+        printf("%d ", *i);
+    }
+    printf("\n");
+}
+
 void for_range_based_for()
 {
     printf("\nTesting dynamic int storage for range based for\n\n\n");

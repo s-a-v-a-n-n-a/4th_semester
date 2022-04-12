@@ -9,7 +9,7 @@ int main()
     // Trainings::dynamic_test::for_range_based_for();
 
     // Trainings::chunked_test::for_iterator(); 
-    Trainings::chunked_test::for_resize_down(); 
+    Trainings::dynamic_test::for_reversed_iterator(); 
     // Trainings::chunked_test::for_std_find(); 
     // Trainings::chunked_test::for_std_copy(); 
 
