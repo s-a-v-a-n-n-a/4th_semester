@@ -17,99 +17,6 @@
 template <typename T>
 class Dynamic_mem
 {
-public:
-    // template <typename RIter_type>
-    // class Reversed_iterator
-    // {
-    // protected:
-    //     long long index_;
-    //     RIter_type *current_;
-
-    // public:
-    //     using difference_type	= ptrdiff_t;
-	// 	using value_type		= RIter_type;
-	// 	using pointer			= RIter_type*;
-	// 	using reference			= RIter_type&;
-	// 	using iterator_category	= std::bidirectional_iterator_tag;
-
-    //     Reversed_iterator() : current_(nullptr), index_(0) {}
-    //     Reversed_iterator(RIter_type *initial, const long long index) : index_(index), current_(initial) {}
-    //     Reversed_iterator(const Reversed_iterator &other)
-    //     {
-    //         current_ = other.current_;
-    //         index_ = other.index_;
-    //     }
-
-    //     RIter_type &operator*()
-    //     {
-    //         return *current_;
-    //     }
-
-    //     RIter_type *operator->() 
-    //     {
-    //         return current_;
-    //     }
-
-    //     Reversed_iterator &operator++()
-    //     {
-    //         --current_;
-    //         --index_;
-
-    //         return *this;
-    //     }
-
-    //     Reversed_iterator operator++(int tmp)
-    //     {
-    //         Reversed_iterator copy(*this);
-    //         --current_;
-    //         --index_;
-
-    //         return copy;
-    //     }
-
-    //     Reversed_iterator &operator--()
-    //     {
-    //         ++current_;
-    //         ++index_;
-
-    //         return *this;
-    //     }
-
-    //     Reversed_iterator operator--(int tmp)
-    //     {
-    //         Reversed_iterator copy(*this);
-    //         ++current_;
-    //         ++index_;
-
-    //         return copy;
-    //     }
-
-    //     bool operator==(const Reversed_iterator<RIter_type> &other) const
-    //     {
-    //         return index_ == other.index_;
-    //     }
-    //     bool operator!=(const Reversed_iterator<RIter_type> &other) const
-    //     {
-    //         return index_ != other.index_;
-    //     }
-    //     bool operator<=(const Reversed_iterator<RIter_type> &other) const
-    //     {
-    //         return index_ >= other.index_;
-    //     }
-    //     bool operator>=(const Reversed_iterator<RIter_type> &other) const
-    //     {
-    //         return index_ <= other.index_;
-    //     }
-    //     bool operator<(const Reversed_iterator<RIter_type> &other) const
-    //     {
-    //         return index_ > other.index_;
-    //     }
-    //     bool operator>(const Reversed_iterator<RIter_type> &other) const
-    //     {
-    //         return index_ < other.index_;
-    //     }
-    // };
-
 protected:
     T *data_;
     
@@ -131,7 +38,7 @@ public:
         }
     }
 
-    Dynamic_mem(std::initializer_list<T> list) : size_(list.size()), capacity_(2 * list.size())
+    explicit Dynamic_mem(std::initializer_list<T> list) : size_(list.size()), capacity_(2 * list.size())
     {
         data_ = (T*)(new unsigned char[capacity_ * sizeof(T)]);
 
@@ -159,7 +66,7 @@ public:
     // ------------ Size --------------------------------------------------------------------------------------------
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    size_t get_capacity() const { return capacity_; }
+    [[nodiscard]] size_t get_capacity() const { return capacity_; }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ------------ Data --------------------------------------------------------------------------------------------
@@ -175,11 +82,13 @@ public:
         return data_[index];
     }
 
-    // ------------ Capacity ------------------------------------
-    bool empty()                { return (size_ == 0); }
-    size_t size()       const   { return size_; }
-    size_t capacity()   const   { return get_capacity(); }
-    size_t max_size()   const   { return SIZE_MAX; }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ Capacity ----------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    [[nodiscard]] size_t size()       const   { return size_; }
+    [[nodiscard]] size_t capacity()   const   { return get_capacity(); }
+    [[nodiscard]] size_t max_size()   const   { return SIZE_MAX; }
     
     void shrink_to_fit()
     {
@@ -327,29 +236,6 @@ public:
         size_ = other.size_;
         other.size_ = tmp_size; 
     }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ------------ For iterator ---------------------------------------------------------------------------------------
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Iterator<T> begin()
-    // {
-    //     return Iterator<T>(data_, 0);
-    // }
-
-    // Iterator<T> end()
-    // {
-    //     return Iterator<T>(data_ + size_, size_);
-    // }
-
-    // Reversed_iterator<T> rbegin()
-    // {
-    //     return Reversed_iterator<T>(data_ + size_ - 1, size_ - 1);
-    // }
-
-    // Reversed_iterator<T> rend()
-    // {
-    //     return Reversed_iterator<T>(data_ - 1, -1);
-    // }
 };
 
 #endif // DYNAMIC_MEM_HPP

@@ -22,7 +22,7 @@ protected:
 
 public: 
     Static_memory() : size_(Size) {}
-    Static_memory(std::initializer_list<T> list) : size_(Size)
+    explicit Static_memory(std::initializer_list<T> list) : size_(Size)
     {
         if (list.size() > size_)
         {
@@ -45,12 +45,6 @@ public:
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ------------ Size -------------------------------------------------------------------------------------------
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    size_t get_capacity() const { return size_; }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ------------ Data --------------------------------------------------------------------------------------------
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -65,13 +59,18 @@ public:
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ Size -------------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    [[nodiscard]] size_t get_capacity() const { return size_; }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ------------ Capacity ----------------------------------------------------------------------------------------
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    bool empty() const { return (size_ == 0); }
-    size_t size() const { return size_; }
-    size_t capacity() const { return size(); }
-    size_t max_size() const { return size(); }
+    [[nodiscard]] size_t size() const { return size_; }
+    [[nodiscard]] size_t capacity() const { return size(); }
+    [[nodiscard]] size_t max_size() const { return size(); }
     void shrink_to_fit() 
     {
         assert(resizeable_); // , "Data can't be resized\n"
@@ -91,9 +90,30 @@ public:
         assert(resizeable_); // , "Data can't be resized\n"
     }
 
-    void resize(size_t new_size, const T& value)
+    void resize(size_t new_size, const T &value)
     {
         assert(resizeable_); // , "Data can't be resized\n"
+    }
+
+    void push_back(const T &value)
+    {
+        assert(resizeable_);
+    }
+
+    void push_back(T &&value)
+    {
+        assert(resizeable_);
+    }
+    
+    template<class... Args> 
+    void emplace_back(Args&&... args)
+    {
+        assert(resizeable_);
+    }
+
+    void pop_back()
+    {
+        assert(resizeable_);
     }
     
     void swap(Static_memory<T, Size> &other)
@@ -106,19 +126,6 @@ public:
             other.data_[idx] = std::move(tmp);
         }
     }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ------------ For iterator ---------------------------------------------------------------------------------------
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Iterator<T> begin()
-    // {
-    //     return Iterator<T>(data_, 0);
-    // }
-
-    // Iterator<T> end()
-    // {
-    //     return Iterator<T>(data_ + size_, size_);
-    // }
 };
 
 template <size_t Size>

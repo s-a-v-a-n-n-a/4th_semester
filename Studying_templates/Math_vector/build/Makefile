@@ -57,10 +57,10 @@ RM = /snap/cmake/1082/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/anna/Repositories/4th_semester/Studying_templates/Container
+CMAKE_SOURCE_DIR = /home/anna/Repositories/4th_semester/Studying_templates/Math_vector
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/anna/Repositories/4th_semester/Studying_templates/Container/build
+CMAKE_BINARY_DIR = /home/anna/Repositories/4th_semester/Studying_templates/Math_vector/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -68,7 +68,7 @@ CMAKE_BINARY_DIR = /home/anna/Repositories/4th_semester/Studying_templates/Conta
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/snap/cmake/1070/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/snap/cmake/1082/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anna/Repositories/4th_semester/Studying_templates/Container/build/CMakeFiles /home/anna/Repositories/4th_semester/Studying_templates/Container/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anna/Repositories/4th_semester/Studying_templates/Math_vector/build/CMakeFiles /home/anna/Repositories/4th_semester/Studying_templates/Math_vector/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anna/Repositories/4th_semester/Studying_templates/Container/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anna/Repositories/4th_semester/Studying_templates/Math_vector/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -129,53 +129,29 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+src/Usage/main.o: src/Usage/main.cpp.o
+.PHONY : src/Usage/main.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.o
-.PHONY : main.cpp.o
+src/Usage/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Usage/main.cpp.o
+.PHONY : src/Usage/main.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
-
-# target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
-.PHONY : main.cpp.s
-
-src/Types/Intercepted_int/Intercepted_int.o: src/Types/Intercepted_int/Intercepted_int.cpp.o
-.PHONY : src/Types/Intercepted_int/Intercepted_int.o
-
-# target to build an object file
-src/Types/Intercepted_int/Intercepted_int.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.o
-.PHONY : src/Types/Intercepted_int/Intercepted_int.cpp.o
-
-src/Types/Intercepted_int/Intercepted_int.i: src/Types/Intercepted_int/Intercepted_int.cpp.i
-.PHONY : src/Types/Intercepted_int/Intercepted_int.i
+src/Usage/main.i: src/Usage/main.cpp.i
+.PHONY : src/Usage/main.i
 
 # target to preprocess a source file
-src/Types/Intercepted_int/Intercepted_int.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.i
-.PHONY : src/Types/Intercepted_int/Intercepted_int.cpp.i
+src/Usage/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Usage/main.cpp.i
+.PHONY : src/Usage/main.cpp.i
 
-src/Types/Intercepted_int/Intercepted_int.s: src/Types/Intercepted_int/Intercepted_int.cpp.s
-.PHONY : src/Types/Intercepted_int/Intercepted_int.s
+src/Usage/main.s: src/Usage/main.cpp.s
+.PHONY : src/Usage/main.s
 
 # target to generate assembly for a file
-src/Types/Intercepted_int/Intercepted_int.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Types/Intercepted_int/Intercepted_int.cpp.s
-.PHONY : src/Types/Intercepted_int/Intercepted_int.cpp.s
+src/Usage/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Usage/main.cpp.s
+.PHONY : src/Usage/main.cpp.s
 
 # Help Target
 help:
@@ -186,12 +162,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... src/Types/Intercepted_int/Intercepted_int.o"
-	@echo "... src/Types/Intercepted_int/Intercepted_int.i"
-	@echo "... src/Types/Intercepted_int/Intercepted_int.s"
+	@echo "... src/Usage/main.o"
+	@echo "... src/Usage/main.i"
+	@echo "... src/Usage/main.s"
 .PHONY : help
 
 

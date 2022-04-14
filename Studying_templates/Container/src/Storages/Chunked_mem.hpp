@@ -31,143 +31,6 @@ protected:
     bool with_initial_element_;
     T initial_element_;
 
-private:
-    void copy_elements(T** copy_to, size_t copy_size)
-    {
-        size_t chunks_to_copy = copy_size / chunk_size_;
-        for (size_t chunk_idx = 0; chunk_idx < chunks_to_copy; ++chunk_idx)
-        {
-            if (data_[chunk_idx] != nullptr)
-            {
-                copy_to[chunk_idx] = data_[chunk_idx];
-            }
-            else if (with_initial_element_)
-            {
-                copy_to[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
-                for (size_t idx = 0; idx < chunk_size_; ++idx)
-                {
-                    new(copy_to[chunk_idx] + idx) T(initial_element_);
-                }
-            }
-        }
-
-        if (copy_size % chunk_size_ != 0)
-        {
-            size_t last_chunk = chunks_to_copy + 1;
-            for (size_t idx = 0; idx < copy_size % chunk_size_; ++idx)
-            {
-                new(copy_to[last_chunk] + idx) T(initial_element_);
-            }
-        }
-    }
-
-    void init_new_elements(T** where, size_t start_idx, size_t amount)
-    {
-        size_t start_chunk = start_idx / chunk_size_;
-        size_t elements_to_end_initializing = amount - (chunk_size_ - start_idx + 1);
-        
-        size_t last_chunk = start_chunk + (elements_to_end_initializing / chunk_size_) + (elements_to_end_initializing % chunk_size_ != 0);
-
-        for (size_t chunk_idx = start_chunk; chunk_idx < last_chunk; ++chunk_idx)
-        {
-            if (where[chunk_idx] == nullptr)
-            {
-                where[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
-            }
-            
-            size_t start = ((chunk_idx == start_chunk) ? start_idx % chunk_size_ : 0);
-            for (size_t idx = start; idx < chunk_size_; ++idx)
-            {
-                if (chunk_idx * chunk_size_ + idx >= amount + start_idx)
-                    break;
-
-                new(where[chunk_idx] + idx) T(); 
-            }
-        }
-    }
-
-    void init_new_elements(T** where, size_t start_idx, size_t amount, const T &value)
-    {
-        size_t start_chunk = start_idx / chunk_size_ + (start_idx % chunk_size_ != 0);
-        size_t elements_to_end_initializing = amount - start_idx;
-        
-        size_t last_chunk = start_chunk + (elements_to_end_initializing / chunk_size_) + (elements_to_end_initializing % chunk_size_ != 0);
-
-        for (size_t chunk_idx = start_chunk; chunk_idx < last_chunk; ++chunk_idx)
-        {
-            if (where[chunk_idx] == nullptr)
-            {
-                where[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
-            }
-            
-            size_t start = ((chunk_idx == start_chunk) ? start_idx % chunk_size_ : 0);
-            for (size_t idx = start; idx < chunk_size_; ++idx)
-            {
-                if (chunk_idx * chunk_size_ + idx >= amount + start_idx)
-                    break;
-
-                new(where[chunk_idx] + idx) T(value); 
-            }
-        }
-    }
-
-    void free_extra_elements(size_t start_index)
-    {
-        size_t start_chunk = start_index / chunk_size_;
-        size_t last_chunk  = size_ / chunk_size_;
-        
-        for (size_t chunk_idx = start_chunk; chunk_idx < last_chunk; ++chunk_idx)
-        {
-            if (data_[chunk_idx] != nullptr)
-            {
-                size_t to_start = ((chunk_idx == start_chunk) ? (size_ % chunk_size_) : 0);
-                for (size_t idx = to_start; idx < chunk_size_; ++idx)
-                {
-                    data_[chunk_idx][idx].~T();
-                }
-            }
-        }
-    }
-    
-    void resize_empty_data_with_initial_to_other_initial(size_t new_size, const T &value)
-    {
-        size_t new_capacity = new_size / chunk_size_ + (new_size % chunk_size_ != 0);
-        
-        size_t to_copy = size_;
-        if (new_size < size_)
-        {
-            to_copy = new_size;
-        }
-        
-        data_ = new T*[new_capacity];
-        memset(data_, 0, new_capacity);
-        
-        size_t copyable_chunks_amount = to_copy / chunk_size_ + (to_copy % chunk_size_ != 0);
-        for (size_t chunk_idx = 0; chunk_idx < copyable_chunks_amount; ++chunk_idx)
-        {
-            data_[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
-            for (size_t idx = 0; idx < chunk_size_; ++idx)
-            {
-                if (chunk_idx * chunk_size_ + idx >= new_size)
-                    break;
-                
-                if (chunk_idx * chunk_size_ + idx >= to_copy)
-                {
-                    new(data_[chunk_idx] + idx) T(value);
-                    continue;
-                }
-
-                new(data_[chunk_idx] + idx) T(initial_element_);
-            }
-        }
-
-        size_     = new_size;
-        capacity_ = new_capacity;
-
-        initial_element_      = value;
-        with_initial_element_ = true;
-    }
-  
 public:
     Chunked_memory()
     : data_(nullptr), 
@@ -265,9 +128,9 @@ public:
     // ------------ Capacity ----------------------------------------------------------------------------------------
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    bool   empty()              { return (size_ == 0); }
-    size_t size()     const     { return size_; }
-    size_t capacity() const     { return capacity_; }
+    [[nodiscard]] size_t size()     const     { return size_; }
+    [[nodiscard]] size_t max_size() const     { return SIZE_MAX * chunk_size_; }
+    [[nodiscard]] size_t capacity() const     { return capacity_; }
     
     void shrink_to_fit()
     {
@@ -521,18 +384,142 @@ public:
         std::swap(initial_element_, other.initial_element);
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ------------ For iterator ---------------------------------------------------------------------------------------
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Iterator<T> begin()
-    // {
-    //     return Iterator<T>(data_, 0, chunk_size_);
-    // }
+private:
+    void copy_elements(T** copy_to, size_t copy_size)
+    {
+        size_t chunks_to_copy = copy_size / chunk_size_;
+        for (size_t chunk_idx = 0; chunk_idx < chunks_to_copy; ++chunk_idx)
+        {
+            if (data_[chunk_idx] != nullptr)
+            {
+                copy_to[chunk_idx] = data_[chunk_idx];
+            }
+            else if (with_initial_element_)
+            {
+                copy_to[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
+                for (size_t idx = 0; idx < chunk_size_; ++idx)
+                {
+                    new(copy_to[chunk_idx] + idx) T(initial_element_);
+                }
+            }
+        }
 
-    // Iterator<T> end()
-    // {
-    //     return Iterator<T>(data_, size_, chunk_size_);
-    // }
+        if (copy_size % chunk_size_ != 0)
+        {
+            size_t last_chunk = chunks_to_copy + 1;
+            for (size_t idx = 0; idx < copy_size % chunk_size_; ++idx)
+            {
+                new(copy_to[last_chunk] + idx) T(initial_element_);
+            }
+        }
+    }
+
+    void init_new_elements(T** where, size_t start_idx, size_t amount)
+    {
+        size_t start_chunk = start_idx / chunk_size_;
+        size_t elements_to_end_initializing = amount - (chunk_size_ - start_idx + 1);
+        
+        size_t last_chunk = start_chunk + (elements_to_end_initializing / chunk_size_) + (elements_to_end_initializing % chunk_size_ != 0);
+
+        for (size_t chunk_idx = start_chunk; chunk_idx < last_chunk; ++chunk_idx)
+        {
+            if (where[chunk_idx] == nullptr)
+            {
+                where[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
+            }
+            
+            size_t start = ((chunk_idx == start_chunk) ? start_idx % chunk_size_ : 0);
+            for (size_t idx = start; idx < chunk_size_; ++idx)
+            {
+                if (chunk_idx * chunk_size_ + idx >= amount + start_idx)
+                    break;
+
+                new(where[chunk_idx] + idx) T(); 
+            }
+        }
+    }
+
+    void init_new_elements(T** where, size_t start_idx, size_t amount, const T &value)
+    {
+        size_t start_chunk = start_idx / chunk_size_ + (start_idx % chunk_size_ != 0);
+        size_t elements_to_end_initializing = amount - start_idx;
+        
+        size_t last_chunk = start_chunk + (elements_to_end_initializing / chunk_size_) + (elements_to_end_initializing % chunk_size_ != 0);
+
+        for (size_t chunk_idx = start_chunk; chunk_idx < last_chunk; ++chunk_idx)
+        {
+            if (where[chunk_idx] == nullptr)
+            {
+                where[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
+            }
+            
+            size_t start = ((chunk_idx == start_chunk) ? start_idx % chunk_size_ : 0);
+            for (size_t idx = start; idx < chunk_size_; ++idx)
+            {
+                if (chunk_idx * chunk_size_ + idx >= amount + start_idx)
+                    break;
+
+                new(where[chunk_idx] + idx) T(value); 
+            }
+        }
+    }
+
+    void free_extra_elements(size_t start_index)
+    {
+        size_t start_chunk = start_index / chunk_size_;
+        size_t last_chunk  = size_ / chunk_size_;
+        
+        for (size_t chunk_idx = start_chunk; chunk_idx < last_chunk; ++chunk_idx)
+        {
+            if (data_[chunk_idx] != nullptr)
+            {
+                size_t to_start = ((chunk_idx == start_chunk) ? (size_ % chunk_size_) : 0);
+                for (size_t idx = to_start; idx < chunk_size_; ++idx)
+                {
+                    data_[chunk_idx][idx].~T();
+                }
+            }
+        }
+    }
+    
+    void resize_empty_data_with_initial_to_other_initial(size_t new_size, const T &value)
+    {
+        size_t new_capacity = new_size / chunk_size_ + (new_size % chunk_size_ != 0);
+        
+        size_t to_copy = size_;
+        if (new_size < size_)
+        {
+            to_copy = new_size;
+        }
+        
+        data_ = new T*[new_capacity];
+        memset(data_, 0, new_capacity);
+        
+        size_t copyable_chunks_amount = to_copy / chunk_size_ + (to_copy % chunk_size_ != 0);
+        for (size_t chunk_idx = 0; chunk_idx < copyable_chunks_amount; ++chunk_idx)
+        {
+            data_[chunk_idx] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
+            for (size_t idx = 0; idx < chunk_size_; ++idx)
+            {
+                if (chunk_idx * chunk_size_ + idx >= new_size)
+                    break;
+                
+                if (chunk_idx * chunk_size_ + idx >= to_copy)
+                {
+                    new(data_[chunk_idx] + idx) T(value);
+                    continue;
+                }
+
+                new(data_[chunk_idx] + idx) T(initial_element_);
+            }
+        }
+
+        size_     = new_size;
+        capacity_ = new_capacity;
+
+        initial_element_      = value;
+        with_initial_element_ = true;
+    }
 };
 
 template <size_t Chunk_size>
