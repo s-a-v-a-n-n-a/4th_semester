@@ -55,15 +55,19 @@ public:
         return data_[index];
     }
 
-    // TODO: Redo
-    template <size_t Vector_size>
-    void dot(Math_vector &other)
+    T dot(Math_vector &other)
     {
-        if (Vector_size == 0)
-            return;
-
-        data_[Vector_size - 1] *= other.data_[Vector_size - 1];
-        this->dot<Vector_size - 1>(other);
+        return dot<Size>(*this, other);
+    }
+    
+private:
+    template <size_t Vector_size>
+    T dot(Math_vector &one, Math_vector &other)
+    {
+        if constexpr (Vector_size == 0)
+            return 0;
+        else
+            return data_[Vector_size - 1] * other.data_[Vector_size - 1] + dot<Vector_size - 1>(one, other);
     }
 };
 
