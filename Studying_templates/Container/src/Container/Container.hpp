@@ -20,6 +20,85 @@ private:
     typedef Storage<T> Base;
 
 public:
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------------------- Constructors -----------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    Container() : Base() {}
+    Container(size_t amount, const T& initial_element) : Base(amount, initial_element) {}
+    Container(std::initializer_list<T> list) : Base(list) {}
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------------------- Capacity ---------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    bool empty() const { return (Base::size_ == 0); }
+
+    using Base::size;
+    using Base::capacity;
+    using Base::max_size;
+    using Base::shrink_to_fit;
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // -------------------------Element access-----------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    constexpr T &at(size_t position)
+    {
+        if (position > Base::size_)
+        {
+            throw std::out_of_range("Wrong position range\n");
+        }
+
+        return Base::data(position);
+    }
+    
+    constexpr T &front()
+    {
+        if (Base::size_ == 0)
+        {
+            throw std::out_of_range("No elements available\n");
+        }
+
+        return Base::data(0);
+    }
+    
+    constexpr T &back()
+    {
+        if (Base::size_ == 0)
+        {
+            throw std::out_of_range("No elements available\n");
+        }
+        
+        return Base::data(Storage<bool>::size_ - 1);
+    }
+    T &operator[] (const size_t index)
+    { 
+        if (index >= Base::size_)
+        {
+            throw std::out_of_range("Array index out of range"); 
+        }
+        
+        return Base::data(index); 
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ Modifiers ---------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    using Base::clear;
+    using Base::resize;
+    using Base::swap;
+
+    using Base::push_back;
+    using Base::emplace_back;
+    using Base::pop_back;
+
+public:
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------------------- Iterators --------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     template 
     <
         typename Iter_type,
@@ -96,84 +175,9 @@ public:
         bool operator>(const Iterator<Iter_type, Container_type> &other) const { return index_ > other.index_; }
     };
 
-public:
-    using reverse_iterator = std::reverse_iterator<Iterator<T, Container>>;
-    using const_iterator = Iterator<T, const Container>;
+    using reverse_iterator       = std::reverse_iterator<Iterator<T, Container>>;
+    using const_iterator         = Iterator<T, const Container>;
     using const_reverse_iterator = std::reverse_iterator<Iterator<T, const Container>>;
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ------------------------- Constructors -----------------------------------------------------------------------
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    Container() : Base() {}
-    Container(size_t amount, const T& initial_element) : Base(amount, initial_element) {}
-    Container(std::initializer_list<T> list) : Base(list) {}
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ------------------------- Capacity ---------------------------------------------------------------------------
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    bool empty() const { return (Base::size_ == 0); }
-
-    using Base::size;
-    using Base::capacity;
-    using Base::max_size;
-    using Base::shrink_to_fit;
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // -------------------------Element access-----------------------------------------------------------------------
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    constexpr T &at(size_t position)
-    {
-        if (position > Base::size_)
-        {
-            throw std::out_of_range("Wrong position range\n");
-        }
-
-        return Base::data(position);
-    }
-    
-    constexpr T &front()
-    {
-        if (Base::size_ == 0)
-        {
-            throw std::out_of_range("No elements available\n");
-        }
-
-        return Base::data(0);
-    }
-    
-    constexpr T &back()
-    {
-        if (Base::size_ == 0)
-        {
-            throw std::out_of_range("No elements available\n");
-        }
-        
-        return Base::data(Storage<bool>::size_ - 1);
-    }
-    T &operator[] (const size_t index)
-    { 
-        if (index >= Base::size_)
-        {
-            throw std::out_of_range("Array index out of range"); 
-        }
-        
-        return Base::data(index); 
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ------------ Modifiers ---------------------------------------------------------------------------------------
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    using Base::clear;
-    using Base::resize;
-    using Base::swap;
-
-    using Base::push_back;
-    using Base::emplace_back;
-    using Base::pop_back;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ------------ For iterator ------------------------------------------------------------------------------------
@@ -240,7 +244,6 @@ public:
 
 template
 <
-    // size_t Size,
     template <typename Storage_type> class Storage
 >
 class Container<bool, Storage> : public Storage<unsigned char>
@@ -280,7 +283,7 @@ private:
             value_ = (source_->get_value(index_) << bit_) & 1;
         }
 
-        void operator= (const bool other)
+        void operator=(const bool other)
         {
             value_ = other;
 
@@ -351,10 +354,13 @@ public:
     // ------------ Capacity ----------------------------------------------------------------------------------------
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    size_t size() const { return bools_amount_; }
+    size_t size()     const { return bools_amount_; }
     size_t capacity() const { return capacity() * sizeof(unsigned char); }
-    // size_t max_size();
-    // void shrink_to_fit(); 
+    size_t max_size() const { return SIZE_MAX; }
+    void shrink_to_fit()
+    {
+        Bool_base::shrink_to_fit(bools_amount_ / sizeof(unsigned char));
+    } 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ------------ Modifiers ---------------------------------------------------------------------------------------
@@ -377,6 +383,16 @@ public:
         Bool_base::resize(new_size_compressed, propagated_value);
     }
 
+    constexpr Bool_wrapper &at(size_t position)
+    {
+        if (position > bools_amount_)
+        {
+            throw std::out_of_range("Wrong position range\n");
+        }
+        
+        return Bool_base::data_[position];
+    }
+
     void push_back(const bool& value)
     {
         if (bools_amount_ % sizeof(unsigned char) < sizeof(unsigned char) - 1)
@@ -390,7 +406,7 @@ public:
 
     void push_back(bool&& value)
     {
-        assert(Bool_base::resizeable_); // , "Data can't be resized\n"
+        assert(Bool_base::resizeable_); // Data can't be resized
         
         if (bools_amount_ % sizeof(unsigned char) == sizeof(unsigned char) - 1)
         {
@@ -403,14 +419,14 @@ public:
 
     void emplace_back(bool arg)
     {
-        assert(Bool_base::resizeable); // , "Data can't be resized\n"
+        assert(Bool_base::resizeable); // Data can't be resized
         
         push_back(arg);
     }
     
     void pop_back()
     {    
-        assert(Bool_base::size_ > 0); // , "Nothing to pop\n"
+        assert(Bool_base::resizeable); // Data can't be resized
         
         if (bools_amount_ % sizeof(unsigned char) == 0)
         {
@@ -420,7 +436,5 @@ public:
         bools_amount_--;
     }
 };
-
-// TODO: how to make specialization for bools for static memory
 
 #endif // CONTAINER_HPP

@@ -15,6 +15,21 @@
 
 #include <new>
 
+enum class New_param
+{
+    ZEROING = 0
+};
+
+void *operator new[](size_t size, New_param parameter)
+{
+    if (void *ptr = calloc(size, sizeof(unsigned char)))
+    {
+        return ptr;
+    }
+        
+    throw std::bad_alloc{};
+}
+
 template <typename T, size_t Chunk_size>
 class Chunked_memory
 {
@@ -181,8 +196,7 @@ public:
             return;
         }
 
-        T** new_data = new T*[new_capacity];
-        memset(new_data, 0, new_capacity);
+        T** new_data = new (New_param::ZEROING) T*[new_capacity];
         
         size_t old_chunks_amount = size_ / chunk_size_ + (size_ % chunk_size_ != 0);
 
@@ -220,8 +234,7 @@ public:
             return;
         }
 
-        T** new_data = new T*[new_capacity];
-        memset(new_data, 0, new_capacity);
+        T** new_data = new (New_param::ZEROING) T*[new_capacity];
         
         size_t old_chunks_amount = size_ / chunk_size_;
         size_t chunks_to_copy = old_chunks_amount;
@@ -268,8 +281,7 @@ public:
 
         if (!data_)
         {
-            data_ = new T*[capacity_];
-            memset(data_, 0, capacity_);
+            data_ = new (New_param::ZEROING) T*[capacity_];
         }
         
         size_t needed_chunk = size_ / chunk_size_;
@@ -309,8 +321,7 @@ public:
 
         if (!data_)
         {
-            data_ = new T*[capacity_];
-            memset(data_, 0, capacity_);
+            data_ = new (New_param::ZEROING) T*[capacity_];
         }
 
         size_t needed_chunk = size_ / chunk_size_;
@@ -407,6 +418,7 @@ private:
         if (copy_size % chunk_size_ != 0)
         {
             size_t last_chunk = chunks_to_copy + 1;
+            copy_to[last_chunk] = (T*)(new unsigned char[chunk_size_ * sizeof(T)]);
             for (size_t idx = 0; idx < copy_size % chunk_size_; ++idx)
             {
                 new(copy_to[last_chunk] + idx) T(initial_element_);
@@ -492,8 +504,7 @@ private:
             to_copy = new_size;
         }
         
-        data_ = new T*[new_capacity];
-        memset(data_, 0, new_capacity);
+        data_ = new (New_param::ZEROING) T*[new_capacity];
         
         size_t copyable_chunks_amount = to_copy / chunk_size_ + (to_copy % chunk_size_ != 0);
         for (size_t chunk_idx = 0; chunk_idx < copyable_chunks_amount; ++chunk_idx)

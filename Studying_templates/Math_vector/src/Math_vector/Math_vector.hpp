@@ -45,7 +45,7 @@ public:
 
     [[nodiscard]] size_t size() { return size_; }
 
-    T& operator[](int index)
+    T& operator[](size_t index)
     {
         if (index >= size_)
         {
