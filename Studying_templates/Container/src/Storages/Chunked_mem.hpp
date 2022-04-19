@@ -352,7 +352,7 @@ public:
         {
             if (capacity_)
             {
-                resize(capacity_ * 2);
+                resize(capacity_ * chunk_size_ * 2);
             }
             else
             {
