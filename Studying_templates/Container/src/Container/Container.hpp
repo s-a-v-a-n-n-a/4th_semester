@@ -72,6 +72,7 @@ public:
         
         return Base::data(Storage<bool>::size_ - 1);
     }
+
     T &operator[] (const size_t index)
     { 
         if (index >= Base::size_)
@@ -306,15 +307,30 @@ public:
     }
 
     Container(std::initializer_list<bool> list)
-    : Bool_base()
+    : Bool_base(list.size()/sizeof(unsigned char) + (size_t)(list.size() % sizeof(unsigned char) != 0), 0), 
+      bools_amount_(list.size()), 
+      wrapper(this)
     {
         size_t list_size = list.size()/sizeof(unsigned char) + (size_t)(list.size() % sizeof(unsigned char) != 0);
         assert(list_size <= Bool_base::size_);
 
+        unsigned char value = 0;
         size_t i = 0;
+        size_t char_chunk = 0;
         for (auto idx = list.begin(); idx != list.end(); idx++, i++)
         {
-            Bool_base::data(i) = idx;
+            value |= ((int)(*idx) << (i % sizeof(unsigned char)));
+            if (i % sizeof(unsigned char) == sizeof(unsigned char) - 1)
+            {
+                Bool_base::data(char_chunk) = value;
+                value = 0;
+                ++char_chunk;
+            }
+        }
+
+        if (i % sizeof(unsigned char) < sizeof(unsigned char) - 1)
+        {
+            Bool_base::data(char_chunk) = value;
         }
     }
 

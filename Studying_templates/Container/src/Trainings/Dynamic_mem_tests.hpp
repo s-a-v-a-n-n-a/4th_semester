@@ -76,6 +76,22 @@ void for_bool()
     printf("\n");
 }
 
+void for_bool_initializer_list()
+{
+    printf("\nTesting dynamic bool storage: initializer_list\n\n\n");
+    
+    Container<bool, Dynamic_mem> vector{true, false, true, false, true};
+
+    for (size_t i = 0; i < vector.size(); ++i)
+    {
+        if (vector[i])
+            printf("true ");
+        else
+            printf("false ");
+    }
+    printf("\n");
+}
+
 void test_no_construct()
 {
     printf("\nTesting dynamic storage for type without default constructor\n\n\n");

@@ -78,6 +78,16 @@ public:
         {
             throw std::out_of_range("Wrong index range\n");
         }
+
+        if (!data_)
+        {
+            data_ = (T*)new unsigned char[capacity_];
+
+            for (size_t idx = 0; idx < size_; ++idx)
+            {
+                new (data_ + idx) T();
+            }
+        }
         
         return data_[index];
     }
