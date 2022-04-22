@@ -4,18 +4,23 @@
 #include <cstdlib>
 #include <cassert>
 
-template <typename Type, size_t Size>
+template <typename CharType, size_t Size>
 class Strategy_view
 {
 private:
-    const Type *buffer_;
+    const CharType *buffer_;
     size_t size_;
 
 public:
     Strategy_view() : buffer_(nullptr), size_(0) {}
     Strategy_view(Type const *buffer) : buffer_(buffer), size_(Size) {}
 
-    Type &operator[](size_t index)
+    CharType *data() 
+    {
+        return buffer_;
+    }
+
+    CharType &operator[](size_t index)
     {
         assert(buffer_);
         

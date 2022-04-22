@@ -1,0 +1,3 @@
+/home/anna/Repositories/4th_semester/My_string/build/CMakeFiles/main.dir
+/home/anna/Repositories/4th_semester/My_string/build/CMakeFiles/edit_cache.dir
+/home/anna/Repositories/4th_semester/My_string/build/CMakeFiles/rebuild_cache.dir

@@ -9,7 +9,7 @@ set(NO_OPT "-fno-elide-constructors")
 
 set(CMAKE_CXX_COMPILER clang++-12)
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_FLAGS "-O3 -std=c++20 -Wall -fdeclspec -march=native") #-fsanitize=address
+set(CMAKE_CXX_FLAGS "-O3 -std=c++20 -Wall -fdeclspec -march=native -g") #-fsanitize=address
 
 set(SOURCE_EXE src/main.cpp)	# Установка переменной со списком исходников для исполняемого файла
 
