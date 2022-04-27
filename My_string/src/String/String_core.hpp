@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <new>
 
+template <typename CharType>
 class String_core
 {
 private:
