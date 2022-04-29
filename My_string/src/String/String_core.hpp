@@ -46,7 +46,7 @@ public:
     {
         size_ = count;
         
-        if (count > sizeof(Data)) 
+        if (count > sizeof(Data) / sizeof(CharType)) 
         {
             switch_to_dynamic();
             create_dynamic(string);
@@ -54,22 +54,52 @@ public:
         else 
         {
             switch_to_static();
-            create_static(string, count);
+            create_static(string);
         }
     }
 
-    constexpr explicit String_core(const String &other)
-    : size_(other.size_)
+    // constexpr explicit String_core(const String &other)
+    // : size_(other.size_)
+    // {
+    //     if (other.is_dynamic())
+    //     {
+    //         switch_to_dynamic();
+    //         create_dynamic(other.data_.data_);
+    //     }
+    //     else
+    //     {
+    //         switch_to_static();
+    //         create_static(other.sso);
+    //     }
+    // }
+
+    constexpr String_core(size_t count, CharType value)
+    : size_(count)
     {
-        if (other.is_dynamic())
+        if (count > sizeof(Data))
         {
             switch_to_dynamic();
-            create_dynamic(other.data_.data_);
+            create_dynamic(value);
         }
         else
         {
             switch_to_static();
-            create_static(other.sso, size_);
+            create_static(value);
+        }
+    }
+
+    constexpr String_core(const String_core &other, size_t position = 0, size_t count = other.size_)
+    : size_(count)
+    {
+        if (other.is_dynamic())
+        {
+            switch_to_dynamic();
+            create_dynamic(other.data_.data_ + position);
+        }
+        else
+        {
+            switch_to_static();
+            create_static(other.sso + position);
         }
     }
 
@@ -157,6 +187,19 @@ private:
         // data_.size &=  ~(1 << sizeof(size_t));
     }
 
+    void create_dynamic(CharType value)
+    {
+        size_t new_capacity = count * 2;
+        CharType *new_data = new CharType[new_capacity];
+        for (size_t idx = 0; idx < size_; ++idx)
+        {
+            new_data[idx] = value;
+        }
+
+        data_.data_ = new_data;
+        data_.capacity_ = new_capacity;
+    }
+
     void create_dynamic(const CharType *string)
     {
         size_t new_capacity = size_ * 2;
@@ -170,7 +213,15 @@ private:
         data_.capacity_ = new_capacity;
     }
 
-    void create_static(const CharType *string, size_t count)
+    void create_static(CharType value)
+    {
+        for (size_t idx = 0; idx < size_; ++idx)
+        {
+            sso[idx] = value;
+        }
+    }
+
+    void create_static(const CharType *string)
     {
         for (size_t idx = 0; idx < size_; ++idx)
         {

@@ -40,7 +40,19 @@ public:
     {}
 
     constexpr explicit String(const String &other)
-    : String_core(String)
+    : String_core(other)
+    {}
+
+    constexpr String(const String &other, size_t position)
+    : String_core(other, position)
+    {}
+
+    constexpr String(const String &other, size_t position, size_t count)
+    : String_core(other, position, count)
+    {}
+
+    constexpr String(size_t count, CharType value)
+    : String_core(count, value)
     {}
 
     static String view(CharType **buffer, size_t count)
