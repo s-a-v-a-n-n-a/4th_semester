@@ -76,6 +76,9 @@ public:
     {
         return size();
     }
+
+    using String_core::shrink_to_fit;
+    using String_core::reserve;
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // --------------------- Element access ----------------------------------------------------------------
@@ -104,6 +107,42 @@ public:
     constexpr CharType &back()
     {
         return (*this)[size() - 1];
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // --------------------- Operations     ----------------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    using String_core::resize;
+
+    constexpr void push_back(CharType value)
+    {
+        if (size() + 1 > max_size())
+        {
+            throw std::length_error("Too big string\n");
+        }
+
+        if (size() > capacity())
+        {
+            reserve(capacity() * 2);
+        }
+
+        data(size()) = value;
+        ++size_;
+    }
+
+    constexpr void pop_back(CharType value)
+    {
+        if (empty())
+        {
+            throw std::out_of_range("Wrong index range\n");
+        }
+
+        --size_;
+        if (size() < capacity() / 4)
+        {
+            resize(capacity() / 2);
+        }
     }
 };
 

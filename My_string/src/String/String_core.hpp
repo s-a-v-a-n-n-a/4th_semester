@@ -7,6 +7,7 @@
 #include <cstring>
 
 #include <stdexcept>
+#include <cassert>
 #include <new>
 
 template <typename CharType>
@@ -117,6 +118,45 @@ public:
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // --------------------- Operator =    ----------------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    constexpr String_core &operator=(const String_core &other)
+    {
+        if (other.is_dynamic()) 
+        {
+            if (is_dynamic()) 
+            {
+                if (size_ < other.size_)
+                {
+                    reserve_without_safety(other.capacity_);
+                }
+
+                copy_buffer(other.data_.data_, other.size_);
+            }
+            else
+            {
+                if (other.size_ > sizeof(Data))
+                {
+                    switch_to_dynamic(true);
+                    reserve_without_safety(other.capacity_);
+                }
+
+                copy_buffer(other.data_.data_, other.size_);
+            }
+        } 
+        else
+        {
+            if (is_dynamic() && size_ < other.size_)
+            {
+                reserve_without_safety(other.capacity_);
+            }
+
+            copy_buffer(other.data_.data_, other.size_);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // --------------------- Data           ----------------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -125,21 +165,21 @@ public:
         if (index >= size())
             throw std::out_of_range("Wrong index range\n");
             
-        // if (is_view_)
-        // {
-        //     CharType *tmp_data = data_.data_;
+        if (is_view_)
+        {
+            CharType *tmp_data = data_.data_;
             
-        //     if (size_ > sizeof(size_t)) 
-        //     {
-        //         switch_to_dynamic();
-        //         create_dynamic(tmp_data);
-        //     }
-        //     else 
-        //     {
-        //         switch_to_static();
-        //         create_static(tmp_data, size_);
-        //     }
-        // }
+            if (size_ > sizeof(size_t)) 
+            {
+                switch_to_dynamic();
+                create_dynamic(tmp_data);
+            }
+            else 
+            {
+                switch_to_static();
+                create_static(tmp_data, size_);
+            }
+        }
 
         if (is_dynamic_)
             return data_.data_[index];
@@ -164,27 +204,137 @@ public:
             return sizeof(Data);
     }
 
+    constexpr void shrink_to_fit()
+    {
+        if (is_static())
+        {
+            return;
+        }
+        
+        if (size_ < sizeof(Data))
+        {
+            switch_to_static(true);
+            return;
+        }
+
+        resize(size_);
+    }
+
+    constexpr void reserve(size_t new_capacity = 0)
+    {   
+        if (new_capacity == 0)
+        {
+            shrink_to_fit();
+        }
+
+        if (new_capacity < capacity())
+        {
+            return;
+        }
+
+        resize(new_capacity);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // --------------------- Operations     ----------------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    constexpr void resize(size_t new_capacity, CharType value = CharType())
+    {
+        if (new_capacity > max_size())
+        {
+            return std::length_error("Too big string\n");
+        }
+        
+        if (is_static())
+        {
+            if (new_capacity <= sizeof(Data))
+            {
+                return;
+            }
+            else
+            {
+                switch_to_dynamic(true);
+            }
+        }
+
+        CharType new_buffer = new CharType[new_capacity];  // allocator
+        
+        size_t copy_amount = size_ < new_capacity ? size_ : new_capacity;
+        for (size_t idx = 0; idx < copy_amount; ++idx)
+        {
+            new_buffer[idx] = data_.data_[idx];
+        }
+
+        if (copy_amount < new_capacity)
+        {
+            for (size_t idx = size_; idx < new_capacityl ++idx)
+            {
+                new_buffer[idx] = value;
+            }
+        }
+
+        size_ = new_capacity;
+
+        delete [] data_.data_;
+
+        data_.data_     = new_buffer;
+        data_.capacity_ = new_capacity;
+    }
+
+    constexpr void clear() noexcept
+    {
+        size_ = 0;
+
+        switch_to_static(true);
+    }
+
 private:
     bool is_dynamic()
     {
-        return is_dynamic_;// (SIZE_T_HIGH_BIT(data_.capacity_) == 1);
+        return is_dynamic_; // (SIZE_T_HIGH_BIT(data_.capacity_) == 1);
     }
 
     bool is_static()
     {
-        return !is_dynamic_;// (SIZE_T_HIGH_BIT(data_.capacity_) == 0);
+        return !is_dynamic_; // (SIZE_T_HIGH_BIT(data_.capacity_) == 0);
     }
 
-    void switch_to_dynamic()
+    void switch_to_dynamic(bool switch_data = false)
     {
         is_dynamic_ = true;
-        // data_.size_ |= (1 << sizeof(size_t));
+        
+        if (switch_data)
+        {
+            CharType tmp[sizeof(Data)];
+            memcpy(tmp, src, sizeof(Data));
+
+            data_.data_ = new CharType[size_ * 2];
+            for (size_t idx = 0; idx < size_; ++idx)
+            {
+                data_.data_[idx] = tmp[idx];
+            }
+
+            data_.capacity_ = size_ * 2;
+        }
     }
 
-    void switch_to_static()
+    void switch_to_static(bool switch_data = false)
     {
+        assert(size_ < sizeof(Data));
+        
         is_dynamic_ = false;
-        // data_.size &=  ~(1 << sizeof(size_t));
+
+        if (switch_data)
+        {
+            CharType *tmp_data = data_.data_;
+            for (size_t idx = 0; idx < size_; ++idx)
+            {
+                sso[idx] = tmp_data[idx];
+            }
+
+            delete [] data_.data_;
+        }
     }
 
     void create_dynamic(CharType value)
@@ -226,6 +376,39 @@ private:
         for (size_t idx = 0; idx < size_; ++idx)
         {
             sso[idx] = string[idx];
+        }
+    }
+
+    void reserve_without_safety(size_t new_capacity)
+    {
+        assert(is_dynamic());
+        
+        CharType *new_data = new CharType[new_capacity];
+
+        delete [] data_.data_;
+        
+        data_.data_     = new_data;
+        data_.capacity_ = new_capacity;
+    }
+
+    void copy_buffer(const CharType *string, size_t amount)
+    {
+        assert(data_.capacity_ > amount);
+        
+        size_ = size;
+        if (is_dynamic())
+        {
+            for (size_t idx = 0; idx < amount; ++idx)
+            {
+                data_.data_[idx] = string[idx];
+            }
+        }
+        else
+        {
+            for (size_t idx = 0; idx < amount; ++idx)
+            {
+                sso[idx] = string[idx];
+            }
         }
     }
 };
