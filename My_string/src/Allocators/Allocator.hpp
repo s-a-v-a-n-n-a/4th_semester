@@ -4,6 +4,23 @@
 #include <cstdlib>
 #include <limits>
 
+#include <stdexcept>
+
+enum class New_param
+{
+    ZEROING = 0
+};
+
+void *operator new[](size_t size, New_param parameter)
+{
+    if (void *ptr = calloc(size, sizeof(unsigned char)))
+    {
+        return ptr;
+    }
+        
+    throw std::bad_alloc{};
+}
+
 template <typename T>
 class New_delete_allocator
 {
@@ -25,7 +42,7 @@ public:
     
     T *allocate(size_t objects_num)
     {
-        return (T*)new unsigned char[objects_num * sizeof(T)];
+        return (T*)new (New_param::ZEROING) unsigned char[objects_num * sizeof(T)];
     }
 
     void deallocate(T* pointer, size_t objects_num) noexcept

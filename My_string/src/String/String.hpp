@@ -16,6 +16,17 @@
 template <typename CharType> // strategy
 class String : protected String_core<CharType>
 {
+private:
+    typedef String_core<CharType> String_core;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // --------------------- Constructors   ----------------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    // constexpr String(String_core core)
+    // : String_core(core)
+    // {}
+
 public:
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // --------------------- Constructors   ----------------------------------------------------------------
@@ -55,10 +66,10 @@ public:
     : String_core(count, value)
     {}
 
-    static String view(CharType **buffer, size_t count)
-    {
-        return (String)String_core::view(buffer, count);
-    }
+    // static String view(CharType **buffer, size_t count)
+    // {
+    //     return String(String_core::view(buffer, count));
+    // }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // --------------------- Capacity       ----------------------------------------------------------------
@@ -66,13 +77,14 @@ public:
     
     using String_core::size;
     using String_core::capacity;
+    using String_core::max_size;
 
-    bool empty()
+    bool empty() const
     {
         return size() == 0;
     }
 
-    [[nodiscard]] size_t length()
+    [[nodiscard]] size_t length() const
     {
         return size();
     }
@@ -91,12 +103,12 @@ public:
 
     CharType &operator[](size_t index)
     {
-        return data(index);
+        return String_core::data(index);
     }
 
     const CharType &operator[](size_t index) const
     {
-        return const_cast((this)[index]);
+        return const_cast<CharType&>((this)[index]);
     }
 
     constexpr CharType &front()
@@ -108,6 +120,8 @@ public:
     {
         return (*this)[size() - 1];
     }
+
+    using String_core::c_str;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // --------------------- Operations     ----------------------------------------------------------------
@@ -122,27 +136,98 @@ public:
             throw std::length_error("Too big string\n");
         }
 
-        if (size() > capacity())
-        {
-            reserve(capacity() * 2);
-        }
-
-        data(size()) = value;
-        ++size_;
+        String_core::expand(value);
     }
 
-    constexpr void pop_back(CharType value)
+    constexpr void pop_back()
     {
         if (empty())
         {
             throw std::out_of_range("Wrong index range\n");
         }
 
-        --size_;
-        if (size() < capacity() / 4)
+        String_core::shrink();
+    }
+
+    constexpr String &append(size_t count, CharType value)
+    {
+        reserve(size() + count);
+        
+        for (size_t idx = 0; idx < count; ++idx)
         {
-            resize(capacity() / 2);
+            push_back(value);
         }
+
+        return *this;
+    }
+
+    constexpr String &append(const String& string, size_t position = 0, size_t count = 0)
+    {
+        if (count == 0)
+        {
+            count = string.size() - position;
+        }
+        
+        if (position > string.size())
+        {
+            throw std::out_of_range("Wrong index range\n");
+        }
+        
+        // reserve(size() + count);
+
+        // for (size_t idx = position; idx < position + count; ++idx)
+        // {
+        //     push_back(string[idx]);
+        // }
+
+        // return *this;
+        return append(string.no_null_data(), count, position);
+    }
+
+    constexpr String& append(const CharType* string, size_t count, size_t position = 0)
+    {
+        reserve(size() + count);
+
+        for (size_t idx = position; idx < count; ++idx)
+        {
+            push_back(string[idx]);
+        }
+
+        return *this;
+    }
+
+    constexpr String &operator +=(const String &string)
+    {
+        return append(string);
+    }
+
+    constexpr String &operator +=(CharType value)
+    {
+        return append(1, value);
+    }
+
+    /**
+     * Unsafe if string is NOT null-terminated.
+     */
+    constexpr String &operator +=(const CharType *string)
+    {
+        size_t idx = 0;
+        while (string[idx] != CharType(0))
+        {
+            ++idx;
+        }
+
+        return append(string, idx);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // --------------------- Output         ----------------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    friend std::ostream &operator <<(std::ostream &stream, const String &string)
+    {
+        stream.write(string.c_str(), string.size());
+        return stream;
     }
 };
 
