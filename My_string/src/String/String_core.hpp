@@ -44,7 +44,7 @@ private:
     {
         Data data_;
         CharType sso[0];
-        Shared_ptr_cut<Shared_data<String_core>> shared_data;
+        Shared_ptr_cut<Shared_data<String_core>> shared_data_;
     };
 
     size_t size_;
@@ -84,21 +84,6 @@ public:
         }
     }
 
-    // constexpr explicit String_core(const String &other)
-    // : size_(other.size_)
-    // {
-    //     if (other.is_dynamic())
-    //     {
-    //         switch_to_dynamic();
-    //         create_dynamic(other.data_.data_);
-    //     }
-    //     else
-    //     {
-    //         switch_to_static();
-    //         create_static(other.sso);
-    //     }
-    // }
-
     constexpr String_core(size_t count, CharType value)
     : size_(count),
       is_view_(false),
@@ -116,9 +101,9 @@ public:
         }
     }
 
-    constexpr String_core(const String_core &other, size_t position = 0, size_t count = 0)
-    : is_view_(false),
-      is_possessing_(true)
+    constexpr String_core(const String_core &other, size_t position, size_t count = 0)
+    : is_view_(false)
+    //   is_possessing_(true)
     {
         if (count == 0)
         {
@@ -138,19 +123,69 @@ public:
         }
     }
 
+    constexpr explicit String_core(const String_core &other)
+    {
+        if (!other.is_possessing())
+        {
+            shared_data_ = Shared_ptr_cut<Shared_data<String_core>>(other.shared_data_);
+        }
+        else
+        {
+            if (other.is_static())
+            {
+                switch_to_static();
+                create_static(other.sso + position);
+            }
+            else
+            {
+                other.switch_to_non_possessing();
+                shared_data_ = Shared_ptr_cut<Shared_data<String_core>>(other.shared_data_);
+            }
+        }
+    }
+
     constexpr String_core(String_core &&other)
     : size_(other.size_), 
       is_dynamic_(other.is_dynamic_), 
       is_view_(other.is_view_),
       is_possessing_(other.is_possessing_) 
     {
-        if (is_possessing())
+        if (other.is_view())
         {
-            other.switch_to_non_possessing();
+            data_.data_ = other.data_.data_;
+            other.data_.data_ = nullptr;
+
+            return;
+        }
+        
+        if (other.is_possessing())
+        {
+            if (is_dynamic())
+            {
+                if (is_convertible_to_static())
+                {
+                    create_static(other.data_.data_);
+                }
+                else
+                {
+                    create_dynamic(other.data_.data_);
+                }
+
+                delete [] other.data_.data_;
+            }
+            else
+            {
+                create_static(other.sso);
+            }
         }
         else
         {
-
+            // Непонятно пока
+            
+            shared_data_ = std::move(other.shared_data_);
+            other.switch_to_static();
+            other.size_ = 0;
+            other.is_possessing_ = true;
         }
     }
 
@@ -163,19 +198,6 @@ public:
         result.size_ = count;
 
         result.is_view_ = true;
-        result.is_possessing_ = true;
-
-        return result;
-    }
-
-    static String_core copy_on_write(String_core &other)
-    {
-        String_core result{};
-
-        result.copy_on_write = const_cast(Shared_ptr_cut<String_core<CharType>&>(&other));
-        result.size_ = other.size_;
-
-        result.is_view_ = false;
         result.is_possessing_ = false;
 
         return result;
@@ -495,12 +517,12 @@ private:
 
     void switch_to_possessing()
     {
-        if (copy_on_write.is_dynamic())
+        if (shared_data_.is_dynamic())
         {
             CharType *new_data = new CharType[size_ * 2];
-            CharType *copy_on_write_data = copy_on_write.data_.data_;
+            CharType *copy_on_write_data = shared_data_.data_.data_;
             
-            copy_on_write.~Shared_ptr_cut();
+            shared_data_.~Shared_ptr_cut();
             
             for (size_t idx = 0; idx < size_; ++idx)
             {
@@ -515,9 +537,9 @@ private:
         else
         {
             CharType tmp[sizeof(Data)];
-            memcpy(tmp, copy_on_write.sso, sizeof(Data) / sizeof(CharType));
+            memcpy(tmp, shared_data_.sso, sizeof(Data) / sizeof(CharType));
             
-            copy_on_write.~Shared_ptr_cut();
+            shared_data_.~Shared_ptr_cut();
 
             for (size_t idx = 0; idx < size_; ++idx)
             {
@@ -530,6 +552,14 @@ private:
         is_possessing_ = true;
     }
 
+    void switch_to_non_possessing()
+    {
+        Shared_ptr_cut<Shared_data<String_core>> new_shared_ptr(this);
+        shared_data_ = std::move(new_shared_ptr);
+
+        is_possessing_ = false;
+    }
+
     bool is_dynamic() const
     {
         return is_dynamic_;
@@ -538,6 +568,16 @@ private:
     bool is_static() const
     {
         return !is_dynamic_;
+    }
+
+    bool is_convertible_to_static() const
+    {
+        if (size_ <= sizeof(Data))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     void switch_to_dynamic(bool switch_data = false)
@@ -581,6 +621,7 @@ private:
     void create_dynamic(CharType value)
     {
         // printf("create dynamic with value\n");
+        switch_to_dynamic();
         
         size_t new_capacity = size_ * 2;
         CharType *new_data = new (New_param::ZEROING) CharType[new_capacity];
@@ -596,7 +637,8 @@ private:
     void create_dynamic(const CharType *string)
     {
         // printf("create dynamic with string\n");
-        
+        switch_to_dynamic();
+
         size_t new_capacity = size_ * 2;
         CharType *new_data = new (New_param::ZEROING) CharType[new_capacity];
         for (size_t idx = 0; idx < size_; ++idx)
@@ -611,6 +653,8 @@ private:
 
     void create_static(CharType value)
     {
+        switch_to_static();
+        
         for (size_t idx = 0; idx < size_; ++idx)
         {
             sso[idx] = value;
@@ -619,6 +663,8 @@ private:
 
     void create_static(const CharType *string)
     {
+        switch_to_static();
+        
         for (size_t idx = 0; idx < size_; ++idx)
         {
             sso[idx] = string[idx];

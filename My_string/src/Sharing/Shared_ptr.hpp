@@ -51,6 +51,18 @@ public:
         object_->increase_pointers();
     }
 
+    explicit Shared_ptr_cut(Shared_ptr_cut &other)
+    : object_(other.object_)
+    {
+        object_->increase_pointers();
+    }
+
+    explicit Shared_ptr_cut(Shared_ptr_cut &&other)
+    : object_(other.object_)
+    {
+        other.object_ = nullptr;
+    }
+
     ~Shared_ptr_cut()
     {
         object_->remove_pointers();
