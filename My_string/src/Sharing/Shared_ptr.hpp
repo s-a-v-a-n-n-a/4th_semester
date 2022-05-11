@@ -2,12 +2,20 @@
 #define SHARED_PTR_ANNA_2022_HPP
 
 #include <cstdlib>
+#include <cstdio>
+#include <iostream>
 
 #include <cassert>
 
 template <typename Type>
 class Shared_data
 {
+private:
+    void print_state()
+    {
+        std::cout << "Current pointers amount is " << counter_ << ".\n";
+    }
+
 public:
     Type data_;
     mutable size_t counter_;
@@ -16,9 +24,18 @@ public:
     : data_(std::move(data)), counter_(0)
     {}
 
+    ~Shared_data()
+    {
+        if (counter_ == 0)
+        {
+            delete this;
+        }
+    }
+
     void add_pointers(size_t amount = 1)
     {
         counter_ += amount;
+        print_state();
     }
 
     void remove_pointers(size_t amount = 1)
@@ -26,6 +43,7 @@ public:
         assert(counter_ >= amount);
 
         counter_ -= amount;
+        print_state();
     }
 
     bool is_unused()
@@ -48,13 +66,13 @@ public:
     explicit Shared_ptr_cut(Shared_data<Type> *object)
     : object_(object)
     {
-        object_->increase_pointers();
+        object_->add_pointers();
     }
 
-    explicit Shared_ptr_cut(Shared_ptr_cut &other)
+    explicit Shared_ptr_cut(const Shared_ptr_cut &other)
     : object_(other.object_)
     {
-        object_->increase_pointers();
+        object_->add_pointers();
     }
 
     explicit Shared_ptr_cut(Shared_ptr_cut &&other)
@@ -63,9 +81,28 @@ public:
         other.object_ = nullptr;
     }
 
+    constexpr Shared_ptr_cut &operator=(const Shared_ptr_cut &other)
+    {
+        object_ = other.object_;
+        object_->add_pointers();
+
+        return *this;
+    }
+
+    constexpr Shared_ptr_cut &operator=(Shared_ptr_cut &&other)
+    {
+        object_ = other.object_;
+        other.object_ = nullptr;
+
+        return *this;
+    }
+
     ~Shared_ptr_cut()
     {
-        object_->remove_pointers();
+        if (object_)
+        {
+            object_->remove_pointers();
+        }
     }
 
     Type &operator*()
@@ -74,6 +111,11 @@ public:
     }
 
     Type *operator->()
+    {
+        return &(object_->data_);
+    }
+
+    Type *operator->() const
     {
         return &(object_->data_);
     }

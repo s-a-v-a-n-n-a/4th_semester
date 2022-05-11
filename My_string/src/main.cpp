@@ -7,4 +7,5 @@ int main()
     view_test();
     push_pop_test();
     append_test();
+    copy_on_write_test();
 }

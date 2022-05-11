@@ -23,9 +23,9 @@ private:
     // --------------------- Constructors   ----------------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    // constexpr String(String_core core)
-    // : String_core(core)
-    // {}
+    constexpr explicit String(const String_core &core)
+    : String_core(core)
+    {}
 
 public:
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +50,10 @@ public:
     : String_core(string, strlen(string))
     {}
 
+    constexpr explicit String(String &other)
+    : String_core(other)
+    {}
+
     constexpr explicit String(const String &other)
     : String_core(other)
     {}
@@ -66,10 +70,28 @@ public:
     : String_core(count, value)
     {}
 
-    // static String view(CharType **buffer, size_t count)
-    // {
-    //     return String(String_core::view(buffer, count));
-    // }
+    static String view(CharType **buffer, size_t count)
+    {
+        return String<CharType>(String_core::view(buffer, count));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // --------------------- Operator =     ----------------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    constexpr String &operator=(const String &other)
+    {
+        String_core::operator=(other);
+
+        return *this;
+    }
+
+    constexpr String &operator=(const String &&other)
+    {
+        String_core::operator=(other);
+
+        return *this;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // --------------------- Capacity       ----------------------------------------------------------------
@@ -133,7 +155,7 @@ public:
     {
         if (size() + 1 > max_size())
         {
-            throw std::length_error("Too big string\n");
+            throw std::length_error("Too big required size in push_back\n");
         }
 
         String_core::expand(value);
@@ -143,7 +165,7 @@ public:
     {
         if (empty())
         {
-            throw std::out_of_range("Wrong index range\n");
+            throw std::out_of_range("Wrong index range in pop_back\n");
         }
 
         String_core::shrink();
@@ -170,17 +192,9 @@ public:
         
         if (position > string.size())
         {
-            throw std::out_of_range("Wrong index range\n");
+            throw std::out_of_range("Too big required size in append\n");
         }
         
-        // reserve(size() + count);
-
-        // for (size_t idx = position; idx < position + count; ++idx)
-        // {
-        //     push_back(string[idx]);
-        // }
-
-        // return *this;
         return append(string.no_null_data(), count, position);
     }
 

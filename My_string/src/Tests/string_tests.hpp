@@ -12,11 +12,7 @@ void creation_test()
     
     String<char> string("Creation works", 14);
 
-    for (size_t idx = 0; idx < string.size(); ++idx)
-    {
-        printf("%c", string[idx]);
-    }
-    printf("\n");
+    std::cout << string << "\n";
 }
 
 void sso_test()
@@ -25,24 +21,20 @@ void sso_test()
     
     String<char> string("SSO", 4);
 
-    std::cout << "REsult of creating is string: " << string << "\n";
+    std::cout << "Result of creating is string: " << string << "\n";
 }
 
 void view_test()
 {
     printf("\nTesting string view\n\n");
-    printf("Does nothing yet\n");
     
-    // char *buffer = new char[100];
-    // memset(buffer, 0 , 100);
-    // strncpy(buffer, "View test works\n", 17);
+    char *buffer = new char[100];
+    memset(buffer, 0 , 100);
+    strncpy(buffer, "View test works", 16);
 
-    // String<char> string = String<char>::view(&buffer, 100);
+    String<char> string = String<char>::view(&buffer, 100);
 
-    // for (size_t idx = 0; idx < string.size(); ++idx)
-    // {
-    //     printf("%c", string[idx]);
-    // }
+    std::cout << "String size: " << string.size() << ", string itself: \"" << string << "\"\n";
 }
 
 void push_pop_test()
@@ -95,6 +87,20 @@ void append_test()
     string += girls;
 
     std::cout << "Last result: " << string << "\n";
+}
+
+void copy_on_write_test()
+{
+    printf("\nTesting string improvement: copy-on-write\n\n");
+
+    String<char> first_string = "Common buffer is very very big";
+    String<char> second_string(first_string);
+    String<char> third_string(first_string);
+
+    // first_string[1] = 'a';
+
+    std::cout << "1) " << first_string << " 2) " << second_string << " 3) " << third_string << "\n"; 
+    printf("DONE\n");
 }
 
 #endif // STRING_TESTS_HPP
