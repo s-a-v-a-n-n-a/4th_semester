@@ -22,11 +22,25 @@ void *operator new[](size_t size, New_param parameter)
 }
 
 template <typename T>
-class New_delete_allocator
+class Zeroing_allocator
 {
 private:
+    // Nothing
 
 public:
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // --------------------- Constructors ------------------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    constexpr Zeroing_allocator() noexcept
+    {}
+
+    constexpr Zeroing_allocator(const Zeroing_allocator &other) noexcept
+    {}
+
+    constexpr Zeroing_allocator(Zeroing_allocator &&other) noexcept
+    {}
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // --------------------- Capacity ----------------------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,38 +68,38 @@ public:
     // --------------------- (De)construction --------------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    void construct(unsigned char *pointer, const T &value)
-    {
-        new (pointer) T(value);
-    }
+    // void construct(unsigned char *pointer, const T &value)
+    // {
+    //     new (pointer) T(value);
+    // }
 
-    template <class Other... Args>
-    void construct(unsigned char* pointer, Args&&... args);
-    {
-        new (pointer) Other(std::forward<Args...>(args)...);
-    }
+    // template <classtype Other... Args>
+    // void construct(unsigned char* pointer, Args&&... args);
+    // {
+    //     new (pointer) Other(std::forward<Args...>(args)...);
+    // }
 
-    void destroy(unsigned char *pointer)
-    {
-        ((T*)pointer)->~T();
-    }
+    // void destroy(unsigned char *pointer)
+    // {
+    //     ((T*)pointer)->~T();
+    // }
 
-    template <class Other>
-    void destroy(Other *pointer)
-    {
-        pointer->~Other();
-    }
+    // template <class Other>
+    // void destroy(Other *pointer)
+    // {
+    //     pointer->~Other();
+    // }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // --------------------- Comparisons -------------------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    bool operator==(const New_delete_allocator<T> &other)
+    bool operator==(const Zeroing_allocator<T> &other)
     {
         return true;
     }
 
-    bool operator!=(const New_delete_allocator<T> &other)
+    bool operator!=(const Zeroing_allocator<T> &other)
     {
         return false;
     }

@@ -24,14 +24,6 @@ public:
     : data_(std::move(data)), counter_(0)
     {}
 
-    ~Shared_data()
-    {
-        if (counter_ == 0)
-        {
-            delete this;
-        }
-    }
-
     void add_pointers(size_t amount = 1)
     {
         counter_ += amount;
@@ -52,16 +44,30 @@ public:
     }
 };
 
-template <typename Type>
+template 
+<
+    typename Type,
+    template <typename Allocator_type> class Allocator
+>
 class Shared_ptr_cut
 {
 private:
+    Allocator<Shared_data<Type>> shared_data_allocator_{};
+    
     Shared_data<Type> *object_;
 
 public:
     Shared_ptr_cut()
     : object_(nullptr)
     {}
+
+    explicit Shared_ptr_cut(Type *content)
+    {
+        object_ = shared_data_allocator_.allocate(1);
+        new (object_) Shared_data<Type>(std::move(*content));
+
+        object_->add_pointers();
+    }
 
     explicit Shared_ptr_cut(Shared_data<Type> *object)
     : object_(object)
@@ -81,6 +87,22 @@ public:
         other.object_ = nullptr;
     }
 
+    ~Shared_ptr_cut()
+    {
+        if (!object_)
+        {
+            return;
+        }
+        
+        object_->remove_pointers();
+
+        if (object_->is_unused())
+        {
+            object_->~Shared_data<Type>();
+            shared_data_allocator_.deallocate(object_, 1);
+        }
+    }
+
     constexpr Shared_ptr_cut &operator=(const Shared_ptr_cut &other)
     {
         object_ = other.object_;
@@ -95,14 +117,6 @@ public:
         other.object_ = nullptr;
 
         return *this;
-    }
-
-    ~Shared_ptr_cut()
-    {
-        if (object_)
-        {
-            object_->remove_pointers();
-        }
     }
 
     Type &operator*()

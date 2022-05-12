@@ -175,7 +175,10 @@ CMakeFiles/main.dir/src/main.cpp.o: \
   /home/anna/Repositories/4th_semester/My_string/src/Tests/../String/String.hpp \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cstring \
   /usr/include/string.h /usr/include/strings.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/iterator \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stream_iterator.h \
   /home/anna/Repositories/4th_semester/My_string/src/String/String_core.hpp \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cassert \
   /usr/include/assert.h \
-  /home/anna/Repositories/4th_semester/My_string/src/String/../Sharing/Shared_ptr.hpp
+  /home/anna/Repositories/4th_semester/My_string/src/String/../Sharing/Shared_ptr.hpp \
+  /home/anna/Repositories/4th_semester/My_string/src/Tests/../Allocators/Allocator.hpp

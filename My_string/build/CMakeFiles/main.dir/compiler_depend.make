@@ -190,10 +190,13 @@ CMakeFiles/main.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/c++/9/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
+  /usr/include/c++/9/iterator \
+  /usr/include/c++/9/bits/stream_iterator.h \
   ../src/String/String_core.hpp \
   /usr/include/c++/9/cassert \
   /usr/include/assert.h \
-  ../src/Sharing/Shared_ptr.hpp
+  ../src/Sharing/Shared_ptr.hpp \
+  ../src/Allocators/Allocator.hpp
 
 
 ../src/Sharing/Shared_ptr.hpp:
@@ -201,6 +204,8 @@ CMakeFiles/main.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/assert.h:
 
 ../src/String/String_core.hpp:
+
+/usr/include/c++/9/bits/stream_iterator.h:
 
 /usr/include/c++/9/cstring:
 
@@ -344,6 +349,8 @@ CMakeFiles/main.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
+/usr/include/c++/9/iterator:
+
 /usr/include/c++/9/bits/cxxabi_init_exception.h:
 
 /usr/include/c++/9/cstdio:
@@ -415,6 +422,8 @@ CMakeFiles/main.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
 /usr/include/c++/9/ostream:
+
+../src/Allocators/Allocator.hpp:
 
 /usr/include/wctype.h:
 

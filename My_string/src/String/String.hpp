@@ -9,22 +9,28 @@
 #include <stdexcept>
 #include <new>
 
+#include <iterator>
+
 #include "String_core.hpp"
 
 #define SIZE_T_HIGH_BIT(number) (number >> sizeof(size_t))  
 
-template <typename CharType> // strategy
-class String : protected String_core<CharType>
+template 
+<
+    typename Char_type,
+    template <typename Allocator_type> class Allocator
+> // strategy
+class String : protected String_core<Char_type, Allocator>
 {
 private:
-    typedef String_core<CharType> String_core;
+    typedef String_core<Char_type, Allocator> String_core;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // --------------------- Constructors   ----------------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    constexpr explicit String(const String_core &core)
-    : String_core(core)
+    constexpr explicit String(const String_core &core, const Allocator<Char_type> &allocator = Allocator<Char_type>())
+    : String_core(core, allocator)
     {}
 
 public:
@@ -36,43 +42,43 @@ public:
     : String_core()
     {}
 
-    constexpr String(const CharType *string, size_t count)
-    : String_core(string, count)
+    constexpr String(const Char_type *string, size_t count, const Allocator<Char_type> &allocator = Allocator<Char_type>())
+    : String_core(string, count, allocator)
     {}
 
     /**
      * Unsafe if 
      * a) string is NOT null-terminated;
-     * b) sizeof(CharType) != 1;
+     * b) sizeof(Char_type) != 1;
      * It will be NOT safe if null can be reached in other way than last symbol
      */
-    constexpr String(const CharType *string)
-    : String_core(string, strlen(string))
+    constexpr String(const Char_type *string, const Allocator<Char_type> &allocator = Allocator<Char_type>())
+    : String_core(string, strlen(string), allocator)
     {}
 
-    constexpr explicit String(String &other)
-    : String_core(other)
+    constexpr explicit String(String &other, const Allocator<Char_type> &allocator = Allocator<Char_type>())
+    : String_core(other, allocator)
     {}
 
-    constexpr explicit String(const String &other)
-    : String_core(other)
+    constexpr explicit String(const String &other, const Allocator<Char_type> &allocator = Allocator<Char_type>())
+    : String_core(other, allocator)
     {}
 
-    constexpr String(const String &other, size_t position)
-    : String_core(other, position)
+    constexpr String(const String &other, size_t position, const Allocator<Char_type> &allocator = Allocator<Char_type>())
+    : String_core(other, position, allocator)
     {}
 
-    constexpr String(const String &other, size_t position, size_t count)
-    : String_core(other, position, count)
+    constexpr String(const String &other, size_t position, size_t count, const Allocator<Char_type> &allocator = Allocator<Char_type>())
+    : String_core(other, position, count, allocator)
     {}
 
-    constexpr String(size_t count, CharType value)
-    : String_core(count, value)
+    constexpr String(size_t count, Char_type value, const Allocator<Char_type> &allocator = Allocator<Char_type>())
+    : String_core(count, value, allocator)
     {}
 
-    static String view(CharType **buffer, size_t count)
+    static String view(Char_type **buffer, size_t count)
     {
-        return String<CharType>(String_core::view(buffer, count));
+        return String<Char_type, Allocator>(String_core::view(buffer, count));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,32 +124,33 @@ public:
     // --------------------- Element access ----------------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    constexpr CharType &at(size_t position)
+    constexpr Char_type &at(size_t position)
     {
         return (*this)[position];
     }
 
-    CharType &operator[](size_t index)
+    Char_type &operator[](size_t index)
     {
-        return String_core::data(index);
+        return String_core::data_at(index);
     }
 
-    const CharType &operator[](size_t index) const
+    const Char_type &operator[](size_t index) const
     {
-        return const_cast<CharType&>((this)[index]);
+        return const_cast<Char_type&>((this)[index]);
     }
 
-    constexpr CharType &front()
+    constexpr Char_type &front()
     {
         return (*this)[0];
     }
     
-    constexpr CharType &back()
+    constexpr Char_type &back()
     {
         return (*this)[size() - 1];
     }
 
     using String_core::c_str;
+    using String_core::data;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // --------------------- Operations     ----------------------------------------------------------------
@@ -151,7 +158,7 @@ public:
     
     using String_core::resize;
 
-    constexpr void push_back(CharType value)
+    constexpr void push_back(Char_type value)
     {
         if (size() + 1 > max_size())
         {
@@ -171,7 +178,7 @@ public:
         String_core::shrink();
     }
 
-    constexpr String &append(size_t count, CharType value)
+    constexpr String &append(size_t count, Char_type value)
     {
         reserve(size() + count);
         
@@ -195,10 +202,10 @@ public:
             throw std::out_of_range("Too big required size in append\n");
         }
         
-        return append(string.no_null_data(), count, position);
+        return append(string.c_str(), count, position);
     }
 
-    constexpr String& append(const CharType* string, size_t count, size_t position = 0)
+    constexpr String& append(const Char_type* string, size_t count, size_t position = 0)
     {
         reserve(size() + count);
 
@@ -215,7 +222,7 @@ public:
         return append(string);
     }
 
-    constexpr String &operator +=(CharType value)
+    constexpr String &operator +=(Char_type value)
     {
         return append(1, value);
     }
@@ -223,10 +230,10 @@ public:
     /**
      * Unsafe if string is NOT null-terminated.
      */
-    constexpr String &operator +=(const CharType *string)
+    constexpr String &operator +=(const Char_type *string)
     {
         size_t idx = 0;
-        while (string[idx] != CharType(0))
+        while (string[idx] != Char_type(0))
         {
             ++idx;
         }
@@ -235,13 +242,293 @@ public:
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // --------------------- Output         ----------------------------------------------------------------
+    // --------------------- Comparisons    ----------------------------------------------------------------
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    bool operator==(const String<Char_type, Allocator> &other) const
+    {
+        size_t current_size = size();
+        size_t other_size = other.size();
+        
+        if (current_size != other_size)
+        {
+            return false;
+        }
+
+        for (size_t idx = 0; idx < current_size; ++idx)
+        {
+            if (String_core::data_at(idx) != other.data_at(idx))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool operator!=(const String<Char_type, Allocator> &other) const
+    {
+        size_t current_size = size();
+        size_t other_size = other.size();
+        
+        if (current_size != other_size)
+        {
+            return true;
+        }
+
+        for (size_t idx = 0; idx < current_size; ++idx)
+        {
+            if (String_core::data_at(idx) == other.data_at(idx))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool operator<(const String<Char_type, Allocator> &other) const
+    {
+        size_t current_size = size();
+        size_t other_size = other.size();
+        
+        if (current_size != other_size)
+        {
+            return (current_size < other_size);
+        }
+
+        for (size_t idx = 0; idx < current_size - 1; ++idx)
+        {
+            if (String_core::data_at(idx) > other.data_at(idx))
+            {
+                return false;
+            }
+        }
+
+        if (String_core::data_at(current_size - 1) == other.data_at(current_size - 1))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    bool operator<=(const String<Char_type, Allocator> &other) const
+    {
+        size_t current_size = size();
+        size_t other_size = other.size();
+        
+        if (current_size != other_size)
+        {
+            return (current_size < other_size);
+        }
+
+        for (size_t idx = 0; idx < current_size - 1; ++idx)
+        {
+            if (String_core::data_at(idx) > other.data_at(idx))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool operator>(const String<Char_type, Allocator> &other) const
+    {
+        size_t current_size = size();
+        size_t other_size = other.size();
+        
+        if (current_size != other_size)
+        {
+            return (current_size > other_size);
+        }
+
+        for (size_t idx = 0; idx < current_size - 1; ++idx)
+        {
+            if (String_core::data_at(idx) < other.data_at(idx))
+            {
+                return false;
+            }
+        }
+
+        if (String_core::data_at(current_size - 1) == other.data_at(current_size - 1))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    bool operator>=(const String<Char_type, Allocator> &other) const
+    {
+        size_t current_size = size();
+        size_t other_size = other.size();
+        
+        if (current_size != other_size)
+        {
+            return (current_size > other_size);
+        }
+
+        for (size_t idx = 0; idx < current_size - 1; ++idx)
+        {
+            if (String_core::data_at(idx) < other.data_at(idx))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // --------------------- Input/Output   ----------------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     friend std::ostream &operator <<(std::ostream &stream, const String &string)
     {
         stream.write(string.c_str(), string.size());
         return stream;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------------------- Iterators --------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    template 
+    <
+        typename Iter_type,
+        typename String_type
+    >
+    class Iterator
+    {
+    protected:
+        long long index_;
+        String_type *array_;
+
+    public:
+        using difference_type	= ptrdiff_t;
+		using value_type		= Iter_type;
+		using pointer			= Iter_type*;
+		using reference			= Iter_type&;
+		using iterator_category	= std::bidirectional_iterator_tag;
+
+        Iterator() : index_(0), array_(nullptr) {}
+        Iterator(String_type *array, const long long index) 
+        : index_(index),
+          array_(array) {}
+        Iterator(const Iterator &other)
+        {
+            index_ = other.index_;
+            array_ = other.array_;
+        }
+
+        Iter_type &operator*()
+        {
+            return (*array_)[index_];
+        }
+
+        Iter_type *operator->() 
+        {
+            return &array_[0] + index_;
+        }
+
+        Iterator &operator++()
+        {
+            ++index_;
+
+            return *this;
+        }
+
+        Iterator operator++(int)
+        {
+            Iterator copy(*this);
+            ++index_;
+
+            return copy;
+        }
+
+        Iterator &operator--()
+        {
+            --index_;
+
+            return *this;
+        }
+
+        Iterator operator--(int)
+        {
+            Iterator copy(*this);
+            --index_;
+
+            return copy;
+        }
+
+        bool operator==(const Iterator<Iter_type, String_type> &other) const { return index_ == other.index_; }
+        bool operator!=(const Iterator<Iter_type, String_type> &other) const { return index_ != other.index_; }
+        bool operator<=(const Iterator<Iter_type, String_type> &other) const { return index_ <= other.index_; }
+        bool operator>=(const Iterator<Iter_type, String_type> &other) const { return index_ >= other.index_; }
+        bool operator<(const Iterator<Iter_type, String_type> &other) const { return index_ < other.index_; }
+        bool operator>(const Iterator<Iter_type, String_type> &other) const { return index_ > other.index_; }
+    };
+
+    using reverse_iterator       = std::reverse_iterator<Iterator<Char_type, String>>;
+    using const_iterator         = Iterator<Char_type, const String>;
+    using const_reverse_iterator = std::reverse_iterator<Iterator<Char_type, const String>>;
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ For iterator ------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    Iterator<Char_type, String> begin()
+    {
+        return Iterator<Char_type, String>(this, 0);
+    }
+
+    Iterator<Char_type, String> end()
+    {
+        return Iterator<Char_type, String>(this, size());
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ For const iterator ------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    const_iterator cbegin()
+    {
+        return const_iterator(begin());
+    }
+
+    const_iterator cend()
+    {
+        return const_iterator(end());
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ For reversed iterator ---------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    reverse_iterator rbegin()
+    {
+        return reverse_iterator(end());
+    }
+
+    reverse_iterator rend()
+    {
+        return reverse_iterator(begin());
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ For const reversed iterator ---------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    const_reverse_iterator crbegin()
+    {
+        return const_reverse_iterator(end());
+    }
+
+    const_reverse_iterator crend()
+    {
+        return const_reverse_iterator(begin());
     }
 };
 

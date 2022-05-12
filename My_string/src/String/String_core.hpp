@@ -12,12 +12,21 @@
 
 #include "../Sharing/Shared_ptr.hpp"
 
-template <typename CharType>
+template 
+<
+    typename Char_type,
+    template <typename Allocator_type> class Allocator
+>
 class String_core
 {
 private:
-    friend class Shared_ptr_cut<String_core>;
     friend class Shared_data<String_core>;
+    friend class Shared_ptr_cut<String_core, Allocator>;
+
+    using Shared_ptr = Shared_ptr_cut<String_core, Allocator>;
+    using String_allocator = Allocator<Char_type>;
+
+    String_allocator allocator_;
 
     enum class State
     {
@@ -29,15 +38,15 @@ private:
     
     struct Data
     {
-        CharType *data_;
+        Char_type *data_;
         size_t capacity_;
     };
 
     union
     {
         Data data_;
-        CharType sso[0];
-        Shared_ptr_cut<String_core> shared_data_;
+        Char_type sso[0];
+        Shared_ptr shared_data_;
     };
 
     size_t size_{0};
@@ -50,13 +59,15 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     constexpr String_core() 
-    : data_{},
+    : allocator_(String_allocator()),
+      data_{},
       size_(0), 
       state_(State::SSO)
     {}
 
-    constexpr String_core(const CharType *string, size_t count)
-    : data_{}
+    constexpr String_core(const Char_type *string, size_t count, const String_allocator &allocator = Allocator())
+    : allocator_(allocator),
+      data_{}
     {
         if (count > max_sso_size()) 
         {
@@ -70,7 +81,8 @@ public:
         }
     }
 
-    constexpr String_core(size_t count, CharType value)
+    constexpr String_core(size_t count, Char_type value, const String_allocator &allocator = Allocator())
+    : allocator_(allocator)
     {
         if (count > max_sso_size())
         {
@@ -84,7 +96,8 @@ public:
         }
     }
 
-    constexpr String_core(const String_core &other, size_t position, size_t count = 0)
+    constexpr String_core(const String_core &other, size_t position, size_t count = 0, const String_allocator &allocator = Allocator())
+    : allocator_(allocator)
     {
         if (count == 0)
         {
@@ -103,7 +116,8 @@ public:
         }
     }
 
-    constexpr explicit String_core(const String_core &other)
+    constexpr explicit String_core(const String_core &other, const String_allocator &allocator = Allocator())
+    : allocator_(allocator)
     {
         if (!other.is_possessing())
         {
@@ -124,7 +138,8 @@ public:
         }
     }
 
-    constexpr explicit String_core(String_core &other)
+    constexpr explicit String_core(String_core &other, const String_allocator &allocator = Allocator())
+    : allocator_(allocator)
     {
         if (!other.is_possessing())
         {
@@ -144,8 +159,9 @@ public:
         }
     }
 
-    constexpr String_core(String_core &&other)
-    : size_(other.size_), 
+    constexpr String_core(String_core &&other, const String_allocator &allocator = String_allocator())
+    : allocator_(allocator),
+      size_(other.size_), 
       state_(other.state_)
     {
         if (other.is_view())
@@ -184,7 +200,7 @@ public:
         other.size_ = 0;
     }
 
-    static String_core view(CharType **buffer, size_t count)
+    static String_core view(Char_type **buffer, size_t count)
     {
         String_core result{};
 
@@ -206,10 +222,10 @@ public:
         switch(state_)
         {
         case State::DYNAMIC:
-            delete data_.data_;
+            allocator_.deallocate(data_.data_, data_.capacity_);
             break;
         case State::NON_POSSESING:
-            shared_data_.~Shared_ptr_cut();
+            shared_data_.~Shared_ptr();
             break;
         default:
             break;
@@ -239,8 +255,6 @@ public:
                     reserve_without_safety(other.capacity());
                 }
             }
-
-            // copy_buffer(other.data_.data_, other.size_);
         } 
         else
         {
@@ -248,8 +262,6 @@ public:
             {
                 reserve_without_safety(other.capacity());
             }
-
-            // copy_buffer(other.sso, other.size_);
         }
 
         copy_buffer(other, other.size());
@@ -293,19 +305,7 @@ public:
     // --------------------- Element access ----------------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    CharType *no_null_data() const
-    {
-        if (is_dynamic())
-        {
-            return data_.data_;
-        }
-        else
-        {
-            return sso;
-        }
-    }
-    
-    CharType &data(size_t index)
+    Char_type &data_at(size_t index)
     {
         if (index >= size())
             throw std::out_of_range("Wrong index range to get the element\n");
@@ -321,7 +321,7 @@ public:
             return sso[index];
     }
 
-    CharType &data(size_t index) const 
+    const Char_type &data_at(size_t index) const 
     {
         if (index >= size())
             throw std::out_of_range("Wrong index range to get the element\n");
@@ -332,24 +332,33 @@ public:
             return sso[index];
     }
 
-    constexpr const CharType *c_str() const
+    constexpr const Char_type *c_str() const
     {
         if (is_static())
         {
-            // printf("I am returning sso.\n");
-            
             return sso;
         }
         
         if (!is_possessing())
         {
-            // printf("I am returning non posessed data: %p.\n", shared_data_->data_.data_);
-            
             return shared_data_->data_.data_;
         }
 
-        // printf("I am returning just data: %p.\n", data_.data_);
+        return data_.data_;
+    }
+
+    constexpr Char_type *data()
+    {
+        if (!is_possessing())
+        {
+            switch_to_possessing();
+        }
         
+        if (is_static())
+        {
+            return sso;
+        }
+
         return data_.data_;
     }
     
@@ -430,7 +439,7 @@ public:
         }
 
         ++new_capacity;
-        CharType *new_buffer = new CharType[new_capacity];  // allocator
+        Char_type *new_buffer = allocator_.allocate(new_capacity);
         
         size_t copy_amount = size_;
         for (size_t idx = 0; idx < copy_amount; ++idx)
@@ -450,7 +459,7 @@ public:
     // --------------------- Operations     ----------------------------------------------------------------
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    constexpr void expand(CharType value)
+    constexpr void expand(Char_type value)
     {
         if (size() + 2 >= capacity()) // + 2 because of null-terminating
         {
@@ -460,12 +469,12 @@ public:
         if (is_dynamic())
         {   
             data_.data_[size()] = value;
-            data_.data_[size() + 1] = CharType(0);
+            data_.data_[size() + 1] = Char_type(0);
         }
         else
         {
             sso[size()] = value;
-            sso[size() + 1] = CharType(0);
+            sso[size() + 1] = Char_type(0);
         }
 
         ++size_;
@@ -476,11 +485,11 @@ public:
         --size_;
         if (is_dynamic())
         {
-            data_.data_[size_] = CharType(0);
+            data_.data_[size_] = Char_type(0);
         }
         else
         {
-            sso[size_] = CharType(0);
+            sso[size_] = Char_type(0);
         }
 
         if (size() < capacity() / 4 && !is_view())
@@ -489,7 +498,7 @@ public:
         }
     }
     
-    constexpr void resize(size_t new_capacity, CharType value = CharType())
+    constexpr void resize(size_t new_capacity, Char_type value = Char_type())
     {
         assert(!is_view()); 
 
@@ -513,7 +522,7 @@ public:
                 return;
         }
 
-        CharType *new_buffer = new CharType[new_capacity + 1];  // allocator
+        Char_type *new_buffer = allocator_.allocate(new_capacity + 1);
         
         size_t copy_amount = size_ < new_capacity ? size_ : new_capacity;
         for (size_t idx = 0; idx < copy_amount; ++idx)
@@ -547,7 +556,7 @@ public:
 private:
     size_t max_sso_size() const noexcept
     {
-        return sizeof(Data) / sizeof(CharType);
+        return sizeof(Data) / sizeof(Char_type);
     }
     
     bool is_view() const noexcept
@@ -564,29 +573,24 @@ private:
     {
         if (shared_data_->is_dynamic())
         {
-            CharType *copy_on_write_data = shared_data_->data_.data_;
+            Char_type *copy_on_write_data = shared_data_->data_.data_;
             
-            shared_data_.~Shared_ptr_cut();
+            shared_data_.~Shared_ptr();
             
             switch_to_dynamic();
             
-            data_.data_ = new CharType[size_ * 2];
+            data_.data_ = allocator_.allocate(size_ * 2);
             copy_buffer(copy_on_write_data, size_);
             
             data_.capacity_ = size_ * 2;
         }
         else
         {
-            CharType tmp[max_sso_size()];
+            Char_type tmp[max_sso_size()];
             memcpy(tmp, shared_data_->sso, max_sso_size());
             
-            shared_data_.~Shared_ptr_cut();
+            shared_data_.~Shared_ptr();
 
-            // for (size_t idx = 0; idx < size_; ++idx)
-            // {
-            //     sso[idx] = tmp[idx];
-            // }
-            
             switch_to_static();
             copy_buffer(tmp, size_);
         }
@@ -594,8 +598,7 @@ private:
 
     void switch_to_non_possessing()
     {
-        Shared_data<String_core> *new_data = new Shared_data<String_core>(std::move(*this));
-        Shared_ptr_cut<String_core> new_shared_ptr(new_data);
+        Shared_ptr new_shared_ptr(this);
         shared_data_ = std::move(new_shared_ptr);
 
         state_ = State::NON_POSSESING;
@@ -604,14 +607,14 @@ private:
     void switch_to_other_possessing(String_core &other)
     {
         other.switch_to_non_possessing();
-        shared_data_ = Shared_ptr_cut(other.shared_data_);
+        shared_data_ = Shared_ptr(other.shared_data_);
         size_ = other.size_;
         state_ = State::NON_POSSESING;
     }
 
     void share_other_possessing(const String_core &other)
     {
-        shared_data_ = Shared_ptr_cut<String_core>(other.shared_data_);
+        shared_data_ = Shared_ptr(other.shared_data_);
         size_ = other.size_;
         state_ = State::NON_POSSESING;
     }
@@ -642,10 +645,10 @@ private:
         
         if (switch_data)
         {
-            CharType tmp[max_sso_size()];
+            Char_type tmp[max_sso_size()];
             memcpy(tmp, sso, max_sso_size());
 
-            CharType *new_data = new CharType[size_ * 2];
+            Char_type *new_data = allocator_.allocate(size_ * 2);
             for (size_t idx = 0; idx < size_; ++idx)
             {
                 new_data[idx] = tmp[idx];
@@ -664,7 +667,7 @@ private:
 
         if (switch_data)
         {
-            CharType *tmp_data = data_.data_;
+            Char_type *tmp_data = data_.data_;
             for (size_t idx = 0; idx < size_; ++idx)
             {
                 sso[idx] = tmp_data[idx];
@@ -674,13 +677,13 @@ private:
         }
     }
 
-    void create_dynamic(CharType value, size_t size)
+    void create_dynamic(Char_type value, size_t size)
     {
         size_ = size;
         switch_to_dynamic();
         
         size_t new_capacity = size * 2;
-        CharType *new_data = new CharType[new_capacity];
+        Char_type *new_data = allocator_.allocate(new_capacity);
         
         for (size_t idx = 0; idx < size; ++idx)
         {
@@ -691,13 +694,13 @@ private:
         data_.capacity_ = new_capacity;
     }
 
-    void create_dynamic(const CharType *string, size_t size)
+    void create_dynamic(const Char_type *string, size_t size)
     {
         size_ = size;
         switch_to_dynamic();
 
         size_t new_capacity = size * 2;
-        CharType *new_data = new CharType[new_capacity];
+        Char_type *new_data = allocator_.allocate(new_capacity);
         
         for (size_t idx = 0; idx < size; ++idx)
         {
@@ -708,7 +711,7 @@ private:
         data_.capacity_ = new_capacity;
     }
 
-    void create_static(CharType value, size_t size)
+    void create_static(Char_type value, size_t size)
     {
         size_ = size;
         assert(size_ <= max_sso_size());
@@ -721,7 +724,7 @@ private:
         }
     }
 
-    void create_static(const CharType *string, size_t size)
+    void create_static(const Char_type *string, size_t size)
     {
         size_ = size;
         assert(size <= max_sso_size());
@@ -738,7 +741,7 @@ private:
     {
         assert(is_dynamic());
         
-        CharType *new_data = new CharType[new_capacity];
+        Char_type *new_data = allocator_.allocate(new_capacity);
 
         if (data_.data_)
             delete [] data_.data_;
@@ -752,7 +755,7 @@ private:
         copy_buffer(string.c_str(), amount);
     }
 
-    void copy_buffer(const CharType *string, size_t amount)
+    void copy_buffer(const Char_type *string, size_t amount)
     {
         assert(data_.capacity_ > amount);
         
