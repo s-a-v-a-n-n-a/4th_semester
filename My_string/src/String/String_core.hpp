@@ -105,12 +105,9 @@ public:
 
     constexpr explicit String_core(const String_core &other)
     {
-        printf("Constructor const &\n");
-        
         if (!other.is_possessing())
         {
-            shared_data_ = Shared_ptr_cut<String_core>(other.shared_data_);
-            state_ = State::NON_POSSESING;
+            share_other_possessing(other);
         }
         else
         {
@@ -129,31 +126,20 @@ public:
 
     constexpr explicit String_core(String_core &other)
     {
-        printf("Constructor &\n");
-        
         if (!other.is_possessing())
         {
-            printf("not possessing\n");
-            
-            shared_data_ = Shared_ptr_cut(other.shared_data_);
-            state_ = State::NON_POSSESING;
+            share_other_possessing(other);
         }
         else
         {
             if (other.is_static())
             {
-                printf("static\n");
-                
                 switch_to_static();
                 create_static(other.sso, other.size());
             }
             else
             {
-                printf("dynamic\n");
-                
-                other.switch_to_non_possessing();
-                shared_data_ = Shared_ptr_cut(other.shared_data_);
-                state_ = State::NON_POSSESING;
+                switch_to_other_possessing(other);
             }
         }
     }
@@ -189,13 +175,13 @@ public:
             {
                 create_static(other.sso, other.size());
             }
+
+            return;
         }
-        else
-        {
-            shared_data_ = std::move(other.shared_data_);
-            other.switch_to_static();
-            other.size_ = 0;
-        }
+        
+        shared_data_ = std::move(other.shared_data_);
+        other.switch_to_static();
+        other.size_ = 0;
     }
 
     static String_core view(CharType **buffer, size_t count)
@@ -350,19 +336,19 @@ public:
     {
         if (is_static())
         {
-            printf("I am returning sso.\n");
+            // printf("I am returning sso.\n");
             
             return sso;
         }
         
         if (!is_possessing())
         {
-            printf("I am returning non posessed data: %p.\n", shared_data_->data_.data_);
+            // printf("I am returning non posessed data: %p.\n", shared_data_->data_.data_);
             
             return shared_data_->data_.data_;
         }
 
-        printf("I am returning just data.\n");
+        // printf("I am returning just data: %p.\n", data_.data_);
         
         return data_.data_;
     }
@@ -578,18 +564,13 @@ private:
     {
         if (shared_data_->is_dynamic())
         {
-            // CharType *new_data = new CharType[size_ * 2];
             CharType *copy_on_write_data = shared_data_->data_.data_;
             
             shared_data_.~Shared_ptr_cut();
             
-            // for (size_t idx = 0; idx < size_; ++idx)
-            // {
-            //     new_data[idx] = copy_on_write_data[idx];
-            // }
-
-            // data_.data_ = new_data;
             switch_to_dynamic();
+            
+            data_.data_ = new CharType[size_ * 2];
             copy_buffer(copy_on_write_data, size_);
             
             data_.capacity_ = size_ * 2;
@@ -620,9 +601,19 @@ private:
         state_ = State::NON_POSSESING;
     }
 
-    void switch_to_other_possessing()
+    void switch_to_other_possessing(String_core &other)
     {
-        ;
+        other.switch_to_non_possessing();
+        shared_data_ = Shared_ptr_cut(other.shared_data_);
+        size_ = other.size_;
+        state_ = State::NON_POSSESING;
+    }
+
+    void share_other_possessing(const String_core &other)
+    {
+        shared_data_ = Shared_ptr_cut<String_core>(other.shared_data_);
+        size_ = other.size_;
+        state_ = State::NON_POSSESING;
     }
 
     bool is_dynamic() const noexcept

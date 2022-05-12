@@ -26,7 +26,7 @@ void sso_test()
 
 void view_test()
 {
-    printf("\nTesting string view\n\n");
+    printf("\nTesting string improvement: view\n\n");
     
     char *buffer = new char[100];
     memset(buffer, 0 , 100);
@@ -97,10 +97,9 @@ void copy_on_write_test()
     String<char> second_string(first_string);
     String<char> third_string(first_string);
 
-    // first_string[1] = 'a';
+    first_string[1] = 'a';
 
-    std::cout << "1) " << first_string << " 2) " << second_string << " 3) " << third_string << "\n"; 
-    printf("DONE\n");
+    std::cout << "1) " << first_string << " \n2) " << second_string << " \n3) " << third_string << "\n"; 
 }
 
 #endif // STRING_TESTS_HPP

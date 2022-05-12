@@ -110,6 +110,11 @@ public:
         return object_->data_;
     }
 
+    Type &operator*() const
+    {
+        return object_->data_;
+    }
+
     Type *operator->()
     {
         return &(object_->data_);
