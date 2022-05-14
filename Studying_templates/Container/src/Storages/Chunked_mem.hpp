@@ -47,6 +47,10 @@ protected:
     T initial_element_;
 
 public:
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ Constructors ------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     Chunked_memory()
     : data_(nullptr), 
       chunk_size_(Chunk_size), 
@@ -59,7 +63,7 @@ public:
     : data_(nullptr), 
       chunk_size_(Chunk_size), 
       size_(amount), 
-      capacity_(amount / chunk_size_ + (amount % chunk_size_ != 0 )), 
+      capacity_(amount / chunk_size_ + (amount % chunk_size_ != 0)), 
       with_initial_element_(true), 
       initial_element_(initial_element)
     {}
@@ -99,6 +103,31 @@ public:
             }
 
             throw;
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ------------ Destructor --------------------------------------------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ~Chunked_memory()
+    {
+        if (data_)
+        {
+            for (size_t outer_idx = 0; outer_idx < capacity_; ++outer_idx)
+            {
+                if (data_[outer_idx])
+                {
+                    for (size_t inner_idx = 0; inner_idx < capacity_; ++inner_idx)
+                    {
+                        data_[outer_idx][inner_idx].~T();
+                    }
+                }
+
+                delete [] ((unsigned char*)data_[outer_idx]);
+            }
+
+            delete [] data_;
         }
     }
 

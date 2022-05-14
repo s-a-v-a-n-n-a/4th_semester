@@ -27,7 +27,7 @@ public:
     Container() : Base() {}
     Container(size_t amount, const T& initial_element) : Base(amount, initial_element) {}
     Container(std::initializer_list<T> list) : Base(list) {}
-
+    
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ------------------------- Capacity ---------------------------------------------------------------------------
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +116,7 @@ public:
 		using value_type		= Iter_type;
 		using pointer			= Iter_type*;
 		using reference			= Iter_type&;
-		using iterator_category	= std::bidirectional_iterator_tag;
+		using iterator_category	= std::random_access_iterator_tag;
 
         Iterator() : index_(0), array_(nullptr) {}
         Iterator(Container_type *array, const long long index) 
@@ -166,6 +166,48 @@ public:
             --index_;
 
             return copy;
+        }
+
+        Iterator &operator+=(const ssize_t adding)
+        {
+            index_ += adding;
+
+            return *this;
+        }
+
+        Iterator operator+(const ssize_t adding)
+        {
+            Iterator copy(*this);
+            
+            copy.index_ += adding;
+
+            return copy;
+        }
+
+        Iterator &operator-=(const ssize_t minus)
+        {
+            index_ -= minus;
+
+            return *this;
+        }
+
+        Iterator operator-(const ssize_t minus)
+        {
+            Iterator copy(*this);
+            
+            copy.index_ -= minus;
+
+            return copy;
+        }
+
+        ssize_t operator+(const Iterator &other)
+        {
+            return index_ + other.index_;
+        }
+
+        ssize_t operator-(const Iterator &other)
+        {
+            return index_ - other.index_;
         }
 
         bool operator==(const Iterator<Iter_type, Container_type> &other) const { return index_ == other.index_; }
