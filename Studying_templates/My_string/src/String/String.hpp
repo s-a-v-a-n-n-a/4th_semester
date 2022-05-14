@@ -411,156 +411,31 @@ public:
         return stream;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ------------------------- Iterators --------------------------------------------------------------------------
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    template 
-    <
-        typename Iter_type,
-        typename String_type
-    >
-    class Iterator
-    {
-    protected:
-        ssize_t index_;
-        String_type *array_;
-
-    public:
-        using difference_type	= ptrdiff_t;
-		using value_type		= Iter_type;
-		using pointer			= Iter_type*;
-		using reference			= Iter_type&;
-		using iterator_category	= std::random_access_iterator_tag;
-
-        Iterator() : index_(0), array_(nullptr) {}
-        Iterator(String_type *array, const ssize_t index) 
-        : index_(index),
-          array_(array) {}
-        Iterator(const Iterator &other)
-        {
-            index_ = other.index_;
-            array_ = other.array_;
-        }
-
-        Iter_type &operator*()
-        {
-            return (*array_)[index_];
-        }
-
-        Iter_type *operator->() 
-        {
-            return &array_[index_];
-        }
-
-        Iterator &operator++()
-        {
-            ++index_;
-
-            return *this;
-        }
-
-        Iterator operator++(int)
-        {
-            Iterator copy(*this);
-            ++index_;
-
-            return copy;
-        }
-
-        Iterator &operator+=(const ssize_t adding)
-        {
-            index_ += adding;
-
-            return *this;
-        }
-
-        Iterator operator+(const ssize_t adding)
-        {
-            Iterator copy(*this);
-            
-            copy.index_ += adding;
-
-            return copy;
-        }
-
-        Iterator &operator-=(const ssize_t minus)
-        {
-            index_ -= minus;
-
-            return *this;
-        }
-
-        Iterator operator-(const ssize_t minus)
-        {
-            Iterator copy(*this);
-            
-            copy.index_ -= minus;
-
-            return copy;
-        }
-
-        ssize_t operator+(const Iterator &other)
-        {
-            return index_ + other.index_;
-        }
-
-        ssize_t operator-(const Iterator &other)
-        {
-            return index_ - other.index_;
-        }
-
-        Iterator &operator--()
-        {
-            --index_;
-
-            return *this;
-        }
-
-        Iterator operator--(int)
-        {
-            Iterator copy(*this);
-            --index_;
-
-            return copy;
-        }
-
-        bool operator==(const Iterator<Iter_type, String_type> &other) const { return index_ == other.index_; }
-        bool operator!=(const Iterator<Iter_type, String_type> &other) const { return index_ != other.index_; }
-        bool operator<=(const Iterator<Iter_type, String_type> &other) const { return index_ <= other.index_; }
-        bool operator>=(const Iterator<Iter_type, String_type> &other) const { return index_ >= other.index_; }
-        bool operator<(const Iterator<Iter_type, String_type> &other) const { return index_ < other.index_; }
-        bool operator>(const Iterator<Iter_type, String_type> &other) const { return index_ > other.index_; }
-    };
-
-    using reverse_iterator       = std::reverse_iterator<Iterator<Char_type, String>>;
-    using const_iterator         = Iterator<Char_type, const String>;
-    using const_reverse_iterator = std::reverse_iterator<Iterator<Char_type, const String>>;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ------------ For iterator ------------------------------------------------------------------------------------
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    Iterator<Char_type, String> begin()
+    Char_type *begin()
     {
-        return Iterator<Char_type, String>(this, 0);
+        return data();
     }
 
-    Iterator<Char_type, String> end()
+    Char_type *end()
     {
-        return Iterator<Char_type, String>(this, size());
+        return data() + size();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ------------ For const iterator ------------------------------------------------------------------------------
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    const_iterator cbegin()
+    Char_type *cbegin()
     {
         return const_iterator(begin());
     }
 
-    const_iterator cend()
+    Char_type *cend()
     {
         return const_iterator(end());
     }
@@ -569,12 +444,12 @@ public:
     // ------------ For reversed iterator ---------------------------------------------------------------------------
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    reverse_iterator rbegin()
+    Char_type *rbegin()
     {
         return reverse_iterator(end());
     }
 
-    reverse_iterator rend()
+    Char_type *rend()
     {
         return reverse_iterator(begin());
     }
@@ -582,13 +457,13 @@ public:
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ------------ For const reversed iterator ---------------------------------------------------------------------
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    const_reverse_iterator crbegin()
+
+    Char_type *crbegin()
     {
         return const_reverse_iterator(end());
     }
 
-    const_reverse_iterator crend()
+    Char_type *crend()
     {
         return const_reverse_iterator(begin());
     }
