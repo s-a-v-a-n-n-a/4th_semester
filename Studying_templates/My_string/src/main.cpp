@@ -1,4 +1,4 @@
-#include "Tests/string_tests.hpp"
+#include "Tests/String_tests.hpp"
 
 int main()
 {
@@ -9,9 +9,10 @@ int main()
     // append_test();
     // copy_on_write_test();
     // comparison_test();
+    // operator_assignment_test();
+    wchar_test();
     std_copy();
     std_find();
     range_based_for();
     std_sort();
-    operator_assignment_test();
 }

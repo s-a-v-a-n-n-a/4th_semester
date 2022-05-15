@@ -1,6 +1,6 @@
 CMakeFiles/main.dir/src/main.cpp.o: \
   /home/anna/Repositories/4th_semester/Studying_templates/My_string/src/main.cpp \
-  /home/anna/Repositories/4th_semester/Studying_templates/My_string/src/Tests/string_tests.hpp \
+  /home/anna/Repositories/4th_semester/Studying_templates/My_string/src/Tests/String_tests.hpp \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/cstdio \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/c++config.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/os_defines.h \

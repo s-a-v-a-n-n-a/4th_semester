@@ -255,7 +255,6 @@ public:
         return result;
     }
 
-    
     // constexpr String operator+(const Char_type *adding)
     // {
     //     String result = *this;   
@@ -410,7 +409,6 @@ public:
         stream.write(string.c_str(), string.size());
         return stream;
     }
-
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ------------ For iterator ------------------------------------------------------------------------------------

@@ -815,6 +815,8 @@ private:
 
     void create_dynamic(Char_type value, size_t size)
     {
+        // std::cout << "Creating dynamic from value\n";
+        
         size_ = size;
         switch_to_dynamic();
         
@@ -832,6 +834,8 @@ private:
 
     void create_dynamic(const Char_type *string, size_t size)
     {
+        // std::cout << "Creating dynamic from string\n";
+        
         size_ = size;
         switch_to_dynamic();
 
@@ -849,6 +853,8 @@ private:
 
     void create_static(Char_type value, size_t size)
     {
+        // std::cout << "Creating static from value\n";
+        
         size_ = size;
         assert(size_ <= max_sso_size());
         
@@ -862,6 +868,8 @@ private:
 
     void create_static(const Char_type *string, size_t size)
     {
+        // std::cout << "Creating static from string\n";
+        
         size_ = size;
         assert(size <= max_sso_size());
         

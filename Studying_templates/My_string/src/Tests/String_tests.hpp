@@ -5,10 +5,13 @@
 #include <iostream>
 #include <algorithm>
 
+#include <cwchar>
+
 #include "../String/String.hpp"
 #include "../Allocators/Allocator.hpp"
 
 using Char_string = String<char, Zeroing_allocator>;
+using Wchar_string = String<wchar_t, Zeroing_allocator>;
 
 void creation_test()
 {
@@ -91,6 +94,17 @@ void append_test()
     string += girls;
 
     std::cout << "Last result: " << string << "\n";
+}
+
+void wchar_test()
+{
+    std::cout << "\nTesting whar_t string\n\n";
+    
+    Wchar_string korotkiy_russkiy(L"Мфу", 3);
+    Wchar_string dlinniy_russkiy(L"Тест на создание длинной русской строки", 39);
+
+    Char_string short_eng = "Text";
+    Char_string long_eng = "Test for testing different char types";
 }
 
 void copy_on_write_test()
@@ -179,9 +193,10 @@ void std_sort()
     std::cout << "\nTesting string with standart functions: std::sort\n\n";
     
     Char_string string = "Testing std sort";
+    Char_string old_string = string;
     std::sort(string.begin(), string.end());
 
-    std::cout << string << "\n";
+    std::cout << old_string << " -> " << string << "\n";
 }
 
 #endif // STRING_TESTS_HPP
