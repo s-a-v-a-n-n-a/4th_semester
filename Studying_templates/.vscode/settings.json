@@ -57,7 +57,10 @@
         "sstream": "cpp",
         "streambuf": "cpp",
         "thread": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "callable_base": "cpp",
+        "callable": "cpp",
+        "function": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
