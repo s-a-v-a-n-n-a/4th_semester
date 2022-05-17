@@ -1,0 +1,3 @@
+/home/anna/Repositories/4th_semester/Studying_templates/Container_and_function/build/CMakeFiles/main.dir
+/home/anna/Repositories/4th_semester/Studying_templates/Container_and_function/build/CMakeFiles/edit_cache.dir
+/home/anna/Repositories/4th_semester/Studying_templates/Container_and_function/build/CMakeFiles/rebuild_cache.dir

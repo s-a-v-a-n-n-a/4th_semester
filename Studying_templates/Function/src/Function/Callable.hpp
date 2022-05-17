@@ -23,7 +23,7 @@ public:
     : functor_(functor)
     {}
 
-    Return_type operator() (Arguments...args) override
+    virtual Return_type operator() (Arguments...args) override
     {
         // Be careful with my_forward
         return functor_(my_forward<Arguments>(args)...);
