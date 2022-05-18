@@ -13,7 +13,8 @@ set(CMAKE_CXX_FLAGS "-O3 -std=c++20 -Wall -fdeclspec -march=native -g") #-fsanit
 
 set(SOURCE_EXE src/main.cpp)	# Установка переменной со списком исходников для исполняемого файла
 
-include_directories("src/Function/"
+include_directories("src/Function/Function/"
+					"src/Function/Callable/"
                     "src/My_forward/"
 					"src/Testing/")
 

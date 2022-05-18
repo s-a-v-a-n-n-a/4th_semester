@@ -61,18 +61,15 @@ public:
 void array_of_functions()
 {   
     std::cout << "Testing Function and Container together: just array of functions\n\n";
-    
-    std::vector<Function<int (char)>> vector{ test_function_x2, test_function_x3, test_function_x4, test_function_x5, test_function_x6 };
-    // Container<Function<int (char)>, Dynamic_mem> vector{ test_function_x2, test_function_x3, test_function_x4, test_function_x5, test_function_x6 };
-    // Container<std::function, Dynamic_mem> vector{ test_function_x2, test_function_x3, test_function_x4, test_function_x5, test_function_x6 };
 
+    Container<Function<int (char)>, Dynamic_mem> vector{ test_function_x2, test_function_x3, test_function_x4, test_function_x5, test_function_x6 };
+    
     for (size_t idx = 0; idx < vector.size(); ++idx)
     {
-        std::cout << "In cycle\n";
         std::cout << vector[idx](5) << " "; 
     }
     std::cout << "\n";
-    
+
     My_functor caller_counter{};
     vector[2] = caller_counter;
     vector[4] = ([](char argument) -> int
